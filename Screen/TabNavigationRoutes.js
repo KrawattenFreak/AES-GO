@@ -43,8 +43,14 @@ export default function TabNavigationRoutes() {
 
                         iconName = focused ? 'newspaper' : 'newspaper-outline';
 
+                    } else if (route.name === 'Tasks') {
+                        iconName = focused ? 'library' : 'library-outline';
+
+                    } else if (route.name === 'Events') {
+                        iconName = focused ? 'receipt' : 'receipt-outline';
+
                     } else if (route.name === 'Settings') {
-                        iconName = focused ? 'ios-list' : 'ios-list-outline';
+                        iconName = focused ? 'settings' : 'settings-outline';
                     }
 
                     // You can return any component that you like here!
@@ -57,6 +63,8 @@ export default function TabNavigationRoutes() {
         >
             <Tab.Screen name="Home" component={HomePage} />
             <Tab.Screen name="News" component={NewsPage} />
+            <Tab.Screen name="Tasks" component={HomePage} />
+            <Tab.Screen name="Events" component={HomePage} />
             <Tab.Screen name="Settings" component={HomePage} />
 
         </Tab.Navigator>

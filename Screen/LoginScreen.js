@@ -44,7 +44,7 @@ export default function LoginScreen({ navigation }) {
       alert('Bitte gebe dein Passwort ein');
       return;
     }
-    //setLoading(true);
+    setLoading(true);
 
     SPH_auth(userEmail, userPassword, (sessionID, success) => {
 

@@ -78,12 +78,13 @@ function HomeScreen({ navigation }) {
 const style_DashboardScreen = StyleSheet.create({
     wrapper: {
         flex: 1,
-
     },
 
     headerView: {
-        paddingTop: (Platform.OS === 'ios') ? 80 : 0,
-        marginHorizontal: 20
+        //paddingTop: (Platform.OS === 'ios') ? 80 : 0,
+        //Code 001
+        marginHorizontal: 20,
+        marginTop: 80
 
     },
     headerText: {

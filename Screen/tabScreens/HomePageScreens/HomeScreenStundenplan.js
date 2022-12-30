@@ -4,7 +4,7 @@ import { RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text } 
 
 export default function HomeScreenStundenplan({ navigation }) {
     return (
-        <View style={style_dashboardScreenStundenplan.placeholderView}>
+        <View style={style_HomeScreenStundenplan.placeholderView}>
             <Text>Incoming</Text>
         </View>
 
@@ -14,7 +14,7 @@ export default function HomeScreenStundenplan({ navigation }) {
 }
 
 
-const style_dashboardScreenStundenplan = new StyleSheet.create({
+const style_HomeScreenStundenplan = new StyleSheet.create({
     placeholderView: {
         flex: 1,
         alignItems: 'center',

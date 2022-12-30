@@ -11,7 +11,7 @@ export default function HomeContainer({ navigation, label, onPress }) {
                 <View style={style.contentView_content}>
                     <Text style={style.contentView_contentText}>{label}</Text>
 
-                    
+
                 </View>
             </TouchableOpacity>
         </View>
@@ -27,7 +27,7 @@ const style = StyleSheet.create({
         width: 400,
         height: 200,
         backgroundColor: 'rgb(250, 250, 250)',
-        borderRadius: 40,
+        borderRadius: 10,
         borderColor: '#dadae8',
         borderWidth: 0.5,
 

@@ -1,11 +1,17 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import cheerio from 'react-native-cheerio';
-import { TouchableOpacity, RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text, FlatList, Image } from 'react-native';
+import { Animated, TouchableOpacity, RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text, FlatList, Image } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 
 import MyColor from '../../Components/MyColor';
+import Header from '../../Components/Header';
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
+const headerHeight = 40
 
 function NewsCard({ title, teaserText, teaserImageURL, onPress }) {
+
 
     return (
         <TouchableOpacity onPress={onPress}>
@@ -119,10 +125,22 @@ export default function NewsScreen({ navigation }) {
     }, [])
 
 
+
+
+
+
+
+
     return (
 
         <View style={style_newsScreen.layout}>
+
+
+            <Header label={"Neuigkeiten"} />
+
+
             <FlatList
+                scrollEventThrottle={1000}
                 contentContainerStyle={style_newsScreen.flatListContainerStyle}
                 style={style_newsScreen.flatlist}
                 data={newsAES}
@@ -141,9 +159,13 @@ export default function NewsScreen({ navigation }) {
                 }}
                 keyExtractor={item => item.id}
 
+
+
             />
 
+            <StatusBar style="dark" />
         </View>
+
 
     );
 }
@@ -152,14 +174,17 @@ const style_newsScreen = StyleSheet.create({
     layout: {
         flex: 1,
         alignItems: 'center',
-        marginTop: 40
     },
     flatlist: {
         width: '100%',
         flex: 1,
 
+
     },
     flatListContainerStyle: {
         alignItems: 'center',
-    }
+        paddingTop: 140,
+        //marginBottom: 80
+    },
+
 })
