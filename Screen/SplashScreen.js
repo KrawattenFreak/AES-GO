@@ -23,7 +23,7 @@ export default function SplashScreen({ navigation }) {
 
       AsyncStorage.getItem('user_name').then((value) =>
         navigation.replace(
-          value === null ? 'Auth' : 'DrawerNavigationRoutes'
+          value === null ? 'Auth' : 'TabNavigationRoutes'
         ),
       );
 

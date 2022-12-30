@@ -14,8 +14,6 @@ export default function SPH_auth(userName, userPassword, callback) {
     //JCRYPTION TRY
     normalGETsph(userName, userPassword, (data) => {
 
-        //normalGETjCryptionJS().then((jCryptionResponse)=>{
-
         sessionID = data[1]
 
         const password = jCryption_encrypt(generateUUID(), generateUUID())
@@ -25,23 +23,20 @@ export default function SPH_auth(userName, userPassword, callback) {
 
             normalPOSTsphUSERDATA(data[0], (data2) => {
 
-                sessionID = String(data2).split(';')[2].slice(13)
+                let success = ''
 
-                callback.call(this, sessionID)
+                if (String(data2).search("sid") == -1) {
+                    success = false
+                } else {
+                    sessionID = String(data2).split(';')[2].slice(13)
+                    success = true
+                }
 
-                //loggedInWithSidGETsph().then(response => {
-                //
-                //
-                //
-                //})
+                callback.call(this, sessionID, success)
+
             })
         })
-        //})
-
-
     })
-
-
 }
 
 //SEND FORM WITH USER-DATA------------------------------------------------------------
@@ -49,37 +44,32 @@ export default function SPH_auth(userName, userPassword, callback) {
 //GET SESSIONID & FORM
 function normalGETsph(userName, userPassword, callback) {
     //PARSE HTML
-    const searchUrl = 'http://start.schulportal.hessen.de/index.php?i=5220';
+    const searchUrl = 'https://start.schulportal.hessen.de/index.php?i=5220';
 
-    fetch(searchUrl,
-        {
-            headers: { 'Cookie': '' }
-        }
-    ).then((response) => {
+    fetch(searchUrl, {
+        method: 'GET',
+        credentials: 'omit',
+    })
+        .then((response) => {
 
-        const data = response.headers.get('Set-Cookie');
+            response.text().then((resHTML) => {
 
-        response.text().then((resHTML) => {
+                const data = response.headers.get('Set-Cookie');
 
-            //GET HTML STRING
-            //const htmlString = resHTML;  // get response text
-            const $ = cheerio.load(resHTML);
+                //GET HTML STRING
 
-            $('#inputEmail').val(userName)
-            $('#inputPassword').val(userPassword)
+                const $ = cheerio.load(resHTML);
 
+                $('#inputEmail').val(userName)
+                $('#inputPassword').val(userPassword)
 
+                let seesionID = String(data).split(';')[1].slice(13)
 
-            let seesionID = String(data).split(';')[1].slice(13)
+                callback.call(this, [$('#all').serialize(), seesionID])
 
-            callback.call(this, [$('#all').serialize(), seesionID])
+            })
 
         })
-
-    })
-
-
-
 
 
 }
@@ -100,19 +90,24 @@ async function normalGETjCryptionJS() {
 
 }
 
-async function normalPOSTsphUSERDATA(form, callback) {
+function normalPOSTsphUSERDATA(form, callback) {
 
     fetch("https://start.schulportal.hessen.de/ajax.php",
         {
-            method: 'post',
+            method: 'POST',
             body: 'crypt=' + encodeURIComponent(jCryption_encrypt(form, aespw)),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                 'Cookie': 'i=5220; complianceCookie=on; sid=' + sessionID,
-            }
-        }).then((response) => {
-            callback.call(this, response.headers.get('Set-Cookie'))
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
+            },
+            credentials: 'omit'
 
+        })
+
+
+        .then((response) => {
+            callback.call(this, response.headers.get('Set-Cookie'))
         })
 
 }
@@ -168,7 +163,8 @@ async function normalGETpubKey(publicKeyURL) {
     const response = await fetch(searchUrl,
         {
             method: 'get',
-            headers: { 'Cookie': 'i=5220; sid=' + sessionID }
+            headers: { 'Cookie': 'i=5220; sid=' + sessionID },
+            credentials: 'omit',
         })
 
     return response.text()
@@ -214,7 +210,8 @@ async function normalPOSThandshake(url, encrypted) {
         {
             method: 'post',
             body: "key=" + encryptedURLENCODET,
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8', 'Cookie': 'i=5220; sid=' + sessionID }
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8', 'Cookie': 'i=5220; sid=' + sessionID },
+            credentials: 'omit',
         });
 
     return response.text()

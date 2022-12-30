@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, createRef, useEffect } from 'react';
+import { useState, createRef, useEffect } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Loader from './Components/Loader';
 import SPH_auth from '../code/SPH_Networking/SPH-auth';
+import sphLogout from '../code/SPH_Networking/SPH-logout';
 
 
 
@@ -43,21 +44,32 @@ export default function LoginScreen({ navigation }) {
       alert('Bitte gebe dein Passwort ein');
       return;
     }
-    setLoading(true);
+    //setLoading(true);
 
-    SPH_auth(userEmail, userPassword, (sessionID) => {
-      if (sessionID) {
+    SPH_auth(userEmail, userPassword, (sessionID, success) => {
+
+
+      if (success == true) {
         try {
           setLoading(false);
           AsyncStorage.setItem('user_name', userEmail).then(() => {
 
-            navigation.replace('DrawerNavigationRoutes');
+            navigation.replace('TabNavigationRoutes');
+
+
+            sphLogout(sessionID)
+
+            console.log(sessionID)
+
+
 
           })
         } catch (error) {
           console.log(error)
         }
+
       } else {
+
         alert('Dein Benutzername oder Passwort ist falsch.')
         setLoading(false)
 
