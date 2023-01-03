@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from './Components/Loader';
 import SPH_auth from '../code/SPH_Networking/SPH-auth';
 import sphLogout from '../code/SPH_Networking/SPH-logout';
+import getSPHData from '../code/SPH_Networking/SPH-GetterAndSaver';
 
 
 
@@ -50,23 +51,17 @@ export default function LoginScreen({ navigation }) {
 
 
       if (success == true) {
-        try {
-          setLoading(false);
-          AsyncStorage.setItem('user_name', userEmail).then(() => {
 
+        AsyncStorage.setItem('user_name', userEmail).then(() => {
+
+
+          getSPHData(sessionID, () => {
+            setLoading(false);
             navigation.replace('TabNavigationRoutes');
 
-
-            sphLogout(sessionID)
-
-            console.log(sessionID)
-
-
-
           })
-        } catch (error) {
-          console.log(error)
-        }
+
+        })
 
       } else {
 

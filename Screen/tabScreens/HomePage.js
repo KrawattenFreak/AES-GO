@@ -22,8 +22,8 @@ const wait = (timeout) => {
 
 export default function HomePage({ navigation }) {
     return (
-        <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: true }}>
-            <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: true, headerBackTitle: 'Zurück' }}>
+            <Stack.Screen label='Home' name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
             <Stack.Screen name="HomeScreenVertretung" component={HomeScreenVertretung} options={{ title: 'Vertretungsplan' }} />
             <Stack.Screen name="HomeScreenStundenplan" component={HomeScreenStundenplan} options={{ title: 'Stundenplan' }} />
         </Stack.Navigator>

@@ -89,15 +89,10 @@ export default function NewsScreen({ navigation }) {
         //FIND H3 IN CLASS-ARTICLE
         $('div[class="article articletype-0"]').each((idx, ref) => {
 
-
-
             const elemHeader = $(ref).find('h3');
             const elemTeaserText = $(ref).find('p');
             const elemTeaserImage = $(ref).find('img');
             const elemLink = $(ref).find('h3 > a');
-
-
-
 
             const entryOneNews = {
                 //REMOVE FIRST CHARACTER FROM H3 BECAUSE SOMEONE DECIDED TO ADD AN EMPTY CHARACTER AT THE BEGINNING OF EACH H3
@@ -125,12 +120,6 @@ export default function NewsScreen({ navigation }) {
     }, [])
 
 
-
-
-
-
-
-
     return (
 
         <View style={style_newsScreen.layout}>
@@ -147,7 +136,6 @@ export default function NewsScreen({ navigation }) {
                 renderItem={({ item }) => {
                     return (
 
-                        //SO TIM. ONPRESS FUNKTIONIERT HIER LEIDER NICHT. DU MUSST MAL SCHAUEN WORAN DAS LIEGT.
                         <NewsCard
                             title={item.header}
                             teaserText={item.teaserText}
