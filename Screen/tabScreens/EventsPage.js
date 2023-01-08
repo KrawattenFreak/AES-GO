@@ -52,7 +52,7 @@ export default function EventsPage({ navigation }) {
                 const eventEndDate = new Date(String(event.Ende).slice(0, 10))
 
 
-                if (isDateInFuture(eventEndDate)) {
+                if (isDateInFuture(eventStartDate)) {
 
                     const copyEventStartDate = eventStartDate
 
