@@ -29,35 +29,6 @@ export default function NewsScreenPage({ route, navigation }) {
         return jsRemovalString;
     }
 
-    //const [singleNewsAES, setSingleNewsAES] = useState(null);
-    //
-    //    async function loadNews() {
-    //
-    //        
-    //
-    //        //PARSE HTML
-    //        const searchUrl = link;
-    //        const response = await fetch(searchUrl);   // fetch page
-    //
-    //        //GET HTML STRING
-    //        const htmlString = await response.text();  // get response text
-    //        
-    //        const $ = cheerio.load(htmlString)
-    //
-    //
-    //        return $('div[class="article"]').html();
-    //        
-    //    }
-    //
-    //
-    //    useEffect(() => {
-    //        loadNews().then(val => {
-    //            setSingleNewsAES(val)
-    //        })
-    //    }, [])
-    //
-    //
-    //----------------------------------------
     return (
         //<View></View>
         <WebView pointerEvents="" originWhitelist={['*']} source={{ uri: link }} injectedJavaScript={javascript_HideHeader()} />

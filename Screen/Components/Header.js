@@ -17,16 +17,17 @@ export default function Header({ label }) {
 
 const style_header = StyleSheet.create({
     header: {
-        marginTop: 80,
+        //marginTop: 80,
         height: 40,
         width: '100%',
         justifyContent: 'center',
         position: 'absolute',
-        zIndex: 0
+        //zIndex: 0
 
     },
     label: {
-        marginHorizontal: 20,
+        marginTop: -100,
+        //marginHorizontal: 20,
         fontSize: 30,
         fontWeight: "bold",
         color: 'rgb(1, 1, 1)'

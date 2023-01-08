@@ -6,10 +6,12 @@ import 'react-native-gesture-handler'
 
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import Loader from '../../Components/Loader';
+import HintStundenplan from '../../Components/Hints/HintStundenplan';
 
 
 export default function HomeScreenStundenplan({ navigation }) {
 
+    const [visibleHint, setVisibleHint] = useState(true)
     const [loading, setLoading] = useState(true)
     const [stundenplanData, setStundenplanData] = useState({})
     const [state, setState] = useState(0)
@@ -35,6 +37,13 @@ export default function HomeScreenStundenplan({ navigation }) {
 
 
         <View style={{ flex: 1 }}>
+
+            <HintStundenplan visible={visibleHint} onPress={() => {
+
+                setVisibleHint(false)
+
+            }} />
+
             <Loader loading={loading} />
 
             {loading ?
@@ -276,9 +285,16 @@ function HomeScreenStundenplanALL({ navigation, faecher }) {
 
                                                             faecher.all[index][index2].data.map((data3, index3) => {
                                                                 return (
-                                                                    <Text key={generateUUID()}>
-                                                                        {data3.fach}
-                                                                    </Text>
+                                                                    <View style={style_HomeScreenStundenplanAll.stundenplanEinFachInSection} key={generateUUID()}>
+                                                                        <Text style={style_HomeScreenStundenplanAll.stundenplanFachInSection} key={generateUUID()}>
+                                                                            {data3.fach}
+                                                                        </Text>
+
+                                                                        <Text style={style_HomeScreenStundenplanAll.stundenplanRaumInSection} key={generateUUID()}>
+                                                                            {data3.lehrkraft + ' | ' + data3.raum}
+                                                                        </Text>
+
+                                                                    </View>
                                                                 )
 
                                                             })
@@ -328,7 +344,9 @@ const style_HomeScreenStundenplanAll = new StyleSheet.create({
         height: 30,
         backgroundColor: '#313131',
         flexDirection: 'row',
-        borderRadius: 5,
+        borderBottomStartRadius: 5,
+        borderBottomEndRadius: 5,
+        //borderRadius: 5,
         shadowColor: '#171717',
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.1,
@@ -356,12 +374,12 @@ const style_HomeScreenStundenplanAll = new StyleSheet.create({
         flex: 0.5,
         marginHorizontal: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
 
     stundenplanBodySection: {
         backgroundColor: 'white',
-        padding: 5,
+        padding: 8,
         justifyContent: 'center',
         alignItems: 'center',
 
@@ -373,7 +391,7 @@ const style_HomeScreenStundenplanAll = new StyleSheet.create({
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
-        elevation: 4
+        elevation: 2
     },
 
 
@@ -398,8 +416,6 @@ const style_HomeScreenStundenplanAll = new StyleSheet.create({
 
     stundenplanBodySectionStunde: {
         flex: 1,
-        backgroundColor: 'white',
-        padding: 10,
         justifyContent: 'center',
         alignItems: 'center',
 
@@ -408,13 +424,18 @@ const style_HomeScreenStundenplanAll = new StyleSheet.create({
     stundenplanBodyRowStunde: {
         flex: 0.5,
         marginHorizontal: 1,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        borderColor: '#dadae8',
+        borderWidth: 0.5
     },
     stundenplanBodyRow: {
         flex: 1,
         marginHorizontal: 1
     },
     stundenplanStundeSectionText: {
-
+        fontWeight: '200',
+        fontSize: 15
     },
 
     stundenplanEinFachInSection: {
@@ -643,7 +664,9 @@ const style_HomeScreenStundenplanOwn = new StyleSheet.create({
         height: 30,
         backgroundColor: '#313131',
         flexDirection: 'row',
-        borderRadius: 5,
+        borderBottomStartRadius: 5,
+        borderBottomEndRadius: 5,
+        //borderRadius: 5,
         shadowColor: '#171717',
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.1,
@@ -719,8 +742,6 @@ const style_HomeScreenStundenplanOwn = new StyleSheet.create({
 
     stundenplanBodySectionStunde: {
         flex: 1,
-        backgroundColor: 'white',
-        padding: 10,
         justifyContent: 'center',
         alignItems: 'center',
 
@@ -729,7 +750,11 @@ const style_HomeScreenStundenplanOwn = new StyleSheet.create({
     stundenplanBodyRowStunde: {
         flex: 0.5,
         marginHorizontal: 1,
-        height: '100%'
+        height: '100%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+        borderColor: '#dadae8',
+        borderWidth: 0.5
     },
     stundenplanBodyRow: {
         flex: 1,
@@ -737,7 +762,8 @@ const style_HomeScreenStundenplanOwn = new StyleSheet.create({
         height: '100%'
     },
     stundenplanStundeSectionText: {
-
+        fontWeight: '200',
+        fontSize: 15
     },
 
     stundenplanEinFachInSection: {

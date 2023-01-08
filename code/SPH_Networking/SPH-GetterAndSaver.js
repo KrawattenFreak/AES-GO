@@ -1,6 +1,7 @@
 import cheerio from 'react-native-cheerio';
 import sphLogout from './SPH-logout';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ICAL from 'ical.js'
 
 export default function getSPHData(sessionID, callback) {
 
@@ -10,11 +11,16 @@ export default function getSPHData(sessionID, callback) {
 
         stundenplanFetch(sessionID, () => {
 
-            //LOGOUT - DONE WITH EVERY DOWNLOAD
-            sphLogout(sessionID)
+            kalenderFetch(sessionID, () => {
 
-            if (callback)
-                callback.call(this)
+                //LOGOUT - DONE WITH EVERY DOWNLOAD
+                sphLogout(sessionID)
+
+                if (callback)
+                    callback.call(this)
+
+            })
+
         })
 
     })
@@ -38,7 +44,7 @@ function vertretungsplanFetch(sessionID, callback) {
 
                 AsyncStorage.setItem('vertretung', JSON.stringify(Vertretung)).then(() => {
 
-                    console.log(JSON.stringify(Vertretung))
+                    //console.log(JSON.stringify(Vertretung))
 
                     callback.call(this)
 
@@ -135,7 +141,7 @@ function stundenplanFetch(sessionID, callback) {
         const Stundenplan = stundenplanHTMLParser(responseHTML)
 
         AsyncStorage.setItem('stundenplan', JSON.stringify(Stundenplan)).then(() => {
-            console.log(JSON.stringify(Stundenplan))
+            //console.log(JSON.stringify(Stundenplan))
             callback.call(this)
 
         })
@@ -299,6 +305,40 @@ function stundenplanHTMLParser(htmlString) {
 
 
 //------------------------------------------------------------
+
+
+
+
+function kalenderFetch(sessionID, callback) {
+
+    //GET ICAL URL
+    fetch('https://start.schulportal.hessen.de/kalender.php', {
+        method: 'POST',
+        headers: {
+            'Cookie': 'sid=' + sessionID,
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        body: 'f=getEvents&year=0&start=year&k=&s=',
+        credentials: 'omit'
+    }).then((response) => response.json().then((response) => {
+
+        //console.log(response)
+
+        const data = {
+            data: response
+        }
+
+        AsyncStorage.setItem('kalender', JSON.stringify(response)).then(() => {
+            callback.call(this)
+
+        })
+
+
+
+    }))
+
+
+}
 
 
 

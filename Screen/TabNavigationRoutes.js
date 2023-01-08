@@ -1,21 +1,12 @@
-import {
-    ActivityIndicator,
-    View,
-    StyleSheet,
-    Image,
-    Text,
-    Button,
-    TouchableHighlight
-} from 'react-native';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HomePage from './tabScreens/HomePage';
 import NewsPage from './tabScreens/NewsPage';
+import SettingsPage from './tabScreens/SettingsPage';
+import EventsPage from './tabScreens/EventsPage';
+
 //import NewsPage from './tabScreens/NewsPage';
 
 
@@ -64,8 +55,8 @@ export default function TabNavigationRoutes() {
             <Tab.Screen name="Home" component={HomePage} />
             <Tab.Screen name="News" component={NewsPage} />
             <Tab.Screen name="Tasks" component={HomePage} />
-            <Tab.Screen name="Events" component={HomePage} />
-            <Tab.Screen name="Settings" component={HomePage} />
+            <Tab.Screen name="Events" component={EventsPage} />
+            <Tab.Screen name="Settings" component={SettingsPage} />
 
         </Tab.Navigator>
 

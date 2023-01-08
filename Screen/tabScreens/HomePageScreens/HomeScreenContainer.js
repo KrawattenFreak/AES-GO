@@ -6,7 +6,7 @@ export default function HomeContainer({ navigation, label, onPress }) {
 
 
     return (
-        <View>
+        <View style={style.wrapper}>
             <TouchableOpacity onPress={onPress}>
                 <View style={style.contentView_content}>
                     <Text style={style.contentView_contentText}>{label}</Text>
@@ -20,11 +20,15 @@ export default function HomeContainer({ navigation, label, onPress }) {
 }
 
 const style = StyleSheet.create({
+    wrapper: {
+        width: '100%'
+    },
+
     contentView_content: {
         alignItems: 'center',
         justifyContent: 'center',
         //CODE:001
-        width: 400,
+        marginHorizontal: 20,
         height: 200,
         backgroundColor: 'rgb(250, 250, 250)',
         borderRadius: 10,

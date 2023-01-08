@@ -5,15 +5,16 @@ import { RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text } 
 export default function VertretungDataHeader({ date }) {
 
     return (
-        <View style={style_VertretungDataHeader.wrapper}>
+        <View style={style_VertretungDataHeader.viewWrapper}>
+            <View style={style_VertretungDataHeader.wrapper}>
 
-            <Text style={style_VertretungDataHeader.title}>
-                {date}
-            </Text>
+                <Text style={style_VertretungDataHeader.title}>
+                    {date}
+                </Text>
+
+            </View>
 
         </View>
-
-
     )
 
 }
@@ -21,12 +22,14 @@ export default function VertretungDataHeader({ date }) {
 const style_VertretungDataHeader = StyleSheet.create({
 
     wrapper: {
-        marginHorizontal: 140,
+        //width: 100,
+        paddingHorizontal: 30,
         marginTop: 10,
         marginBottom: 10,
         padding: 10,
         backgroundColor: '#313131',
         borderRadius: 6,
+        alignItems: 'center',
 
         //SHADOW
         shadowColor: '#171717',
@@ -36,6 +39,11 @@ const style_VertretungDataHeader = StyleSheet.create({
         elevation: 4
 
     },
+
+    viewWrapper: {
+        alignItems: 'center'
+    },
+
     title: {
         textAlign: 'center',
         color: 'white'

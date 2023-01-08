@@ -2,13 +2,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { SectionList, FlatList, RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text } from 'react-native';
 
+import HintVertretung from '../../Components/Hints/HintVertretung';
 import Loader from '../../Components/Loader';
+
 
 import VertretungContainer from './Vertretung/VertretungContainer';
 import VertretungDataHeader from './Vertretung/VertretungDateHeader';
 
 export default function HomeScreenVertretung({ navigation }) {
 
+    const [visibleHint, setVisibleHint] = useState(true)
     const [loading, setLoading] = useState(true)
     const [vertretungData, setVertretungData] = useState({})
 
@@ -26,6 +29,12 @@ export default function HomeScreenVertretung({ navigation }) {
 
     return (
         <View style={style_HomeScreenVertretung.wrapper}>
+
+            <HintVertretung visible={visibleHint} onPress={() => {
+
+                setVisibleHint(false)
+
+            }} />
 
             <Loader loading={loading} />
 

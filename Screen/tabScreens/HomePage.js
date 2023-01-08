@@ -61,12 +61,7 @@ function HomeScreen({ navigation }) {
 
                 <HomeContainer label='Vertretung' onPress={() => navigation.navigate('HomeScreenVertretung')} />
                 <HomeContainer label='Stundenplan' onPress={() => navigation.navigate('HomeScreenStundenplan')} />
-                <View style={{ marginTop: 20 }}>
-                    <Button
-                        onPress={() => AsyncStorage.removeItem('user_name')}
-                        title="Remove user_name"
-                    />
-                </View>
+
 
             </ScrollView>
 

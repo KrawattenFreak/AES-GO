@@ -2,8 +2,6 @@ import * as React from 'react';
 import { RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { useFonts } from 'expo-font';
-
 
 
 export default function VertretungContainer({ stunde, klasse, lehrkraft, art, fach, raum, raum_alt, hinweis }) {
@@ -88,7 +86,7 @@ const style_VertretungContainer = StyleSheet.create({
         flexDirection: 'row',
         height: 80,
         backgroundColor: 'white',
-        marginVertical: 10,
+        marginVertical: 5,
         marginHorizontal: 15,
         borderRadius: 11,
 

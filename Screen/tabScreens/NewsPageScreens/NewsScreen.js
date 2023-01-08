@@ -1,48 +1,63 @@
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import cheerio from 'react-native-cheerio';
-import { Animated, TouchableOpacity, RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text, FlatList, Image } from 'react-native';
+import { Animated, TouchableOpacity, SectionList, RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text, sectionList, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 import MyColor from '../../Components/MyColor';
 import Header from '../../Components/Header';
+import Loader from '../../Components/Loader';
 
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
-const headerHeight = 40
+//const AnimatedsectionList = Animated.createAnimatedComponent(sectionList)
+//const headerHeight = 40
 
 function NewsCard({ title, teaserText, teaserImageURL, onPress }) {
 
 
     return (
-        <TouchableOpacity onPress={onPress}>
-            <View style={style_newsScreen_card.cardBox}>
-                <View style={style_newsScreen_card.cardBoxLayoutTop}>
-                    <Text style={style_newsScreen_card.cardHeader}>{title}</Text>
-                    <Image
-                        source={{ uri: teaserImageURL }}
-                        style={(teaserImageURL != undefined)
-                            ? style_newsScreen_card.cardTeaserImage
-                            : [style_newsScreen_card.cardTeaserImage, { width: 0 }]}
-                    />
+        <View style={style_newsScreen_card.wrapper2}>
+            <TouchableOpacity onPress={onPress} style={style_newsScreen_card.wrapper}>
+                <View style={style_newsScreen_card.cardBox}>
+                    <View style={style_newsScreen_card.cardBoxLayoutTop}>
+                        <Text style={style_newsScreen_card.cardHeader}>{title}</Text>
+                        <Image
+                            source={{ uri: teaserImageURL }}
+                            style={(teaserImageURL != undefined)
+                                ? style_newsScreen_card.cardTeaserImage
+                                : [style_newsScreen_card.cardTeaserImage, { width: 0 }]}
+                        />
+
+                    </View>
+                    <Text style={{ marginTop: 15, color: '#2b2b2b', lineHeight: 21 }}>
+                        {teaserText}
+                    </Text>
 
                 </View>
-                <Text style={{ marginTop: 15, color: '#2b2b2b', lineHeight: 21 }}>
-                    {teaserText}
-                </Text>
-
-            </View>
-        </TouchableOpacity>
+            </TouchableOpacity>
+        </View>
     );
 }
 
 const style_newsScreen_card = StyleSheet.create({
+    wrapper: {
+
+        width: '100%',
+        alignItems: 'center',
+
+    },
     cardBox: {
-        width: 400,
+        width: '100%',
         backgroundColor: 'white',
         borderRadius: 10,
         marginBottom: 15,
         padding: 25,
         overflow: 'hidden',
+        flex: 1,
+        borderColor: '#dadae8',
+        borderWidth: 0.5,
+
+
+
     },
     cardHeader: {
         fontWeight: 'bold',
@@ -70,12 +85,16 @@ const style_newsScreen_card = StyleSheet.create({
 
 export default function NewsScreen({ navigation }) {
 
+    const [loading, setLoading] = useState(true)
     const [newsAES, setNewsAES] = useState(null);
 
     async function loadGraphicCards() {
 
         //ALL NEWS ENTRIES
-        var listNewsTitle = [];
+        var listNewsTitle = [{
+            title: 'Neuigkeiten',
+            data: []
+        }];
 
         //PARSE HTML
         const searchUrl = `https://www.aes-maintal.de/aktuelles/neuigkeiten/`;
@@ -104,7 +123,7 @@ export default function NewsScreen({ navigation }) {
             }
 
             //console.log(entryOneNews)
-            listNewsTitle.push(entryOneNews);
+            listNewsTitle[0].data.push(entryOneNews);
 
 
         })
@@ -116,40 +135,48 @@ export default function NewsScreen({ navigation }) {
     useEffect(() => {
         loadGraphicCards().then(val => {
             setNewsAES(val)
+            setLoading(false)
         })
     }, [])
 
 
     return (
 
+
+
         <View style={style_newsScreen.layout}>
 
-
-            <Header label={"Neuigkeiten"} />
-
-
-            <FlatList
-                scrollEventThrottle={1000}
-                contentContainerStyle={style_newsScreen.flatListContainerStyle}
-                style={style_newsScreen.flatlist}
-                data={newsAES}
-                renderItem={({ item }) => {
-                    return (
-
-                        <NewsCard
-                            title={item.header}
-                            teaserText={item.teaserText}
-                            teaserImageURL={item.teaserImageURL}
-                            onPress={() => navigation.navigate('NewsScreenPage', { link: item.urlRedirect })}
-
-                        />
-                    )
-                }}
-                keyExtractor={item => item.id}
+            <Loader loading={loading} />
 
 
 
-            />
+            {loading ? <View></View> :
+
+                <SectionList
+                    style={style_newsScreen.sectionList}
+                    contentContainerStyle={style_newsScreen.sectionListContainerStyle}
+                    sections={newsAES}
+                    keyExtractor={(item, index) => item + index}
+                    renderItem={({ item }) => {
+
+                        return (
+
+                            <NewsCard
+                                title={item.header}
+                                teaserText={item.teaserText}
+                                teaserImageURL={item.teaserImageURL}
+                                onPress={() => navigation.navigate('NewsScreenPage', { link: item.urlRedirect })}
+
+                            />
+                        )
+                    }}
+                    renderSectionHeader={({ section: { title } }) => (
+                        <Header label={title} />
+                    )}
+                />
+
+            }
+
 
             <StatusBar style="dark" />
         </View>
@@ -163,14 +190,14 @@ const style_newsScreen = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
     },
-    flatlist: {
+    sectionList: {
         width: '100%',
         flex: 1,
 
 
     },
-    flatListContainerStyle: {
-        alignItems: 'center',
+    sectionListContainerStyle: {
+        marginHorizontal: 20,
         paddingTop: 140,
         //marginBottom: 80
     },
