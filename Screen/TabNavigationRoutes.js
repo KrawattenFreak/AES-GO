@@ -6,6 +6,7 @@ import HomePage from './tabScreens/HomePage';
 import NewsPage from './tabScreens/NewsPage';
 import SettingsPage from './tabScreens/SettingsPage';
 import EventsPage from './tabScreens/EventsPage';
+import TasksPage from './tabScreens/Tasks';
 
 //import NewsPage from './tabScreens/NewsPage';
 
