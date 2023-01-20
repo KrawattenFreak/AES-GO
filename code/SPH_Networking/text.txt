@@ -1,212 +1,272 @@
-import { StyleSheet, View, Modal, ActivityIndicator, Text, Image, TouchableOpacity, SectionList, FlatList, Animated } from 'react-native';
-import React, { useState, useEffect } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import ICAL from 'ical.js'
-import { StatusBar } from 'expo-status-bar';
-
-import Header from '../Components/Header';
-import Loader from '../Components/Loader';
-import EventContainer from './EventsPageScreens/EventContainer';
-
-export default function EventsPage({ navigation }) {
-
-    const [kalender, setKalender] = useState('')
-
-    const [loading, setLoading] = useState(true)
-
-    const currentDate = new Date()
+import React, { useRef, useState, Suspense, useMemo } from 'react'
+import { Canvas, useFrame, useThree } from '@react-three/fiber/native'
+import { useGLTF, Environment, Grid, Stage, useTexture, useFBX } from '@react-three/drei/native'
+import useControls from "r3f-native-orbitcontrols"
+import {
+    View, Text, StyleSheet, Button
+} from 'react-native';
 
 
 
-    let listEvents = [];
-
-
-    //CATEGORIES:
-    //Arbeiten, Fortbildung, Events, Abitur, Ferien, Schulwochen, Konferenzen, Elterngespräch, Lehren und Lernen
-
-
-    useEffect(() => {
-
-
-        AsyncStorage.getItem('kalender').then(value => {
-
-            const jcalData = ICAL.parse(value);
-
-            const comp = new ICAL.Component(jcalData);
-            const vevent = comp.getAllSubcomponents()
-
-            vevent.forEach(element => {
-                if (element.getFirstPropertyValue("summary") != undefined) {
-
-                    const eventEndDate = new Date(element.getFirstPropertyValue("dtend").year + '-' + addLeadingZeros(element.getFirstPropertyValue("dtend").month, 2) + '-' + addLeadingZeros(element.getFirstPropertyValue("dtend").day, 2))
-                    const eventStartDate = new Date(element.getFirstPropertyValue("dtstart").year + '-' + addLeadingZeros(element.getFirstPropertyValue("dtstart").month, 2) + '-' + addLeadingZeros(element.getFirstPropertyValue("dtstart").day, 2))
-
-
-                    if (isDateInFuture(eventEndDate)) {
+import modelPath from '../../assets/3D/AESLowPolyREADY.glb'
+import ao0gPath from '../../assets/3D/AO/AOGround0.png'
+import ao0wPath from '../../assets/3D/AO/AOWall0.png'
 
 
 
-                        if (element.getFirstPropertyValue("categories") == 'Events') {
-
-                            if (isDateInFuture(eventStartDate.setDate(eventStartDate.getDate() - 60))) {
-
-
-                                listEvents.push({
-                                    summary: element.getFirstPropertyValue("summary"),
-                                    dtstart: element.getFirstPropertyValue("dtstart"),
-                                    dtend: element.getFirstPropertyValue("dtend"),
-                                    id: generateUUID(),
-                                    soon: false,
-                                    isDate: element.getFirstPropertyValue("dtstart").isDate,
-                                    description: element.getFirstPropertyValue("description"),
-                                    location: element.getFirstPropertyValue("location")
-                                })
-
-
-                                //console.log(element.getFirstPropertyValue('summary'))
-                                //console.log(element.getFirstPropertyValue('dtstart'))
-
-                            } else {
-                                listEvents.push({
-                                    summary: element.getFirstPropertyValue("summary"),
-                                    dtstart: element.getFirstPropertyValue("dtstart"),
-                                    dtend: element.getFirstPropertyValue("dtend"),
-                                    id: generateUUID(),
-                                    soon: true,
-                                    isDate: element.getFirstPropertyValue("dtstart").isDate,
-                                    description: element.getFirstPropertyValue("description"),
-                                    location: element.getFirstPropertyValue("location")
-                                })
-                            }
-
-
-                            //console.log(element.getFirstPropertyValue("dtstart").isDate)
-                            //console.log(element.getFirstPropertyValue("dtstart") + "  -  " + element.getFirstPropertyValue("dtend"))
-                        }
-                    }
-                }
-            });
-            setKalender(listEvents)
-            setLoading(false)
-        })
+function Model(props) {
 
 
 
-    }, [])
+    const mesh = useRef(null)
+    const { scene, nodes } = useGLTF(modelPath)
 
-    function isDateInFuture(date) {
-        return date > Date.now()
-    }
+    const ao0g = useTexture(ao0gPath)
+    const ao0w = useTexture(ao0wPath)
 
 
-
-    const [scrollViewWidth, setScrollViewWidth] = React.useState(0);
-    const boxWidth = 330;
-    const boxDistance = scrollViewWidth - boxWidth;
-    const halfBoxDistance = boxDistance / 2;
-
-    const pan = React.useRef(new Animated.ValueXY()).current;
 
     return (
-
-        <View style={style.layout}>
-
-            <Loader loading={loading} />
-
-
-
-            {loading ? <View></View> :
-
-                <FlatList
-                    horizontal={true}
-
-                    data={kalender}
-                    contentInsetAdjustmentBehavior="never"
-                    snapToAlignment="center"
-                    decelerationRate="fast"
-                    showsHorizontalScrollIndicator={false}
-                    automaticallyAdjustContentInsets={false}
-                    scrollEventThrottle={1}
-                    renderItem={({ item }) => {
-
-                        return (
-
-                            <EventContainer
-                                title={item.summary}
-                                dtstart={addLeadingZeros(item.dtstart.day, 2) + '. ' + addLeadingZeros(item.dtstart.month, 2) + '. ' + item.dtstart.year}
-                                dtend={addLeadingZeros(item.dtend.day, 2) + '. ' + addLeadingZeros(item.dtend.month, 2) + '. ' + item.dtend.year}
-                                soon={item.soon}
-                                isDate={item.isDate}
-                                time={addLeadingZeros(item.dtstart.hour, 2) + ':' + addLeadingZeros(item.dtstart.minute, 2)}
-                                dtstartyear={item.dtstart.year}
-                                description={item.description}
-                                location={item.location}
-                            />
-
-                        )
-
-                    }}
-                    onLayout={(e) => {
-                        setScrollViewWidth(e.nativeEvent.layout.width);
-                    }}
-                    //contentInset={{
-                    //    left: halfBoxDistance,
-                    //    right: halfBoxDistance,
-                    //}}
-
-                    snapToInterval={boxWidth}
-
-                />
-
-            }
+        <group {...props} dispose={null}>
+            < mesh
+                castShadow
+                receiveShadow
+                geometry={nodes["0VIEWGround"].geometry}
+                visible={props.vissl[0]}
+                position={[4.63, 0.12, -0.74]}
+                scale={8.76}
 
 
-            <StatusBar style="dark" />
-        </View>
+            >
+
+                <meshPhysicalMaterial castShadow color='#46d4cd' attach={'material'} map={ao0g} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes["0VIEWWalls"].geometry}
+                visible={props.vissl[0]}
+                position={[-1.77, 0.54, 1.58]}
+                rotation={[0, 0, -Math.PI / 2]}
+                scale={8.76}
+            >
+                <meshStandardMaterial castShadow color='white' attach={'material'} map={ao0w} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes["1VIEWGround"].geometry}
+                visible={props.vissl[1]}
+                position={[3.17, 1.76, -1.79]}
+
+                scale={3.63}
+            >
+                <meshStandardMaterial castShadow color='#46d4cd' />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes["1VIEWWalls"].geometry}
+                visible={props.vissl[1]}
+                position={[0.84, 2.43, -0.5]}
+                rotation={[0, 0, -Math.PI / 2]}
+                scale={2.89}
+            >
+                <meshStandardMaterial castShadow color='white' />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes["2VIEWWalls"].geometry}
+                visible={props.vissl[2]}
+                position={[-2.96, 3.85, -1.63]}
+                rotation={[0, 0, -Math.PI / 2]}
+                scale={2.89}
+            >
+                <meshStandardMaterial castShadow color='white' />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes["2VIEWGround"].geometry}
+                visible={props.vissl[2]}
+                position={[-2.88, 3.03, -2.28]}
+
+                scale={3.65}
+            >
+                <meshStandardMaterial castShadow color='#46d4cd' />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes["3VIEWGround"].geometry}
+                visible={props.vissl[3]}
+                position={[3.54, 4, -0.49]}
+
+                scale={3.65}
+            >
+                <meshStandardMaterial castShadow color='#46d4cd' />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes["3VIEWWalls"].geometry}
+                visible={props.vissl[3]}
+                position={[2.28, 4.87, 1.28]}
+                rotation={[0, 0, -Math.PI / 2]}
+                scale={2.89}
+            >
+                <meshStandardMaterial castShadow color='white' />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes["4VIEWWalls"].geometry}
+                visible={props.vissl[4]}
+                position={[0.75, 6.11, -0.94]}
+                rotation={[0, 0, -Math.PI / 2]}
+                scale={2.89}
+            >
+                <meshStandardMaterial castShadow color='white' />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes["4VIEWGround"].geometry}
+                visible={props.vissl[4]}
+                position={[0.75, 6.11, -0.94]}
+                rotation={[0, 0, -Math.PI / 2]}
+                scale={2.89}
+            >
+                <meshStandardMaterial castShadow color='#46d4cd' />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Dach.geometry}
+                visible={props.vissl[5]}
+                position={[-3.78, 5.02, -1.45]}
+                scale={3.65}
+            >
+                <meshStandardMaterial castShadow color='white' />
+            </mesh>
+        </group>
+    );
+}
+
+
+
+
+
+
+
+function Ground(props) {
+
+    return (
+        <mesh
+            {...props}
+            scale={200}
+            rotation={[-Math.PI / 2, 0, 0]}
+            castShadow
+            receiveShadow
+        >
+
+            <planeGeometry args={[1, 1, 1]} />
+            <meshStandardMaterial castShadow color='tomato' />
+
+        </mesh>
+
 
     )
 
-
 }
 
 
-const style = StyleSheet.create({
-    layout: {
-        flex: 1,
-        //alignItems: 'center',
+
+
+
+
+export default function TasksPage() {
+
+    const [viewLayer, setViewLayer] = useState([true, true, true, true, true])
+
+
+    const [OrbitControls, events] = useControls()
+
+    return (
+
+        <View {...events} style={{ flex: 1 }}>
+
+            <View style={styles.controllerView}>
+                <View style={styles.oneLayerControlView}>
+                    <Button title='Etage -1' onPress={() => setViewLayer([true, false, false, false, false, false])}>
+
+                    </Button>
+                </View>
+                <View style={styles.oneLayerControlView}>
+                    <Button title='Etage 0-1' onPress={() => setViewLayer([true, true, false, false, false, false])}>
+
+                    </Button>
+                </View>
+                <View style={styles.oneLayerControlView}>
+                    <Button title='Etage 2' onPress={() => setViewLayer([true, true, true, false, false, false])}>
+
+                    </Button>
+                </View>
+                <View style={styles.oneLayerControlView}>
+                    <Button title='Etage 3' onPress={() => setViewLayer([true, true, true, true, false, false])}>
+
+                    </Button>
+                </View>
+                <View style={styles.oneLayerControlView}>
+                    <Button title='Etage4' onPress={() => setViewLayer([true, true, true, true, true, false])}>
+
+                    </Button>
+                </View>
+                <View style={styles.oneLayerControlView}>
+                    <Button title='Gesamt' onPress={() => setViewLayer([true, true, true, true, true, true])}>
+
+                    </Button>
+                </View>
+            </View>
+
+            <Canvas shadows>
+                <color attach="background" args={['white']} />
+                <Ground />
+                <OrbitControls />
+                <ambientLight intensity={1} />
+                <directionalLight position={[10, 10, 10]} castShadow />
+                <fog attach="fog" args={["white", 10, 40]} />
+
+                <Suspense fallback={null}>
+                    <Model scale={1} vissl={viewLayer} />
+                </Suspense>
+
+            </Canvas>
+
+        </View >
+
+
+    )
+}
+
+
+const styles = StyleSheet.create({
+
+    controllerView: {
+        position: 'absolute',
+        width: 200,
+        backgroundColor: 'white',
+        top: 100,
+        left: 50,
+        padding: 20,
+        borderRadius: 10,
+
+        zIndex: 1
     },
+    oneLayerControlView: {
+        backgroundColor: '#f5f5f5',
 
-    sectionList: {
-        //width: '100%',
-        //flex: 1,
-
-
-    },
-    sectionListContainerStyle: {
-        //marginHorizontal: 20,
-        paddingTop: 140,
-        //marginBottom: 80
-    },
-
+    }
 
 })
-
-
-
-
-
-
-function generateUUID() {
-    var d = new Date().getTime();
-    if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
-        d += performance.now();
-    }
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx-xxxxxx3xx'.replace(/[xy]/g, function (c) {
-        var r = (d + Math.random() * 16) % 16 | 0;
-        d = Math.floor(d / 16);
-        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-    });
-}
-function addLeadingZeros(num, totalLength) {
-    return String(num).padStart(totalLength, '0');
-}

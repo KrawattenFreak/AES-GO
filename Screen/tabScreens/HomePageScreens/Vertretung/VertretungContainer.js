@@ -9,42 +9,113 @@ export default function VertretungContainer({ stunde, klasse, lehrkraft, art, fa
     let ioniconName = ''
     let ioniconColor = ''
 
-    switch (hinweis) {
-        case 'Entfall':
-            ioniconName = 'close-circle'
-            ioniconColor = 'red'
-            break
-        case 'Raum':
-            ioniconName = 'caret-up'
-            ioniconColor = 'orange'
-            break
+    if (hinweis == 'Entfall' || art == 'kein Präs.Unt.' || art == 'Selbststudium') {
+        ioniconName = 'close-circle'
+        ioniconColor = 'red'
 
-        default:
-            ioniconName = 'cloud-circle'
-            ioniconColor = 'green'
+    } else if (art == 'Raum') {
+        ioniconName = 'caret-up'
+        ioniconColor = 'orange'
 
+    } else if (art == 'Klausur') {
+        ioniconName = 'document'
+        ioniconColor = 'grey'
+
+    } else {
+        ioniconName = 'cloud-circle'
+        ioniconColor = 'green'
 
     }
 
 
 
 
+
+
     return (
+
+
+
+
         <View style={style_VertretungContainer.wrapper}>
 
-            <View style={style_VertretungContainer.leftView}>
+            {
+                (ioniconName == 'close-circle') ?
+                    <View style={style_VertretungContainer.leftView}>
 
 
-                <Ionicons name={ioniconName} size={30} color={ioniconColor} />
+                        <Ionicons name={ioniconName} size={30} color={ioniconColor} />
 
 
-                <Text style={style_VertretungContainer.hinweis}>
-                    {hinweis ? String(hinweis).toUpperCase() : "-"}
-                </Text>
+                        <Text style={style_VertretungContainer.hinweisENTFALL}>
+                            {hinweis ? String(hinweis).toUpperCase() : "-"}
+                        </Text>
 
 
 
-            </View>
+                    </View> :
+
+
+
+
+                    (ioniconName == 'caret-up') ?
+                        <View style={style_VertretungContainer.leftView}>
+
+                            <Ionicons name={ioniconName} size={30} color={ioniconColor} />
+
+
+                            <Text style={style_VertretungContainer.hinweisRAUM}>
+                                {raum ? String(raum).toUpperCase() : "-"}
+                            </Text>
+
+
+                        </View> :
+
+
+                        (ioniconName == 'document') ?
+                            <View style={style_VertretungContainer.leftView}>
+
+                                <Ionicons name={ioniconName} size={22} color={ioniconColor} />
+
+                                <Text style={style_VertretungContainer.hinweisKLAUSUR1}>
+                                    KLAUSUR IN
+                                </Text>
+
+                                <Text style={style_VertretungContainer.hinweisKLAUSUR2}>
+                                    {raum ? String(raum).toUpperCase() : "-"}
+                                </Text>
+
+
+                            </View> :
+
+
+
+                            <View style={style_VertretungContainer.leftView}>
+
+                                <Ionicons name={ioniconName} size={22} color={ioniconColor} />
+
+                                {art ?
+                                    <Text style={style_VertretungContainer.hinweisSONSTIGE3}>
+                                        {String(art).toUpperCase()}
+                                    </Text> : <View></View>
+                                }
+                                {hinweis ?
+                                    <Text style={style_VertretungContainer.hinweisSONSTIGE1}>
+                                        {String(hinweis).toUpperCase()}
+                                    </Text> : <View></View>
+                                }
+                                {raum ?
+                                    <Text style={style_VertretungContainer.hinweisSONSTIGE2}>
+                                        {String(raum).toUpperCase()}
+                                    </Text> : <View></View>
+                                }
+
+
+
+                            </View>
+            }
+
+
 
             <View style={style_VertretungContainer.middleView}>
 
@@ -160,9 +231,41 @@ const style_VertretungContainer = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    hinweis: {
+    hinweisENTFALL: {
         color: '#4E4E4E',
         fontSize: 11,
+        fontWeight: '300'
+    },
+    hinweisRAUM: {
+        color: '#4E4E4E',
+        fontSize: 15,
+        fontWeight: '800'
+    },
+
+    hinweisKLAUSUR1: {
+        marginTop: 3,
+        color: '#4E4E4E',
+        fontSize: 10,
+        fontWeight: '300'
+    },
+    hinweisKLAUSUR2: {
+        color: '#4E4E4E',
+        fontSize: 15,
+        fontWeight: '800'
+    },
+    hinweisSONSTIGE1: {
+        color: '#4E4E4E',
+        fontSize: 10,
+        fontWeight: '600'
+    },
+    hinweisSONSTIGE2: {
+        color: '#4E4E4E',
+        fontSize: 10,
+        fontWeight: '300'
+    },
+    hinweisSONSTIGE3: {
+        color: '#4E4E4E',
+        fontSize: 10,
         fontWeight: '300'
     }
     //--------

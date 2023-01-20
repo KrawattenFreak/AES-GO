@@ -59,7 +59,7 @@ function vertretungsplanHTMLParser(htmlString) {
 
     const $ = cheerio.load(htmlString);
 
-    $('h3').each((index1, ref1) => {
+    $('h3').not('.hidden-xs').each((index1, ref1) => {
 
         const date = $(ref1).text().slice(16)
 
@@ -140,9 +140,23 @@ function stundenplanFetch(sessionID, callback) {
 
         const Stundenplan = stundenplanHTMLParser(responseHTML)
 
-        AsyncStorage.setItem('stundenplan', JSON.stringify(Stundenplan)).then(() => {
-            //console.log(JSON.stringify(Stundenplan))
-            callback.call(this)
+        AsyncStorage.setItem('stundenplan', JSON.stringify(Stundenplan[0])).then(() => {
+
+
+
+            const kurse = [...new Set(Stundenplan[1])];
+
+            AsyncStorage.setItem('kurse', JSON.stringify({ data: kurse })).then(() => {
+
+
+                //console.log(JSON.stringify(kurse))
+
+
+
+                callback.call(this)
+
+            })
+
 
         })
 
@@ -153,6 +167,8 @@ function stundenplanFetch(sessionID, callback) {
 
 
 function stundenplanHTMLParser(htmlString) {
+
+    let persKurseArr = []
 
     let stundenplanDATA =
     {
@@ -204,6 +220,15 @@ function stundenplanHTMLParser(htmlString) {
                 $(ref2).find('.stunde').each((index3, ref3) => {
 
                     const fachDATA = $(ref3).find('b').text().replace(/\s/g, '')
+
+
+
+                    persKurseArr.push(fachDATA)
+
+                    //console.log(fachDATA)
+
+
+
                     const lehrkraftDATA = $(ref3).find('small').text().replace(/\s/g, '')
                     const stundenDATA = $(ref2).attr('rowspan')
 
@@ -299,7 +324,7 @@ function stundenplanHTMLParser(htmlString) {
     //------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------
 
-    return stundenplanDATA
+    return [stundenplanDATA, persKurseArr]
 
 }
 

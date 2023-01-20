@@ -1,113 +1,130 @@
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
-import { Asset } from 'expo-asset';
-import { Renderer } from 'expo-three';
-import { THREE } from 'expo-three';
-
-import * as React from 'react';
+import React, { useRef, useState, Suspense, useMemo } from 'react'
+import { Canvas, useFrame, useThree } from '@react-three/fiber/native'
+import { useGLTF, Environment, Grid, Stage, useTexture, useFBX } from '@react-three/drei/native'
+import useControls from "r3f-native-orbitcontrols"
 import {
-    AmbientLight,
-    Fog,
-    PerspectiveCamera,
-    PointLight,
-    Scene,
-    SpotLight,
-} from 'three';
-import { GLView } from 'expo-gl';
+    View, Text, StyleSheet, Button
+} from 'react-native';
+import * as THREE from 'three';
+
+import AESModel from './3DViewPageScreens/AES3D';
+
+
+
+function Ground(props) {
+
+    return (
+        <mesh
+            {...props}
+            scale={200}
+            rotation={[-Math.PI / 2, 0, 0]}
+            castShadow
+            receiveShadow
+        >
+
+            <planeGeometry args={[1, 1, 1]} />
+            <meshStandardMaterial castShadow color='tomato' />
+
+        </mesh>
+
+
+    )
+
+}
+
+
+
+
 
 
 export default function TasksPage() {
 
-    let timeout;
+    const [viewLayer, setViewLayer] = useState([true, true, true, true, true])
 
-    React.useEffect(() => {
-        // Clear the animation loop when the component unmounts
-        return () => clearTimeout(timeout);
-    }, []);
+
+    const [OrbitControls, events] = useControls()
+
+
+
+    let camera = new THREE.PerspectiveCamera(90, 1.5, 0.1, 1000);
+    let [x, y, z] = [0, 30, 20];
+    camera.position.set(x, y, z);
+
 
 
     return (
-        <GLView
-            style={{ flex: 1 }}
-            onContextCreate={async (gl) => {
-                const { drawingBufferWidth: width, drawingBufferHeight: height } = gl;
-                const sceneColor = 668096;
 
-                // Create a WebGLRenderer without a DOM element
-                const renderer = new Renderer({ gl });
-                renderer.setSize(width, height);
-                renderer.setClearColor(0x668096);
+        <View {...events} style={{ flex: 1 }}>
 
-                const camera = new PerspectiveCamera(70, width / height, 0.01, 1000);
-                camera.position.set(2, 5, 5);
+            <View style={styles.controllerView}>
+                <View style={styles.oneLayerControlView}>
+                    <Button title='Etage -1' onPress={() => setViewLayer([true, false, false, false, false, false])}>
 
-                const scene = new Scene();
-                scene.fog = new Fog(sceneColor, 1, 10000);
+                    </Button>
+                </View>
+                <View style={styles.oneLayerControlView}>
+                    <Button title='Etage 0-1' onPress={() => setViewLayer([true, true, false, false, false, false])}>
 
-                const ambientLight = new AmbientLight(0x101010);
-                scene.add(ambientLight);
+                    </Button>
+                </View>
+                <View style={styles.oneLayerControlView}>
+                    <Button title='Etage 2' onPress={() => setViewLayer([true, true, true, false, false, false])}>
 
-                const pointLight = new PointLight(0xffffff, 2, 1000, 1);
-                pointLight.position.set(0, 200, 200);
-                scene.add(pointLight);
+                    </Button>
+                </View>
+                <View style={styles.oneLayerControlView}>
+                    <Button title='Etage 3' onPress={() => setViewLayer([true, true, true, true, false, false])}>
 
-                const spotLight = new SpotLight(0xffffff, 0.5);
-                spotLight.position.set(0, 500, 100);
-                spotLight.lookAt(scene.position);
-                scene.add(spotLight);
+                    </Button>
+                </View>
+                <View style={styles.oneLayerControlView}>
+                    <Button title='Etage4' onPress={() => setViewLayer([true, true, true, true, true, false])}>
 
-                const asset = Asset.fromModule(require("./AESLowPoly.obj"));
-                await asset.downloadAsync();
+                    </Button>
+                </View>
+                <View style={styles.oneLayerControlView}>
+                    <Button title='Gesamt' onPress={() => setViewLayer([true, true, true, true, true, true])}>
 
-                // instantiate a loader
-                const loader = new OBJLoader();
+                    </Button>
+                </View>
+            </View>
 
-                // load a resource
-                loader.load(
-                    // resource URL
-                    asset.localUri,
-                    // called when resource is loaded
-                    function (object) {
-                        //object.scale.set(0.065, 0.065, 0.065)
-                        scene.add(object);
-                        camera.lookAt(object.position)
-                        //rotate my obj file
-                        function rotateObject(object, degreeX = 0, degreeY = 0, degreeZ = 0) {
-                            object.rotateX(THREE.MathUtils.DEG2RAD.valueOf(degreeX));
-                            object.rotateY(THREE.MathUtils.DEG2RAD.valueOf(degreeY));
-                            object.rotateZ(THREE.MathUtils.DEG2RAD.valueOf(degreeZ));
-                        }
+            <Canvas shadows camera={camera}>
+                <color attach="background" args={['white']} />
+                <Ground />
+                <OrbitControls />
+                <ambientLight intensity={0.5} />
+                <directionalLight position={[10, 30, 10]} castShadow />
+                <fog attach="fog" args={["white", 20, 60]} />
 
-                        // usage:
-                        rotateObject(object, 0, 0, 70);
+                <AESModel position={[0, 1, 0]} vissl={viewLayer} scale={8} />
 
-                        //animate rotation
-                        function update() {
-                            object.rotation.x += 0.015
-                        }
-                        const render = () => {
-                            timeout = requestAnimationFrame(render);
-                            update();
-                            renderer.render(scene, camera);
-                            gl.endFrameEXP();
-                        };
-                        render();
-                    },
 
-                    // called when loading is in progresses
-                    function (xhr) {
+            </Canvas>
 
-                        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        </View >
 
-                    },
-                    // called when loading has errors
-                    function (error) {
 
-                        console.log(error);
-
-                    }
-
-                );
-            }}
-        />
-    );
+    )
 }
+
+
+const styles = StyleSheet.create({
+
+    controllerView: {
+        position: 'absolute',
+        width: 200,
+        backgroundColor: 'white',
+        top: 100,
+        left: 50,
+        padding: 20,
+        borderRadius: 10,
+
+        zIndex: 1
+    },
+    oneLayerControlView: {
+        backgroundColor: '#f5f5f5',
+
+    }
+
+})

@@ -8,6 +8,7 @@ import SettingsPage from './tabScreens/SettingsPage';
 import EventsPage from './tabScreens/EventsPage';
 import TasksPage from './tabScreens/Tasks';
 
+
 //import NewsPage from './tabScreens/NewsPage';
 
 
@@ -35,8 +36,11 @@ export default function TabNavigationRoutes() {
 
                         iconName = focused ? 'newspaper' : 'newspaper-outline';
 
-                    } else if (route.name === 'Tasks') {
+                    } else if (route.name === 'MySchool') {
                         iconName = focused ? 'library' : 'library-outline';
+
+                    } else if (route.name === '3D') {
+                        iconName = focused ? 'cube' : 'cube-outline';
 
                     } else if (route.name === 'Events') {
                         iconName = focused ? 'receipt' : 'receipt-outline';
@@ -53,9 +57,9 @@ export default function TabNavigationRoutes() {
                 headerShown: false
             })}
         >
-            <Tab.Screen name="Home" component={HomePage} />
+            <Tab.Screen name="MySchool" component={HomePage} />
             <Tab.Screen name="News" component={NewsPage} />
-            <Tab.Screen name="Tasks" component={HomePage} />
+            <Tab.Screen name="3D" component={TasksPage} />
             <Tab.Screen name="Events" component={EventsPage} />
             <Tab.Screen name="Settings" component={SettingsPage} />
 
