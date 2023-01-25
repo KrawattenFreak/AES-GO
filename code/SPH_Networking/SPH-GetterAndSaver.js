@@ -149,11 +149,12 @@ function stundenplanFetch(sessionID, callback) {
             AsyncStorage.setItem('kurse', JSON.stringify({ data: kurse })).then(() => {
 
 
-                //console.log(JSON.stringify(kurse))
+                const aktuelleWoche = Stundenplan[2]
+                AsyncStorage.setItem('aktuelleWoche', aktuelleWoche).then(() => {
 
 
-
-                callback.call(this)
+                    callback.call(this)
+                })
 
             })
 
@@ -324,7 +325,18 @@ function stundenplanHTMLParser(htmlString) {
     //------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------
 
-    return [stundenplanDATA, persKurseArr]
+
+    let aktuelleWoche
+
+    $('#aktuelleWoche').each((index10, ref10) => {
+
+        aktuelleWoche = $(ref10).text()
+
+    })
+
+
+
+    return [stundenplanDATA, persKurseArr, aktuelleWoche]
 
 }
 
