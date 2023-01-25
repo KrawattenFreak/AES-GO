@@ -1,0 +1,119 @@
+import React, { useRef, useState, Suspense, useMemo } from 'react'
+import { Canvas, useFrame, useThree } from '@react-three/fiber/native'
+import { useGLTF, Environment, Grid, Stage } from '@react-three/drei/native'
+import useControls from "r3f-native-orbitcontrols"
+import {
+    View,
+} from 'react-native';
+
+import { Lightmap } from '@react-three/lightmap';
+
+//import { EffectComposer } from 'postprocessing';
+
+import modelPath from '../../assets/3D/AESLowPoly.glb'
+
+function Model(props) {
+
+    //const material = useMemo(() => new THREE.MeshBasicMaterial({ color: 'orange' }), [color])
+
+
+    const mesh = useRef(null)
+    const { scene, nodes } = useGLTF(modelPath)
+    return (
+        <group {...props} dispose={null}>
+            <mesh
+
+
+                castShadow
+                receiveShadow
+                geometry={nodes.BWall1.geometry}
+                material={nodes.BWall1.material}
+                position={[-0.5, 0.08, -0.92]}
+                rotation={[0, 0, Math.PI / 2]}
+                scale={0.42}
+            >
+                    <meshStandardMaterial color={'orange'} />
+            </mesh>
+
+
+
+        </group>
+    );
+}
+
+
+
+
+
+function Box(props) {
+    const mesh = useRef(null)
+    const [hovered, setHover] = useState(false)
+    const [active, setActive] = useState(false)
+    useFrame((state, delta) => (mesh.current.rotation.x += 0.01))
+    return (
+        <mesh
+            {...props}
+            ref={mesh}
+            scale={active ? 1.5 : 1}
+            onClick={(event) => setActive(!active)}
+            onPointerOver={(event) => setHover(true)}
+            onPointerOut={(event) => setHover(false)}>
+            <boxGeometry args={[1, 1, 1]} />
+            <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'}
+                castShadow
+                receiveShadow />
+
+        </mesh>
+    )
+}
+
+function Ground(props) {
+
+    return (
+        <mesh
+            {...props}
+            scale={8}
+            rotation={[-Math.PI / 2, 0, 0]}
+        >
+
+            <planeGeometry args={[1, 1, 1]} />
+            <meshStandardMaterial color={'hotpink'} />
+
+        </mesh>
+    )
+
+}
+
+
+
+
+
+
+export default function TasksPage() {
+
+    const [OrbitControls, events] = useControls()
+
+    return (
+
+        <View {...events} style={{ flex: 1 }}>
+            <Canvas shadows>
+                <color attach="background" args={['white']} />
+                <Ground />
+                <OrbitControls />
+                <ambientLight intensity={1} />
+                <pointLight position={[10, 10, 10]} castShadow />
+
+
+                <Model scale={8} />
+
+
+                {/* Place the scene elements here as usual */}
+            </Canvas>
+
+        </View >
+
+
+    )
+}
+
+

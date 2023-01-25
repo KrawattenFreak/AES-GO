@@ -1,272 +1,590 @@
-import React, { useRef, useState, Suspense, useMemo } from 'react'
-import { Canvas, useFrame, useThree } from '@react-three/fiber/native'
-import { useGLTF, Environment, Grid, Stage, useTexture, useFBX } from '@react-three/drei/native'
-import useControls from "r3f-native-orbitcontrols"
-import {
-    View, Text, StyleSheet, Button
-} from 'react-native';
-
-
-
-import modelPath from '../../assets/3D/AESLowPolyREADY.glb'
-import ao0gPath from '../../assets/3D/AO/AOGround0.png'
-import ao0wPath from '../../assets/3D/AO/AOWall0.png'
-
-
-
-function Model(props) {
-
-
-
-    const mesh = useRef(null)
-    const { scene, nodes } = useGLTF(modelPath)
-
-    const ao0g = useTexture(ao0gPath)
-    const ao0w = useTexture(ao0wPath)
-
-
-
-    return (
-        <group {...props} dispose={null}>
-            < mesh
+<mesh
                 castShadow
                 receiveShadow
-                geometry={nodes["0VIEWGround"].geometry}
-                visible={props.vissl[0]}
-                position={[4.63, 0.12, -0.74]}
-                scale={8.76}
+                geometry={nodes.C11.geometry}
+                visible={rooms.C11 && props.vissl[0]}
 
-
+                position={[-0.9874718, 0.0651544, -3.1685798]}
             >
-
-                <meshPhysicalMaterial castShadow color='#46d4cd' attach={'material'} map={ao0g} />
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
             </mesh>
             <mesh
                 castShadow
                 receiveShadow
-                geometry={nodes["0VIEWWalls"].geometry}
-                visible={props.vissl[0]}
-                position={[-1.77, 0.54, 1.58]}
-                rotation={[0, 0, -Math.PI / 2]}
-                scale={8.76}
+                geometry={nodes.C12.geometry}
+                visible={rooms.C12 && props.vissl[0]}
+
+                position={[-0.6250277, 0.0706644, -3.08796]}
             >
-                <meshStandardMaterial castShadow color='white' attach={'material'} map={ao0w} />
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
             </mesh>
             <mesh
                 castShadow
                 receiveShadow
-                geometry={nodes["1VIEWGround"].geometry}
-                visible={props.vissl[1]}
-                position={[3.17, 1.76, -1.79]}
+                geometry={nodes.C13.geometry}
+                visible={rooms.C13 && props.vissl[0]}
 
-                scale={3.63}
+                position={[-0.2836982, 0.0706645, -3.0120687]}
             >
-                <meshStandardMaterial castShadow color='#46d4cd' />
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
             </mesh>
             <mesh
                 castShadow
                 receiveShadow
-                geometry={nodes["1VIEWWalls"].geometry}
-                visible={props.vissl[1]}
-                position={[0.84, 2.43, -0.5]}
-                rotation={[0, 0, -Math.PI / 2]}
-                scale={2.89}
+                geometry={nodes.C14.geometry}
+                visible={rooms.C14 && props.vissl[0]}
+
+                position={[0.0545454, 0.0706644, -2.9367959]}
             >
-                <meshStandardMaterial castShadow color='white' />
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
             </mesh>
             <mesh
                 castShadow
                 receiveShadow
-                geometry={nodes["2VIEWWalls"].geometry}
-                visible={props.vissl[2]}
-                position={[-2.96, 3.85, -1.63]}
-                rotation={[0, 0, -Math.PI / 2]}
-                scale={2.89}
+                geometry={nodes.C15.geometry}
+                visible={rooms.C15 && props.vissl[0]}
+
+                position={[0.7266732, 0.0706645, -2.7872455]}
             >
-                <meshStandardMaterial castShadow color='white' />
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
             </mesh>
             <mesh
                 castShadow
                 receiveShadow
-                geometry={nodes["2VIEWGround"].geometry}
-                visible={props.vissl[2]}
-                position={[-2.88, 3.03, -2.28]}
+                geometry={nodes.C16.geometry}
+                visible={rooms.C16 && props.vissl[0]}
 
-                scale={3.65}
+                position={[1.0638076, 0.0706646, -2.7122276]}
             >
-                <meshStandardMaterial castShadow color='#46d4cd' />
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
             </mesh>
             <mesh
                 castShadow
                 receiveShadow
-                geometry={nodes["3VIEWGround"].geometry}
-                visible={props.vissl[3]}
-                position={[3.54, 4, -0.49]}
+                geometry={nodes.C17.geometry}
+                visible={rooms.C17 && props.vissl[0]}
 
-                scale={3.65}
+                position={[1.397139, 0.0706646, -2.6380558]}
             >
-                <meshStandardMaterial castShadow color='#46d4cd' />
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
             </mesh>
             <mesh
                 castShadow
                 receiveShadow
-                geometry={nodes["3VIEWWalls"].geometry}
-                visible={props.vissl[3]}
-                position={[2.28, 4.87, 1.28]}
-                rotation={[0, 0, -Math.PI / 2]}
-                scale={2.89}
+                geometry={nodes.C18.geometry}
+                visible={rooms.C18 && props.vissl[0]}
+
+                position={[1.7430981, 0.0706644, -2.5610197]}
             >
-                <meshStandardMaterial castShadow color='white' />
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
             </mesh>
             <mesh
                 castShadow
                 receiveShadow
-                geometry={nodes["4VIEWWalls"].geometry}
-                visible={props.vissl[4]}
-                position={[0.75, 6.11, -0.94]}
-                rotation={[0, 0, -Math.PI / 2]}
-                scale={2.89}
+                geometry={nodes.C21.geometry}
+                visible={rooms.C21 && props.vissl[1]}
+
+                position={[-0.9874718, 0.2828777, -3.1685798]}
             >
-                <meshStandardMaterial castShadow color='white' />
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
             </mesh>
             <mesh
                 castShadow
                 receiveShadow
-                geometry={nodes["4VIEWGround"].geometry}
-                visible={props.vissl[4]}
-                position={[0.75, 6.11, -0.94]}
-                rotation={[0, 0, -Math.PI / 2]}
-                scale={2.89}
+                geometry={nodes.C22.geometry}
+                visible={rooms.C22 && props.vissl[1]}
+
+                position={[-0.6250277, 0.2883877, -3.08796]}
             >
-                <meshStandardMaterial castShadow color='#46d4cd' />
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
             </mesh>
             <mesh
                 castShadow
                 receiveShadow
-                geometry={nodes.Dach.geometry}
-                visible={props.vissl[5]}
-                position={[-3.78, 5.02, -1.45]}
-                scale={3.65}
+                geometry={nodes.C23.geometry}
+                visible={rooms.C23 && props.vissl[1]}
+
+                position={[-0.2836982, 0.2883877, -3.0120687]}
             >
-                <meshStandardMaterial castShadow color='white' />
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
             </mesh>
-        </group>
-    );
-}
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.C24.geometry}
+                visible={rooms.C24 && props.vissl[1]}
 
+                position={[0.0545454, 0.2883877, -2.9367959]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.C25.geometry}
+                visible={rooms.C25 && props.vissl[1]}
 
+                position={[0.7266732, 0.2883877, -2.7872455]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.C26.geometry}
+                visible={rooms.C26 && props.vissl[1]}
 
+                position={[1.0638076, 0.2883878, -2.7122276]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.C27.geometry}
+                visible={rooms.C27 && props.vissl[1]}
 
+                position={[1.397139, 0.2883879, -2.6380558]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.C28.geometry}
+                visible={rooms.C28 && props.vissl[1]}
 
+                position={[1.7430981, 0.2883877, -2.5610197]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.C31.geometry}
+                visible={rooms.C31 && props.vissl[2]}
 
+                position={[-0.9874718, 0.5004085, -3.1685798]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.C32.geometry}
+                visible={rooms.C32 && props.vissl[2]}
 
-function Ground(props) {
+                position={[-0.6250277, 0.5059185, -3.08796]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.C33.geometry}
+                visible={rooms.C33 && props.vissl[2]}
 
-    return (
-        <mesh
-            {...props}
-            scale={200}
-            rotation={[-Math.PI / 2, 0, 0]}
-            castShadow
-            receiveShadow
-        >
+                position={[-0.2836982, 0.5059186, -3.0120687]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.C34.geometry}
+                visible={rooms.C34 && props.vissl[2]}
 
-            <planeGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial castShadow color='tomato' />
+                position={[0.0545454, 0.5059185, -2.9367959]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.C35.geometry}
+                visible={rooms.C35 && props.vissl[2]}
 
-        </mesh>
+                position={[0.7266732, 0.5059186, -2.7872455]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.C36.geometry}
+                visible={rooms.C36 && props.vissl[2]}
 
+                position={[1.0638076, 0.5059186, -2.7122276]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.C37.geometry}
+                visible={rooms.C37 && props.vissl[2]}
 
-    )
+                position={[1.397139, 0.5059187, -2.6380558]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.C38.geometry}
+                visible={rooms.C38 && props.vissl[2]}
 
-}
+                position={[1.7430981, 0.5059185, -2.5610197]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B504.geometry}
+                visible={rooms.B504 && props.vissl[3]}
 
+                position={[0.9958929, 0.5027511, -0.9924651]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B503.geometry}
+                visible={rooms.B503 && props.vissl[3]}
 
+                position={[0.9958929, 0.5027511, -0.3300216]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B501.geometry}
+                visible={rooms.B501 && props.vissl[3]}
 
+                position={[0.3565488, 0.5027511, -0.1992079]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B403.geometry}
+                visible={rooms.B403 && props.vissl[2]}
 
+                position={[-0.2896996, 0.4026741, -0.9617347]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B404.geometry}
+                visible={rooms.B404 && props.vissl[2]}
 
+                position={[-0.2896996, 0.4026741, -1.2397499]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B402.geometry}
+                visible={rooms.B402 && props.vissl[2]}
 
-export default function TasksPage() {
+                position={[-0.3214126, 0.4026741, -0.6191269]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B201.geometry}
+                visible={rooms.B201 && props.vissl[1]}
 
-    const [viewLayer, setViewLayer] = useState([true, true, true, true, true])
+                position={[-0.3675849, 0.178829, -0.9050451]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B301.geometry}
+                visible={rooms.B301 && props.vissl[1]}
 
+                position={[0.4404265, 0.2897463, -0.2707966]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B302.geometry}
+                visible={rooms.B302 && props.vissl[1]}
 
-    const [OrbitControls, events] = useControls()
+                position={[0.9958927, 0.2897463, -0.2904456]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B304.geometry}
+                visible={rooms.B304 && props.vissl[1]}
 
-    return (
+                position={[0.9958927, 0.2897463, -1.0866237]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B103.geometry}
+                visible={rooms.B103 && props.vissl[0]}
 
-        <View {...events} style={{ flex: 1 }}>
+                position={[1.4871002, 0.0706595, -0.5342053]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B102.geometry}
+                visible={rooms.B102 && props.vissl[0]}
 
-            <View style={styles.controllerView}>
-                <View style={styles.oneLayerControlView}>
-                    <Button title='Etage -1' onPress={() => setViewLayer([true, false, false, false, false, false])}>
+                position={[1.3941406, 0.0706595, -0.2056877]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B101.geometry}
+                visible={rooms.B101 && props.vissl[0]}
 
-                    </Button>
-                </View>
-                <View style={styles.oneLayerControlView}>
-                    <Button title='Etage 0-1' onPress={() => setViewLayer([true, true, false, false, false, false])}>
+                position={[0.9260171, 0.0706595, -0.2056877]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B105.geometry}
+                visible={rooms.B105 && props.vissl[0]}
 
-                    </Button>
-                </View>
-                <View style={styles.oneLayerControlView}>
-                    <Button title='Etage 2' onPress={() => setViewLayer([true, true, true, false, false, false])}>
+                position={[1.3941402, 0.0706593, -1.2020868]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.B104.geometry}
+                visible={rooms.B104 && props.vissl[0]}
 
-                    </Button>
-                </View>
-                <View style={styles.oneLayerControlView}>
-                    <Button title='Etage 3' onPress={() => setViewLayer([true, true, true, true, false, false])}>
+                osition={[1.3941402, 0.0706593, -0.8696029]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A101.geometry}
+                visible={rooms.A101 && props.vissl[1]}
 
-                    </Button>
-                </View>
-                <View style={styles.oneLayerControlView}>
-                    <Button title='Etage4' onPress={() => setViewLayer([true, true, true, true, true, false])}>
+                position={[0.4856721, 0.0909141, 1.7966301]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A102.geometry}
+                visible={rooms.A102 && props.vissl[1]}
 
-                    </Button>
-                </View>
-                <View style={styles.oneLayerControlView}>
-                    <Button title='Gesamt' onPress={() => setViewLayer([true, true, true, true, true, true])}>
+                position={[0.4856721, 0.0909141, 2.1443849]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A103.geometry}
+                visible={rooms.A103 && props.vissl[1]}
 
-                    </Button>
-                </View>
-            </View>
+                position={[0.4856721, 0.0909141, 2.4915569]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A104.geometry}
+                visible={rooms.A104 && props.vissl[1]}
 
-            <Canvas shadows>
-                <color attach="background" args={['white']} />
-                <Ground />
-                <OrbitControls />
-                <ambientLight intensity={1} />
-                <directionalLight position={[10, 10, 10]} castShadow />
-                <fog attach="fog" args={["white", 10, 40]} />
+                position={[0.4929026, 0.0909141, 3.0153573]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A105.geometry}
+                visible={rooms.A105 && props.vissl[1]}
 
-                <Suspense fallback={null}>
-                    <Model scale={1} vissl={viewLayer} />
-                </Suspense>
+                position={[0.8510993, 0.0909141, 3.0153573]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A106.geometry}
+                visible={rooms.A106 && props.vissl[1]}
 
-            </Canvas>
+                position={[1.1993546, 0.0909141, 3.0153573]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A107.geometry}
+                visible={rooms.A107 && props.vissl[1]}
 
-        </View >
+                position={[1.5349344, 0.0909141, 3.0153573]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A108.geometry}
+                visible={rooms.A108 && props.vissl[1]}
 
+                position={[1.8676444, 0.0909141, 3.0153573]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A109.geometry}
+                visible={rooms.A109 && props.vissl[1]}
 
-    )
-}
+                position={[1.980903, 0.0909141, 2.2610955]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A110.geometry}
+                visible={rooms.A110 && props.vissl[1]}
 
+                position={[1.980903, 0.0909141, 1.9167588]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A111.geometry}
+                visible={rooms.A111 && props.vissl[1]}
 
-const styles = StyleSheet.create({
+                position={[2.061739, 0.0909141, 1.508172]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A112.geometry}
+                visible={rooms.A112 && props.vissl[1]}
 
-    controllerView: {
-        position: 'absolute',
-        width: 200,
-        backgroundColor: 'white',
-        top: 100,
-        left: 50,
-        padding: 20,
-        borderRadius: 10,
+                position={[1.6938344, 0.0909141, 1.4491345]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A113.geometry}
+                visible={rooms.A113 && props.vissl[1]}
 
-        zIndex: 1
-    },
-    oneLayerControlView: {
-        backgroundColor: '#f5f5f5',
+                position={[1.3030345, 0.0909141, 1.4491345]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A204.geometry}
+                visible={rooms.A204 && props.vissl[2]}
 
-    }
+                position={[0.4909991, 0.2725604, 3.0153575]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A205.geometry}
+                visible={rooms.A205 && props.vissl[2]}
 
-})
+                position={[0.8560672, 0.2725604, 3.0153575]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A206.geometry}
+                visible={rooms.A206 && props.vissl[2]}
+
+                position={[1.2378983, 0.2725604, 3.0153575]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A207.geometry}
+                visible={rooms.A207 && props.vissl[2]}
+
+                position={[1.5604262, 0.2725604, 3.0153575]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A208.geometry}
+                visible={rooms.A208 && props.vissl[2]}
+
+                position={[1.861464, 0.2725604, 3.0153575]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A209.geometry}
+                visible={rooms.A209 && props.vissl[2]}
+
+                position={[1.9778247, 0.2725604, 2.2605011]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.A210.geometry}
+                visible={rooms.A210 && props.vissl[2]}
+
+                position={[1.9778247, 0.2725604, 1.9163648]}
+            >
+                <meshBasicMaterial castShadow color='red' opacity={0.4} transparent attach={'material'} />
+            </mesh>

@@ -48,7 +48,7 @@ function VertretungContainer() {
         AsyncStorage.getItem('kurse').then((valueKurse) => {
             AsyncStorage.getItem('vertretung').then((valueVertretungsplan) => {
 
-                //console.log(valueVertretungsplan)
+                //console.log(valueKurse)
 
                 const valueVertretungsplanJSON = JSON.parse(valueVertretungsplan)[0]
                 const valuevalueKurseJSON = JSON.parse(valueKurse)
@@ -57,13 +57,17 @@ function VertretungContainer() {
 
                     valuevalueKurseJSON.data.forEach(myKursEntry => {
 
+
+
                         if (vertretungEntry.fach.includes(myKursEntry)) {
+                            //console.log(vertretungEntry.art)
 
                             if (vertretungEntry.hinweis == 'Entfall' || vertretungEntry.art == 'kein Präs.Unt.' || vertretungEntry.art == 'Selbststudium') {
                                 dataVertretungVar.push({ fach: myKursEntry, type: 'entfall', stunde: vertretungEntry.stunde, lehrkraft: vertretungEntry.lehrkraft })
-
                             } else if (vertretungEntry.art == 'Raum') {
                                 dataVertretungVar.push({ fach: myKursEntry, type: 'raum', stunde: vertretungEntry.stunde, lehrkraft: vertretungEntry.lehrkraft, raum: vertretungEntry.raum, raum_alt: vertretungEntry.raum_alt })
+                            } else if (vertretungEntry.art == 'Klausur') {
+                                dataVertretungVar.push({ fach: myKursEntry, type: 'klausur', stunde: vertretungEntry.stunde, raum: vertretungEntry.raum })
                             } else {
                                 dataVertretungVar.push({ fach: myKursEntry, type: '-', art: vertretungEntry.art, stunde: vertretungEntry.stunde, lehrkraft: vertretungEntry.lehrkraft, raum: vertretungEntry.raum })
                             }
@@ -142,36 +146,61 @@ function VertretungContainer() {
                                             </Text>
 
                                         </View>
-                                        <Ionicons name={'close-circle'} size={20} color={'white'} />
+                                        <Ionicons name={'caret-up'} size={20} color={'white'} />
                                     </View> :
 
+                                    (data.type == 'klausur') ?
 
 
-                                    <View style={style.VertretungEntrySONSTIGEView} key={generateUUID()}>
-                                        <Text style={style.VertretungEntryTextStunde}>
-                                            {data.stunde}
-                                        </Text>
-                                        <View style={style.VertretungEntryViewMiddle}>
+                                        <View style={style.VertretungEntryKLAUSURView} key={generateUUID()}>
+                                            <Text style={style.VertretungEntryTextStunde}>
+                                                {data.stunde}
+                                            </Text>
+                                            <View style={style.VertretungEntryViewMiddle}>
 
-                                            <Text style={style.VertretungEntryTextFett}>
-                                                {data.art} { }
-                                            </Text>
-                                            <Text style={style.VertretungEntryTextFett}>
-                                                {data.fach} { }
-                                            </Text>
-                                            <Text style={style.VertretungEntryTextLight}>
-                                                bei { }
-                                            </Text>
-                                            <Text style={style.VertretungEntryTextFett}>
-                                                {data.lehrkraft} { }
-                                            </Text>
-                                            <Text style={style.VertretungEntryTextFett}>
-                                                {data.raum} { }
-                                            </Text>
+                                                <Text style={style.VertretungEntryTextLight}>
+                                                    Klausur { }
+                                                </Text>
+                                                <Text style={style.VertretungEntryTextFett}>
+                                                    {data.fach} { }
+                                                </Text>
+                                                <Text style={style.VertretungEntryTextLight}>
+                                                    in { }
+                                                </Text>
 
+                                                <Text style={style.VertretungEntryTextFett}>
+                                                    {data.raum} { }
+                                                </Text>
+
+                                            </View>
+                                            <Ionicons name={'document'} size={20} color={'white'} />
+                                        </View> :
+
+                                        <View style={style.VertretungEntrySONSTIGEView} key={generateUUID()}>
+                                            <Text style={style.VertretungEntryTextStunde}>
+                                                {data.stunde}
+                                            </Text>
+                                            <View style={style.VertretungEntryViewMiddle}>
+
+                                                <Text style={style.VertretungEntryTextFett}>
+                                                    {data.art} { }
+                                                </Text>
+                                                <Text style={style.VertretungEntryTextFett}>
+                                                    {data.fach} { }
+                                                </Text>
+                                                <Text style={style.VertretungEntryTextLight}>
+                                                    bei { }
+                                                </Text>
+                                                <Text style={style.VertretungEntryTextFett}>
+                                                    {data.lehrkraft} { }
+                                                </Text>
+                                                <Text style={style.VertretungEntryTextFett}>
+                                                    {data.raum} { }
+                                                </Text>
+
+                                            </View>
+                                            <Ionicons name={'cloud-circle'} size={20} color={'white'} />
                                         </View>
-                                        <Ionicons name={'close-circle'} size={20} color={'white'} />
-                                    </View>
                         )
 
 
@@ -237,10 +266,8 @@ const style = StyleSheet.create({
     },
     myVertretungView: {
         width: '100%',
-        //backgroundColor: 'blue'
     },
     vertretungHeaderView: {
-        //backgroundColor: 'red'
         marginBottom: 20,
         flexDirection: 'row',
         alignItems: 'center'
@@ -255,7 +282,7 @@ const style = StyleSheet.create({
     VertretungEntryENTFALLView: {
         alignItems: 'center',
         backgroundColor: 'red',
-        borderRadius: '10',
+        borderRadius: 10,
         paddingHorizontal: 20,
         paddingVertical: 6,
 
@@ -281,7 +308,7 @@ const style = StyleSheet.create({
     VertretungEntryRAUMView: {
         alignItems: 'center',
         backgroundColor: 'orange',
-        borderRadius: '10',
+        borderRadius: 10,
         paddingHorizontal: 20,
         paddingVertical: 6,
 
@@ -305,7 +332,30 @@ const style = StyleSheet.create({
     VertretungEntrySONSTIGEView: {
         alignItems: 'center',
         backgroundColor: 'green',
-        borderRadius: '10',
+        borderRadius: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 6,
+
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+
+
+        //SHADOW
+        shadowColor: "green",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+
+        elevation: 4,
+        marginBottom: 5
+    },
+    VertretungEntryKLAUSURView: {
+        alignItems: 'center',
+        backgroundColor: 'grey',
+        borderRadius: 10,
         paddingHorizontal: 20,
         paddingVertical: 6,
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text } from 'react-native';
+import { RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text, Touchable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import 'react-native-gesture-handler'
 
@@ -7,14 +7,44 @@ import 'react-native-gesture-handler'
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import Loader from '../../Components/Loader';
 import HintStundenplan from '../../Components/Hints/HintStundenplan';
+import { TouchableOpacity } from 'react-native';
+
+
+
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
+
 
 
 export default function HomeScreenStundenplan({ navigation }) {
 
     const [visibleHint, setVisibleHint] = useState(true)
+
+    return (
+        <>
+            <HintStundenplan visible={visibleHint} onPress={() => {
+
+                setVisibleHint(false)
+
+            }} />
+            <HomeScreenStundenplanPage navigation={navigation} />
+
+        </>
+    )
+
+}
+
+
+
+function HomeScreenStundenplanPage({ navigation }) {
+
+
+
     const [loading, setLoading] = useState(true)
     const [stundenplanData, setStundenplanData] = useState({})
     const [state, setState] = useState(0)
+
 
     //const faecher2 = { "own": { "montag": { "1": { "data": [{ "fach": "P1", "raum": "B501", "lehrkraft": "EVE", "woche": "all" }], "stunden": "2" }, "3": { "data": [{ "fach": "et5", "raum": "B501", "lehrkraft": "STE", "woche": "all" }], "stunden": "2" }, "8": { "data": [{ "fach": "e5", "raum": "A106", "lehrkraft": "MRK", "woche": "WA" }], "stunden": "2" }, "10": { "data": [{ "fach": "pw5", "raum": "A102", "lehrkraft": "DEB", "woche": "WA" }, { "fach": "M1", "raum": "B504", "lehrkraft": "HIE", "woche": "WB" }], "stunden": "2" } }, "dienstag": { "1": { "data": [{ "fach": "d6", "raum": "A106", "lehrkraft": "KLE", "woche": "all" }], "stunden": "2" }, "3": { "data": [{ "fach": "M1", "raum": "A209", "lehrkraft": "HIE", "woche": "all" }], "stunden": "2" } }, "mittwoch": { "1": { "data": [{ "fach": "d6", "raum": "A109", "lehrkraft": "KLE", "woche": "all" }], "stunden": "2" }, "3": { "data": [{ "fach": "e5", "raum": "A204", "lehrkraft": "MRK", "woche": "all" }], "stunden": "2" }, "8": { "data": [{ "fach": "mu5", "raum": "A204", "lehrkraft": "BRN", "woche": "all" }], "stunden": "2" }, "10": { "data": [{ "fach": "P1", "raum": "B503", "lehrkraft": "EVE", "woche": "WB" }], "stunden": "2" } }, "donnerstag": { "1": { "data": [{ "fach": "M1", "raum": "A111", "lehrkraft": "HIE", "woche": "all" }], "stunden": "2" }, "3": { "data": [{ "fach": "P1", "raum": "B503", "lehrkraft": "EVE", "woche": "all" }], "stunden": "2" }, "5": { "data": [{ "fach": "pw5", "raum": "A110", "lehrkraft": "DEB", "woche": "all" }], "stunden": "2" }, "8": { "data": [{ "fach": "et5", "raum": "A103", "lehrkraft": "STE", "woche": "WA" }, { "fach": "g5", "raum": "A103", "lehrkraft": "ENG", "woche": "WB" }], "stunden": "2" } }, "freitag": { "3": { "data": [{ "fach": "i5", "raum": "B403", "lehrkraft": "HMS", "woche": "all" }], "stunden": "2" }, "5": { "data": [{ "fach": "g5", "raum": "A111", "lehrkraft": "ENG", "woche": "all" }], "stunden": "2" }, "8": { "data": [{ "fach": "s6", "raum": "T4", "lehrkraft": "BLD", "woche": "all" }], "stunden": "2" } }, "dategueltig": "28 11 2022" }, "all": { "montag": { "1": { "data": [{ "fach": "pw7", "raum": "A109", "lehrkraft": "KSI", "woche": "all" }, { "fach": "P1", "raum": "B501", "lehrkraft": "EVE", "woche": "all" }, { "fach": "p5", "raum": "B503", "lehrkraft": "BAU", "woche": "all" }], "stunden": "2" }, "3": { "data": [{ "fach": "et6", "raum": "A110", "lehrkraft": "SAB", "woche": "all" }, { "fach": "ev5", "raum": "A111", "lehrkraft": "FOE", "woche": "all" }, { "fach": "ka5", "raum": "B102", "lehrkraft": "KAS", "woche": "all" }, { "fach": "et5", "raum": "B501", "lehrkraft": "STE", "woche": "all" }], "stunden": "2" }, "5": { "data": [{ "fach": "gb5", "raum": "A101", "lehrkraft": "RAV", "woche": "all" }, { "fach": "e6", "raum": "A111", "lehrkraft": "GRM", "woche": "WB" }, { "fach": "g6", "raum": "A204", "lehrkraft": "SAE", "woche": "all" }], "stunden": "2" }, "8": { "data": [{ "fach": "E1", "raum": "A101", "lehrkraft": "BAR", "woche": "WA" }, { "fach": "pw6", "raum": "A101", "lehrkraft": "GSL", "woche": "WB" }, { "fach": "E2", "raum": "A102", "lehrkraft": "RAV", "woche": "WA" }, { "fach": "e5", "raum": "A106", "lehrkraft": "MRK", "woche": "WA" }, { "fach": "c5", "raum": "B101", "lehrkraft": "KIS", "woche": "WB" }, { "fach": "C1", "raum": "B103", "lehrkraft": "BIB", "woche": "WB" }, { "fach": "P2", "raum": "B503", "lehrkraft": "BAU", "woche": "WB" }], "stunden": "2" }, "10": { "data": [{ "fach": "pw5", "raum": "A102", "lehrkraft": "DEB", "woche": "WA" }, { "fach": "PW1", "raum": "A107", "lehrkraft": "NEU", "woche": "WA" }, { "fach": "M1", "raum": "B504", "lehrkraft": "HIE", "woche": "WB" }], "stunden": "2" } }, "dienstag": { "1": { "data": [{ "fach": "sPA5", "raum": "A102", "lehrkraft": "BRA", "woche": "all" }, { "fach": "f5", "raum": "A103", "lehrkraft": "TIB", "woche": "all" }, { "fach": "d6", "raum": "A106", "lehrkraft": "KLE", "woche": "all" }, { "fach": "l5", "raum": "A107", "lehrkraft": "BTR", "woche": "all" }], "stunden": "2" }, "3": { "data": [{ "fach": "m5", "raum": "A101", "lehrkraft": "THI", "woche": "all" }, { "fach": "M1", "raum": "A209", "lehrkraft": "HIE", "woche": "all" }, { "fach": "m6", "raum": "B302", "lehrkraft": "WAL", "woche": "all" }], "stunden": "2" }, "5": { "data": [{ "fach": "b5", "raum": "B103", "lehrkraft": "BRS", "woche": "all" }, { "fach": "b6", "raum": "B302", "lehrkraft": "KLE", "woche": "all" }, { "fach": "B1", "raum": "B304", "lehrkraft": "GRP", "woche": "all" }], "stunden": "2" }, "8": { "data": [{ "fach": "d7", "raum": "A110", "lehrkraft": "SUT", "woche": "WB" }], "stunden": "2" } }, "mittwoch": { "1": { "data": [{ "fach": "d5", "raum": "A101", "lehrkraft": "REI", "woche": "all" }, { "fach": "D1", "raum": "A107", "lehrkraft": "HMM", "woche": "WA" }, { "fach": "d6", "raum": "A109", "lehrkraft": "KLE", "woche": "all" }, { "fach": "d7", "raum": "A111", "lehrkraft": "SUT", "woche": "WA" }], "stunden": "2" }, "3": { "data": [{ "fach": "E1", "raum": "A102", "lehrkraft": "BAR", "woche": "all" }, { "fach": "e6", "raum": "A107", "lehrkraft": "GRM", "woche": "all" }, { "fach": "E2", "raum": "A111", "lehrkraft": "RAV", "woche": "all" }, { "fach": "e5", "raum": "A204", "lehrkraft": "MRK", "woche": "all" }], "stunden": "2" }, "5": { "data": [{ "fach": "pw6", "raum": "A101", "lehrkraft": "GSL", "woche": "all" }, { "fach": "c5", "raum": "B101", "lehrkraft": "KIS", "woche": "all" }, { "fach": "C1", "raum": "B103", "lehrkraft": "BIB", "woche": "all" }, { "fach": "P2", "raum": "B503", "lehrkraft": "BAU", "woche": "all" }], "stunden": "2" }, "8": { "data": [{ "fach": "K15", "raum": "", "lehrkraft": "SAEs", "woche": "all" }, { "fach": "ds5", "raum": "A112", "lehrkraft": "KSI", "woche": "all" }, { "fach": "mu5", "raum": "A204", "lehrkraft": "BRN", "woche": "all" }, { "fach": "k6", "raum": "A206", "lehrkraft": "FLE", "woche": "all" }, { "fach": "K1", "raum": "B201", "lehrkraft": "SAE", "woche": "all" }], "stunden": "2" }, "10": { "data": [{ "fach": "pw7", "raum": "A101", "lehrkraft": "KSI", "woche": "WB" }, { "fach": "B1", "raum": "B301", "lehrkraft": "GRP", "woche": "WA" }, { "fach": "b6", "raum": "B302", "lehrkraft": "KLE", "woche": "WA" }, { "fach": "p5", "raum": "B501", "lehrkraft": "BAU", "woche": "WB" }, { "fach": "P1", "raum": "B503", "lehrkraft": "EVE", "woche": "WB" }], "stunden": "2" } }, "donnerstag": { "1": { "data": [{ "fach": "m6", "raum": "A101", "lehrkraft": "WAL", "woche": "all" }, { "fach": "m5", "raum": "A105", "lehrkraft": "THI", "woche": "all" }, { "fach": "M1", "raum": "A111", "lehrkraft": "HIE", "woche": "all" }], "stunden": "2" }, "3": { "data": [{ "fach": "D1", "raum": "A107", "lehrkraft": "HMM", "woche": "all" }, { "fach": "E1", "raum": "A205", "lehrkraft": "BAR", "woche": "all" }, { "fach": "S1", "raum": "B105", "lehrkraft": "THI", "woche": "all" }, { "fach": "K1", "raum": "B201", "lehrkraft": "SAE", "woche": "all" }, { "fach": "P1", "raum": "B503", "lehrkraft": "EVE", "woche": "all" }, { "fach": "S1", "raum": "T2", "lehrkraft": "THI", "woche": "all" }], "stunden": "2" }, "5": { "data": [{ "fach": "pw5", "raum": "A110", "lehrkraft": "DEB", "woche": "all" }, { "fach": "d7", "raum": "A111", "lehrkraft": "SUT", "woche": "WA" }, { "fach": "d7", "raum": "A111", "lehrkraft": "SUT", "woche": "WB" }, { "fach": "PW1", "raum": "B101", "lehrkraft": "NEU", "woche": "all" }], "stunden": "2" }, "8": { "data": [{ "fach": "ev5", "raum": "A101", "lehrkraft": "FOE", "woche": "WA" }, { "fach": "gb5", "raum": "A101", "lehrkraft": "RAV", "woche": "WB" }, { "fach": "g6", "raum": "A102", "lehrkraft": "SAE", "woche": "WB" }, { "fach": "et5", "raum": "A103", "lehrkraft": "STE", "woche": "WA" }, { "fach": "g5", "raum": "A103", "lehrkraft": "ENG", "woche": "WB" }, { "fach": "et6", "raum": "A108", "lehrkraft": "SAB", "woche": "WA" }, { "fach": "ka5", "raum": "A111", "lehrkraft": "KAS", "woche": "WA" }], "stunden": "2" }, "10": { "data": [{ "fach": "f5", "raum": "", "lehrkraft": "TIBs", "woche": "WB" }, { "fach": "l5", "raum": "A102", "lehrkraft": "BTR", "woche": "WA" }, { "fach": "sPA5", "raum": "A104", "lehrkraft": "BRA", "woche": "WB" }], "stunden": "2" } }, "freitag": { "1": { "data": [{ "fach": "C1", "raum": "B103", "lehrkraft": "BIB", "woche": "all" }, { "fach": "P2", "raum": "B503", "lehrkraft": "BAU", "woche": "all" }], "stunden": "2" }, "3": { "data": [{ "fach": "d5", "raum": "A101", "lehrkraft": "REI", "woche": "all" }, { "fach": "D1", "raum": "A107", "lehrkraft": "HMM", "woche": "all" }, { "fach": "i5", "raum": "B403", "lehrkraft": "HMS", "woche": "all" }, { "fach": "s5", "raum": "T4", "lehrkraft": "PFI", "woche": "all" }, { "fach": "s5", "raum": "T5", "lehrkraft": "PFI", "woche": "all" }], "stunden": "2" }, "5": { "data": [{ "fach": "E2", "raum": "A101", "lehrkraft": "RAV", "woche": "all" }, { "fach": "PW1", "raum": "A107", "lehrkraft": "NEU", "woche": "all" }, { "fach": "g5", "raum": "A111", "lehrkraft": "ENG", "woche": "all" }, { "fach": "B1", "raum": "B304", "lehrkraft": "GRP", "woche": "all" }], "stunden": "2" }, "7": { "data": [{ "fach": "S1", "raum": "A111", "lehrkraft": "THI", "woche": "all" }, { "fach": "S1", "raum": "T1", "lehrkraft": "THI", "woche": "all" }, { "fach": "S1", "raum": "T2", "lehrkraft": "THI", "woche": "all" }], "stunden": "1" }, "8": { "data": [{ "fach": "S1", "raum": "A111", "lehrkraft": "THI", "woche": "all" }, { "fach": "K1", "raum": "B201", "lehrkraft": "SAE", "woche": "WB" }, { "fach": "b5", "raum": "B301", "lehrkraft": "BRS", "woche": "WA" }, { "fach": "S1", "raum": "T1", "lehrkraft": "THI", "woche": "all" }, { "fach": "S1", "raum": "T2", "lehrkraft": "THI", "woche": "all" }, { "fach": "s6", "raum": "T4", "lehrkraft": "BLD", "woche": "all" }], "stunden": "2" } }, "dategueltig": "28 11 2022" } }
 
@@ -32,17 +62,10 @@ export default function HomeScreenStundenplan({ navigation }) {
 
     const faecher = faecherParse(stundenplanData)
 
-
     return (
-
 
         <View style={{ flex: 1 }}>
 
-            <HintStundenplan visible={visibleHint} onPress={() => {
-
-                setVisibleHint(false)
-
-            }} />
 
             <Loader loading={loading} />
 
@@ -52,8 +75,7 @@ export default function HomeScreenStundenplan({ navigation }) {
 
                 :
                 state == 0 ?
-                    <HomeScreenStundenplanOWN faecher={faecher} /> :
-
+                    <HomeScreenStundenplanOWN navigation={navigation} faecher={faecher} /> :
                     <ScrollView>
 
                         <HomeScreenStundenplanALL faecher={faecher} />
@@ -569,7 +591,9 @@ function HomeScreenStundenplanOWN({ navigation, faecher }) {
 
                                                             faecher.own[index][index2].data.map((data3, index3) => {
                                                                 return (
-                                                                    <View style={style_HomeScreenStundenplanOwn.stundenplanEinFachInSection} key={generateUUID()}>
+
+                                                                    <TouchableOpacity onPress={() => navigation.navigate('Interactive3DPage', { selectedRooms: [data3.raum] })} style={style_HomeScreenStundenplanOwn.stundenplanEinFachInSection} key={generateUUID()}>
+
                                                                         <Text style={style_HomeScreenStundenplanOwn.stundenplanFachInSection} key={generateUUID()}>
                                                                             {data3.fach}
                                                                         </Text>
@@ -578,7 +602,8 @@ function HomeScreenStundenplanOWN({ navigation, faecher }) {
                                                                             {data3.lehrkraft + ' | ' + data3.raum}
                                                                         </Text>
 
-                                                                    </View>
+
+                                                                    </TouchableOpacity>
                                                                 )
 
                                                             })

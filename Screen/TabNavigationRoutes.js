@@ -6,10 +6,9 @@ import HomePage from './tabScreens/HomePage';
 import NewsPage from './tabScreens/NewsPage';
 import SettingsPage from './tabScreens/SettingsPage';
 import EventsPage from './tabScreens/EventsPage';
-import TasksPage from './tabScreens/Tasks';
+import Interactive3DPage from './tabScreens/Interactive3DPage';
 
 
-//import NewsPage from './tabScreens/NewsPage';
 
 
 
@@ -18,7 +17,7 @@ const Tab = createBottomTabNavigator();
 
 
 
-export default function TabNavigationRoutes() {
+export default function TabNavigationRoutes(props) {
 
     return (
 
@@ -59,7 +58,7 @@ export default function TabNavigationRoutes() {
         >
             <Tab.Screen name="MySchool" component={HomePage} />
             <Tab.Screen name="News" component={NewsPage} />
-            <Tab.Screen name="3D" component={TasksPage} />
+            <Tab.Screen name="3D" component={Interactive3DPage} />
             <Tab.Screen name="Events" component={EventsPage} />
             <Tab.Screen name="Settings" component={SettingsPage} />
 

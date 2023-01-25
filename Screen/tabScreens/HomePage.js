@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import HomeContainer from './HomePageScreens/HomeScreenContainer';
 import HomeScreenStundenplan from './HomePageScreens/HomeScreenStundenplan';
 import HomeScreenVertretung from './HomePageScreens/HomeScreenVertretung';
-
+import Interactive3DPage from './Interactive3DPage';
 
 
 import { RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text } from 'react-native';
@@ -26,6 +26,7 @@ export default function HomePage({ navigation }) {
             <Stack.Screen label='Home' name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
             <Stack.Screen name="HomeScreenVertretung" component={HomeScreenVertretung} options={{ title: 'Vertretungsplan' }} />
             <Stack.Screen name="HomeScreenStundenplan" component={HomeScreenStundenplan} options={{ title: 'Stundenplan' }} />
+            <Stack.Screen name="Interactive3DPage" component={Interactive3DPage} options={{ title: '3D-View' }} />
         </Stack.Navigator>
 
     );
