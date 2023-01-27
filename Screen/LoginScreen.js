@@ -52,8 +52,12 @@ export default function LoginScreen({ navigation }) {
 
       if (success == true) {
 
-        AsyncStorage.setItem('user_name', userEmail).then(() => {
+        const payLoad = {
+          user_name: userEmail,
+          user_password: userPassword
+        }
 
+        AsyncStorage.setItem('user_credentials', JSON.stringify(payLoad)).then(() => {
 
           getSPHData(sessionID, () => {
             setLoading(false);

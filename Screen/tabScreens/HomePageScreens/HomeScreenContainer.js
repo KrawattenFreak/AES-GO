@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import VertretungContainer from './HomePageVertretung/HomeVertretungContainer';
 import StundenplanContainer from './HomePageVertretung/HomeStundenplanContainer';
 
-export default function HomeContainer({ navigation, label, onPress }) {
+export default function HomeContainer({ navigation, label, onPress, vertretungData }) {
 
 
     return (
@@ -17,7 +17,7 @@ export default function HomeContainer({ navigation, label, onPress }) {
 
                 {
                     (label == 'Vertretung') ?
-                        <VertretungContainer /> :
+                        <VertretungContainer vertretungData={vertretungData}/> :
                         <StundenplanContainer />
 
                 }

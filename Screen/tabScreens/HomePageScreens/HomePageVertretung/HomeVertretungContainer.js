@@ -5,57 +5,18 @@ import { useState, useEffect } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
+import VertretungsplanLoad from '../../../../code/SPH_Loading/VertretungsplanLoad';
 
-export default function VertretungContainer() {
 
+export default function VertretungContainer({ vertretungData }) {
 
-    let dataVertretungVar = []
+    console.log(vertretungData)
 
+    const dataVertretung = vertretungData
     const [loading, setLoading] = useState(true)
-    const [dataVertretung, setDataVertretung] = useState([])
-
-    useEffect(() => {
-        AsyncStorage.getItem('kurse').then((valueKurse) => {
-            AsyncStorage.getItem('vertretung').then((valueVertretungsplan) => {
-
-                //console.log(valueKurse)
-
-                const valueVertretungsplanJSON = JSON.parse(valueVertretungsplan)[0]
-                const valuevalueKurseJSON = JSON.parse(valueKurse)
-
-                valueVertretungsplanJSON.data.forEach(vertretungEntry => {
-
-                    valuevalueKurseJSON.data.forEach(myKursEntry => {
 
 
 
-                        if (vertretungEntry.fach.includes(myKursEntry)) {
-                            //console.log(vertretungEntry.art)
-
-                            if (vertretungEntry.hinweis == 'Entfall' || vertretungEntry.art == 'kein Präs.Unt.' || vertretungEntry.art == 'Selbststudium') {
-                                dataVertretungVar.push({ fach: myKursEntry, type: 'entfall', stunde: vertretungEntry.stunde, lehrkraft: vertretungEntry.lehrkraft })
-                            } else if (vertretungEntry.art == 'Raum') {
-                                dataVertretungVar.push({ fach: myKursEntry, type: 'raum', stunde: vertretungEntry.stunde, lehrkraft: vertretungEntry.lehrkraft, raum: vertretungEntry.raum, raum_alt: vertretungEntry.raum_alt })
-                            } else if (vertretungEntry.art == 'Klausur') {
-                                dataVertretungVar.push({ fach: myKursEntry, type: 'klausur', stunde: vertretungEntry.stunde, raum: vertretungEntry.raum })
-                            } else {
-                                dataVertretungVar.push({ fach: myKursEntry, type: '-', art: vertretungEntry.art, stunde: vertretungEntry.stunde, lehrkraft: vertretungEntry.lehrkraft, raum: vertretungEntry.raum })
-                            }
-                        }
-
-                    });
-                });
-
-                //console.log(dataVertretung)
-                setDataVertretung(dataVertretungVar)
-                setLoading(false)
-
-            })
-
-
-
-        })
-    }, []);
 
 
     return (
@@ -63,7 +24,7 @@ export default function VertretungContainer() {
         <View style={style.contentView_content}>
             <View style={style.vertretungHeaderView}>
 
-                <Ionicons name={'reader-outline'} size={20} color={'grey'} />
+                <Ionicons name={'reader'} size={20} color={'grey'} />
                 <Text style={style.vertretungHeaderText}>
                     PERSÖNLICHER VERTRETUNGSPLAN
                 </Text>
@@ -185,7 +146,7 @@ export default function VertretungContainer() {
                     </View> :
                     <View style={style.myVertretungNoEntriesView}>
                         <Ionicons name={'eye-off-outline'} size={20} color={'grey'} />
-                        <Text style={style.myVertretungNoEntriesText}>Heute sind keine Einträge für eine deiner Kurse vorhanden.</Text>
+                        <Text style={style.myVertretungNoEntriesText}>KEINE EINTRÄGE</Text>
                     </View>
             }
 
@@ -242,8 +203,8 @@ const style = StyleSheet.create({
     },
     vertretungHeaderText: {
         fontSize: 15,
-        fontWeight: '200',
-        color: 'black',
+        fontWeight: '800',
+        color: 'grey',
         marginLeft: 10
     },
 
@@ -385,12 +346,12 @@ const style = StyleSheet.create({
         borderColor: '#fccd3f',
         borderWidth: 1,
         borderRadius: 10,
-        padding: 10
+        padding: 20
     },
     myVertretungNoEntriesText: {
-        color: 'grey',
+        color: 'black',
         marginTop: 5,
-        fontWeight: '300'
+        fontWeight: '200'
     }
 })
 

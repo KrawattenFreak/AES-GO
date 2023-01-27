@@ -13,7 +13,7 @@ export default function SettingsPage({ navigation }) {
 
             <View style={{ marginTop: 400 }}>
                 <Button
-                    onPress={() => AsyncStorage.removeItem('user_name')}
+                    onPress={() => AsyncStorage.removeItem('user_credentials')}
                     title="Remove user_name"
                 />
 

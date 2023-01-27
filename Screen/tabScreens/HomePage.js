@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,15 +8,17 @@ import HomeScreenStundenplan from './HomePageScreens/HomeScreenStundenplan';
 import HomeScreenVertretung from './HomePageScreens/HomeScreenVertretung';
 import Interactive3DPage from './Interactive3DPage';
 
+import getSPHData from '../../code/SPH_Networking/SPH-GetterAndSaver';
+import SPH_auth from '../../code/SPH_Networking/SPH-auth';
+import SPH_sync from '../../code/SPH_Networking/SPH-sync';
+
+import VertretungsplanLoad from '../../code/SPH_Loading/VertretungsplanLoad';
 
 import { RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text } from 'react-native';
 
 
 const Stack = createStackNavigator();
 
-const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-}
 
 
 
@@ -35,32 +37,89 @@ export default function HomePage({ navigation }) {
 
 function HomeScreen({ navigation }) {
 
-    const [refreshing, setRefreshing] = React.useState(false);
-    const [welcomeName, setWelcomeName] = React.useState('')
-
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
-        wait(2000).then(() => setRefreshing(false));
-    }, []);
-
-    AsyncStorage.getItem('user_name').then((value) => {
-        const name = value.split('.')
-        setWelcomeName(capitalizeFirstLetter(name[0]) + ' ' + capitalizeFirstLetter(name[1]))
+    const [refreshing, setRefreshing] = useState(false);
+    const [homeScreenData, setHomeScreenData] = useState({
+        vData: [],
+        sData: {},
+        welcomeName: ''
     })
+
+
+    function loadHome() {
+
+
+
+        AsyncStorage.getItem('user_credentials').then(userCredentials => {
+
+            const name = JSON.parse(userCredentials).user_name.split('.')
+
+
+            let payLoad = {
+                vData: [],
+                sData: {},
+                welcomeName: ''
+            }
+
+            VertretungsplanLoad((vData) => {
+
+                payLoad.vData = vData
+                payLoad.welcomeName = capitalizeFirstLetter(name[0]) + ' ' + capitalizeFirstLetter(name[1])
+
+
+                setTimeout(() => {
+
+                    console.log('wwww')
+
+                    setRefreshing(false)
+                    setHomeScreenData(payLoad)
+
+                }, 2000)
+
+
+            })
+        })
+
+    }
+
+
+    useEffect(() => {
+        setRefreshing(true)
+        loadHome()
+
+    }, [])
+
+    function onRefresh() {
+        setRefreshing(true)
+        SPH_sync((success) => {
+
+            if (success) {
+                loadHome()
+            } else {
+                navigation.replace('Auth')
+            }
+
+        })
+
+    }
+
+    console.log(refreshing)
 
     return (
         <View style={style_DashboardScreen.wrapper}>
             <View style={style_DashboardScreen.headerView} >
-                <Text style={style_DashboardScreen.headerText}>{welcomeName}'s Profil</Text>
+                <Text style={style_DashboardScreen.headerText}>{homeScreenData.welcomeName}'s Profil</Text>
             </View>
-            <ScrollView refreshControl={
-                <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={onRefresh}
-                />
-            } contentContainerStyle={style_DashboardScreen.contentView}>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={() => onRefresh()}
+                    />
+                }
+                contentContainerStyle={style_DashboardScreen.contentView}
+            >
 
-                <HomeContainer label='Vertretung' onPress={() => navigation.navigate('HomeScreenVertretung')} />
+                <HomeContainer vertretungData={homeScreenData.vData} label='Vertretung' onPress={() => navigation.navigate('HomeScreenVertretung')} />
                 <HomeContainer label='Stundenplan' onPress={() => navigation.navigate('HomeScreenStundenplan')} />
 
 

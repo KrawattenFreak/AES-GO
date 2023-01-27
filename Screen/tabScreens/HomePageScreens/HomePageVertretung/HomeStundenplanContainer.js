@@ -59,7 +59,7 @@ export default function StundenplanContainer() {
         <View style={style.contentView_content}>
             <View style={style.stundenplanHeaderView}>
 
-                <Ionicons name={'albums-outline'} size={20} color={'grey'} />
+                <Ionicons name={'albums'} size={20} color={'grey'} />
                 <Text style={style.stundenplanHeaderText}>
                     PERSÖNLICHER STUNDENPLAN
                 </Text>
@@ -156,7 +156,7 @@ const style = StyleSheet.create({
     },
     contentView_contentText: {
         fontSize: 15,
-        color: 'grey'
+        color: 'grey',
 
     },
 
@@ -169,9 +169,10 @@ const style = StyleSheet.create({
     },
     stundenplanHeaderText: {
         fontSize: 15,
-        fontWeight: '200',
-        color: 'black',
-        marginLeft: 10
+        fontWeight: '800',
+        color: 'grey',
+        marginLeft: 10,
+
     },
 
     myStundenplanView: {

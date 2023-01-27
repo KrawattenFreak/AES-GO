@@ -10,6 +10,7 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import SPH_sync from '../code/SPH_Networking/SPH-sync';
 
 
 export default function SplashScreen({ navigation }) {
@@ -18,19 +19,42 @@ export default function SplashScreen({ navigation }) {
   const [animating, setAnimating] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      setAnimating(false);
-
-      AsyncStorage.getItem('user_name').then((value) =>
-        navigation.replace(
-          value === null ? 'Auth' : 'TabNavigationRoutes'
-        ),
-      );
 
 
+    AsyncStorage.getItem('user_credentials').then((value) => {
+
+      if (value === null) {
+        navigation.replace('Auth')
+      } else {
+
+        SPH_sync((success) => {
+
+          if (success) {
+            navigation.replace('TabNavigationRoutes')
+          } else {
+            navigation.replace('Auth')
+          }
+          setAnimating(false);
+
+        })
+
+      }
 
 
-    }, 1000);
+
+
+
+
+
+
+
+    }
+    );
+
+
+
+
+
   }, [])
 
 
