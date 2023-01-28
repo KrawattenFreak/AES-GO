@@ -8,12 +8,15 @@ import getSPHData from './SPH-GetterAndSaver';
 
 export default function SPH_sync(callback) {
 
+
+
+
+
     AsyncStorage.getItem('user_credentials').then(value => {
 
         const userCredentials = JSON.parse(value)
 
         SPH_auth(userCredentials.user_name, userCredentials.user_password, (sessionID, success) => {
-
 
             if (success == true) {
 

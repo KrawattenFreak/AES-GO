@@ -18,7 +18,7 @@ export default function StundenplanContainer() {
     weekdays[3] = "mittwoch";
     weekdays[4] = "donnerstag";
     weekdays[5] = "freitag";
-    weekdays[6] = "saturday";
+    weekdays[6] = "samstag";
 
     const [todayKurse, setTodayKurse] = useState([])
     const [aktuelleWoche, setAktuelleWoche] = useState([])
@@ -38,11 +38,15 @@ export default function StundenplanContainer() {
                 const date = new Date()
 
                 const valueStundenplan = JSON.parse(value)
-                //const currentDay = Object.entries(valueStundenplan.own[weekdays[date.getDay()]])
-                const currentDay = Object.entries(valueStundenplan.own['montag'])
 
-                for (const oneKurs of currentDay) {
-                    todayKursePre.push(oneKurs)
+                if (valueStundenplan.own.samstag != undefined) {
+
+                    const currentDay = Object.entries(valueStundenplan.own[weekdays[date.getDay()]])
+                    //const currentDay = Object.entries(valueStundenplan.own['samstag'])
+
+                    for (const oneKurs of currentDay) {
+                        todayKursePre.push(oneKurs)
+                    }
                 }
 
                 setTodayKurse(todayKursePre)
@@ -66,51 +70,63 @@ export default function StundenplanContainer() {
 
             </View>
 
-            <View style={style.myStundenplanView}>
 
-                {
-                    todayKurse.map((data) => {
+            {
 
-                        return (
-                            <View key={generateUUID()}>
+                todayKurse.length != 0 ?
 
-                                {
-                                    data[1].data.map((data2) => {
+                    <View style={style.myStundenplanView}>
 
-                                        return (
-                                            <View key={generateUUID()}>
-                                                {
-                                                    (data2.woche == 'all' || data2.woche == aktuelleWoche) ?
-                                                        <View style={style.myStundenplanEntry} key={generateUUID()}>
+                        {
+                            todayKurse.map((data) => {
 
-                                                            <Text style={style.myStundenplanEntryTextFach}>
-                                                                {data2.fach}
-                                                            </Text>
+                                return (
+                                    <View key={generateUUID()}>
 
-                                                            <Text style={style.myStundenplanEntryTextRaum}>
-                                                                {data2.raum}
-                                                            </Text>
+                                        {
+                                            data[1].data.map((data2) => {
 
-                                                        </View> :
-                                                        <Text></Text>
-                                                }
-                                            </View>
-                                        )
+                                                return (
+                                                    <View key={generateUUID()}>
+                                                        {
+                                                            (data2.woche == 'all' || data2.woche == aktuelleWoche) ?
+                                                                <View style={style.myStundenplanEntry} key={generateUUID()}>
 
-                                    })
+                                                                    <Text style={style.myStundenplanEntryTextFach}>
+                                                                        {data2.fach}
+                                                                    </Text>
 
-                                }
+                                                                    <Text style={style.myStundenplanEntryTextRaum}>
+                                                                        {data2.raum}
+                                                                    </Text>
 
-                            </View>
+                                                                </View> :
+                                                                <Text></Text>
+                                                        }
+                                                    </View>
+                                                )
 
-                        )
+                                            })
 
-                    })
+                                        }
 
-                }
+                                    </View>
+
+                                )
+
+                            })
+
+                        }
 
 
-            </View>
+                    </View> :
+
+                    <View style={style.myStundenplanNoEntriesView}>
+                        <Ionicons name={'eye-off-outline'} size={20} color={'grey'} />
+                        <Text style={style.myStundenplanNoEntriesText}>WOCHENENDE</Text>
+                    </View>
+
+            }
 
             <View style={style.stundenplanTapView}>
                 <Text style={style.stundenplanTapText}>Tippe für den vollen Stundenplan</Text>
@@ -213,6 +229,23 @@ const style = StyleSheet.create({
     stundenplanTapText: {
         color: 'grey',
         fontSize: 10
+    },
+
+
+
+    myStundenplanNoEntriesView: {
+        marginVertical: 10,
+        alignItems: 'center',
+        backgroundColor: '#ffeeb8',
+        borderColor: '#fccd3f',
+        borderWidth: 1,
+        borderRadius: 10,
+        padding: 20
+    },
+    myStundenplanNoEntriesText: {
+        color: 'black',
+        marginTop: 5,
+        fontWeight: '200'
     }
 
 })

@@ -10,13 +10,8 @@ import VertretungsplanLoad from '../../../../code/SPH_Loading/VertretungsplanLoa
 
 export default function VertretungContainer({ vertretungData }) {
 
-    console.log(vertretungData)
-
     const dataVertretung = vertretungData
     const [loading, setLoading] = useState(true)
-
-
-
 
 
     return (

@@ -66,14 +66,12 @@ function HomeScreen({ navigation }) {
                 payLoad.welcomeName = capitalizeFirstLetter(name[0]) + ' ' + capitalizeFirstLetter(name[1])
 
 
-                setTimeout(() => {
 
-                    console.log('wwww')
 
-                    setRefreshing(false)
-                    setHomeScreenData(payLoad)
+                setRefreshing(false)
+                setHomeScreenData(payLoad)
 
-                }, 2000)
+
 
 
             })
@@ -101,8 +99,6 @@ function HomeScreen({ navigation }) {
         })
 
     }
-
-    console.log(refreshing)
 
     return (
         <View style={style_DashboardScreen.wrapper}>
