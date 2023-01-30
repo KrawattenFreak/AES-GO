@@ -346,7 +346,9 @@ const style = StyleSheet.create({
     myVertretungNoEntriesText: {
         color: 'black',
         marginTop: 5,
-        fontWeight: '200'
+        fontWeight: '300',
+        fontSize: 10,
+        color: 'grey'
     }
 })
 

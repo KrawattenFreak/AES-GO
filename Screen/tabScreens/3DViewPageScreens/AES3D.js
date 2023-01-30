@@ -253,6 +253,82 @@ export default function AESModel(props) {
             >
                 <meshStandardMaterial castShadow color='white' attach={'material'} />
             </mesh>
+
+
+
+
+
+
+
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes["T1-3_GROUND"].geometry}
+                visible={props.vissl[1]}
+                position={[-1.7756789, 0.0075911, 2.2616408]}
+            >
+                <meshStandardMaterial castShadow color='#4a536b' attach={'material'} />
+
+            </mesh>
+
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes["T1-3_WALL"].geometry}
+                visible={props.vissl[1]}
+                position={[-1.5231144, 0.4385916, 1.9206374]}
+            >
+                <meshStandardMaterial castShadow color='white' attach={'material'} />
+
+            </mesh>
+
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes["T1-3_DACH"].geometry}
+                visible={props.vissl[2]}
+                position={[-1.7756789, 0.1942375, 2.2616408]}
+            >
+                <meshStandardMaterial castShadow color='white' attach={'material'} />
+
+            </mesh>
+
+
+
+
+
+
+
+
+
+
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.AES_GELAENDE.geometry}
+                visible={props.vissl[0]}
+                position={[-0.497022, 0.1329164, -1.3907127]}
+            >
+
+                <meshStandardMaterial castShadow color='#B8A491' attach={'material'} />
+            </mesh>
+
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes["AES-TEXT"].geometry}
+                visible={props.vissl[0]}
+                position={[-3.0424342, -0.1484343, 0.5956467]}
+                rotation={[Math.PI / 2, 0, Math.PI / 2]}
+                scale={0.1248947}
+            >
+                <meshStandardMaterial castShadow color='white' attach={'material'} />
+
+            </mesh>
+
+
+
+
         </group>
 
     )

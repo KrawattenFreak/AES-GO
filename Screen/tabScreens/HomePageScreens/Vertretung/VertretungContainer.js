@@ -48,9 +48,15 @@ export default function VertretungContainer({ stunde, klasse, lehrkraft, art, fa
 
 
                         <Text style={style_VertretungContainer.hinweisENTFALL}>
-                            {hinweis ? String(hinweis).toUpperCase() : "-"}
-                        </Text>
+                            ENTFALL
 
+                            {//hinweis ? String(hinweis).toUpperCase() : "-"
+                            }
+                        </Text>
+                        <Text style={style_VertretungContainer.hinweisENTFALLHint}>
+                            ggf. AA
+
+                        </Text>
 
 
                     </View> :
@@ -236,6 +242,12 @@ const style_VertretungContainer = StyleSheet.create({
         fontSize: 11,
         fontWeight: '300'
     },
+    hinweisENTFALLHint: {
+        color: '#4E4E4E',
+        fontWeight: '200',
+        fontSize: 10
+    },
+
     hinweisRAUM: {
         color: '#4E4E4E',
         fontSize: 15,

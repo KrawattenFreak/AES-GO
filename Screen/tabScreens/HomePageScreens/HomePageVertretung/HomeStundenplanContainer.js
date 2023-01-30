@@ -4,58 +4,19 @@ import { TouchableOpacity, Pressable, RefreshControl, ScrollView, Platform, Styl
 import { useState, useEffect } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import StundenplanLoad from '../../../../code/SPH_Loading/StundenplanLoad';
 
 
 
 
-
-export default function StundenplanContainer() {
-
-    let weekdays = new Array(7)
-    weekdays[0] = "sonntag";
-    weekdays[1] = "montag";
-    weekdays[2] = "dienstag";
-    weekdays[3] = "mittwoch";
-    weekdays[4] = "donnerstag";
-    weekdays[5] = "freitag";
-    weekdays[6] = "samstag";
-
-    const [todayKurse, setTodayKurse] = useState([])
-    const [aktuelleWoche, setAktuelleWoche] = useState([])
+export default function StundenplanContainer({ stundenplanData }) {
 
 
+    const todayKurse = stundenplanData[1]
+    const aktuelleWoche = stundenplanData[0]
 
-    useEffect(() => {
-
-        AsyncStorage.getItem('stundenplan').then((value) => {
-
-
-            AsyncStorage.getItem('aktuelleWoche').then((value2) => {
-
-                let todayKursePre = []
-                setAktuelleWoche(value2)
-
-                const date = new Date()
-
-                const valueStundenplan = JSON.parse(value)
-
-                if (valueStundenplan.own.samstag != undefined) {
-
-                    const currentDay = Object.entries(valueStundenplan.own[weekdays[date.getDay()]])
-                    //const currentDay = Object.entries(valueStundenplan.own['samstag'])
-
-                    for (const oneKurs of currentDay) {
-                        todayKursePre.push(oneKurs)
-                    }
-                }
-
-                setTodayKurse(todayKursePre)
-
-            })
-
-        })
-
-    }, [])
+    //const [todayKurse, setTodayKurse] = useState([])
+    //const [aktuelleWoche, setAktuelleWoche] = useState([])
 
 
 
@@ -101,7 +62,7 @@ export default function StundenplanContainer() {
                                                                     </Text>
 
                                                                 </View> :
-                                                                <Text></Text>
+                                                                <></>
                                                         }
                                                     </View>
                                                 )
@@ -245,7 +206,9 @@ const style = StyleSheet.create({
     myStundenplanNoEntriesText: {
         color: 'black',
         marginTop: 5,
-        fontWeight: '200'
+        fontWeight: '300',
+        fontSize: 10,
+        color: 'grey'
     }
 
 })

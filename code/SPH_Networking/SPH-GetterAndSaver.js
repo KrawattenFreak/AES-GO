@@ -13,11 +13,17 @@ export default function getSPHData(sessionID, callback) {
 
             kalenderFetch(sessionID, () => {
 
-                //LOGOUT - DONE WITH EVERY DOWNLOAD
-                sphLogout(sessionID)
+                unterrichtFetch(sessionID, () => {
 
-                if (callback)
-                    callback.call(this)
+                    //LOGOUT - DONE WITH EVERY DOWNLOAD
+                    sphLogout(sessionID)
+
+                    if (callback)
+                        callback.call(this)
+
+                })
+
+
 
             })
 
@@ -165,7 +171,6 @@ function stundenplanFetch(sessionID, callback) {
 
 
 }
-
 
 function stundenplanHTMLParser(htmlString) {
 
@@ -340,12 +345,10 @@ function stundenplanHTMLParser(htmlString) {
 
 }
 
-
 //------------------------------------------------------------
 
 
-
-
+//KALENDER
 function kalenderFetch(sessionID, callback) {
 
     //GET ICAL URL
@@ -377,6 +380,72 @@ function kalenderFetch(sessionID, callback) {
 
 }
 
+//------------------------------------------------------------
+
+
+//UNTERRICHT
+function unterrichtFetch(sessionID, callback) {
+
+    fetch('https://start.schulportal.hessen.de/meinunterricht.php', {
+        method: 'GET',
+        headers: {
+            'Cookie': 'sid=' + sessionID
+        },
+        credentials: 'omit'
+    }).then((response) => response.text().then((responseHTML) => {
+
+        const Unterricht = unterrichtHTMLParser(responseHTML)
+
+        AsyncStorage.setItem('unterricht', JSON.stringify(Unterricht)).then(() => {
+
+            //console.log(JSON.stringify(Unterricht))
+
+            callback.call(this)
+
+        })
+
+
+
+    }))
+
+}
+
+function unterrichtHTMLParser(htmlString) {
+
+    let unterrichtDATA = []
+
+    const $ = cheerio.load(htmlString);
+
+    $('#aktuellTable').find('tbody tr').each((index1, ref1) => {
+
+        let payLoad = {
+            header: null,
+            fach: null,
+            teacher: null,
+            done: null,
+            date: null,
+            homework: null,
+            content: null,
+            id: null
+        }
+
+        payLoad.header = $(ref1).find('.thema').text()
+        payLoad.fach = $(ref1).find('h3 .name').text()
+        payLoad.teacher = $(ref1).find('.teacher button').attr('title')
+        payLoad.done = ($(ref1).find('span[class="undone"]').text() == '')
+        payLoad.date = $(ref1).find('.datum').text()
+        payLoad.homework = $(ref1).find('.realHomework').text()//.replace(/(\r\n|\n|\r)/gm, "")
+        payLoad.content = $(ref1).find('.inhalt').text()
+        payLoad.id = $(ref1).attr('data-book')
+
+        unterrichtDATA.push(payLoad)
+
+
+    })
+
+    return (unterrichtDATA)
+
+}
 
 
 function generateUUID() {

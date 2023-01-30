@@ -76,6 +76,10 @@ const roomDetails = Object.freeze({
     A209: { pos: [1.9778247, 0.2725604, 2.2605011], visslLayer: 2 },
     A210: { pos: [1.9778247, 0.2725604, 1.9163648], visslLayer: 2 },
 
+    T1: { pos: [-2.0144625, 0.0909143, 2.4357293], visslLayer: 1 },
+    T2: { pos: [-1.339919, 0.0909143, 2.4357293], visslLayer: 1 },
+    T3: { pos: [-0.650521, 0.0909143, 2.4357293], visslLayer: 1 },
+
 
 })
 
@@ -129,6 +133,7 @@ const CameraAnimation = ({ pos }) => {
 
 export default function Interactive3DPage({ navigation, route }) {
 
+
     let params
 
     if (route.params != undefined) {
@@ -140,8 +145,10 @@ export default function Interactive3DPage({ navigation, route }) {
     const [OrbitControls, events] = useControls()
 
     let camera = new THREE.PerspectiveCamera(90, 1.5, 0.1, 1000);
-    let [x, y, z] = [-25, 30, 0];
+    let [x, y, z] = [-35, 10, 8];
+
     camera.position.set(x, y, z);
+
 
     const [state, setState] = useState(5)
 
@@ -210,15 +217,15 @@ export default function Interactive3DPage({ navigation, route }) {
 
 
             <Canvas camera={camera} >
-                <color attach="background" args={['white']} />
-                <Ground />
+                <color attach="background" args={['#f6ead4']} />
+
                 {
                     (route.params != undefined) ?
                         <OrbitControls target={a} enableZoom={false} /> :
                         <OrbitControls />
 
                 }
-                <ambientLight intensity={0.5} />
+                <ambientLight intensity={0.7} />
                 <directionalLight
                     position={[10, 50, 10]}
                     castShadow
@@ -230,7 +237,13 @@ export default function Interactive3DPage({ navigation, route }) {
                         <></>
 
                 }
-                <fog attach="fog" args={["white", 40, 60]} />
+
+                {
+                    (route.params != undefined) ?
+                        <fog attach="fog" args={["#B8A491", 10, 40]} /> :
+                        <fog attach="fog" args={["#B8A491", 30, 60]} />
+
+                }
 
                 {
                     (route.params != undefined) ?

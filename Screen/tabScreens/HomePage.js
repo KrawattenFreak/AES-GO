@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HomeContainer from './HomePageScreens/HomeScreenContainer';
 import HomeScreenStundenplan from './HomePageScreens/HomeScreenStundenplan';
@@ -12,9 +13,13 @@ import getSPHData from '../../code/SPH_Networking/SPH-GetterAndSaver';
 import SPH_auth from '../../code/SPH_Networking/SPH-auth';
 import SPH_sync from '../../code/SPH_Networking/SPH-sync';
 
-import VertretungsplanLoad from '../../code/SPH_Loading/VertretungsplanLoad';
+import SettingsModal from './SettingsScreen/SettingsModal';
 
-import { RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text } from 'react-native';
+import VertretungsplanLoad from '../../code/SPH_Loading/VertretungsplanLoad';
+import StundenplanLoad from '../../code/SPH_Loading/StundenplanLoad';
+
+import { RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text, Animated, TouchableOpacity } from 'react-native';
+import { Modalize } from 'react-native-modalize';
 
 
 const Stack = createStackNavigator();
@@ -37,10 +42,15 @@ export default function HomePage({ navigation }) {
 
 function HomeScreen({ navigation }) {
 
+    const modalizeRef = useRef(null);
+
+    const animated = useRef(new Animated.Value(0)).current;
+
+
     const [refreshing, setRefreshing] = useState(false);
     const [homeScreenData, setHomeScreenData] = useState({
         vData: [],
-        sData: {},
+        sData: [[], []],
         welcomeName: ''
     })
 
@@ -56,7 +66,7 @@ function HomeScreen({ navigation }) {
 
             let payLoad = {
                 vData: [],
-                sData: {},
+                sData: [],
                 welcomeName: ''
             }
 
@@ -66,12 +76,16 @@ function HomeScreen({ navigation }) {
                 payLoad.welcomeName = capitalizeFirstLetter(name[0]) + ' ' + capitalizeFirstLetter(name[1])
 
 
+                StundenplanLoad((sData) => {
 
 
-                setRefreshing(false)
-                setHomeScreenData(payLoad)
 
+                    payLoad.sData = sData
 
+                    setRefreshing(false)
+                    setHomeScreenData(payLoad)
+
+                })
 
 
             })
@@ -81,6 +95,7 @@ function HomeScreen({ navigation }) {
 
 
     useEffect(() => {
+
         setRefreshing(true)
         loadHome()
 
@@ -100,10 +115,32 @@ function HomeScreen({ navigation }) {
 
     }
 
+    const onOpen = () => {
+        modalizeRef.current?.open();
+    };
+
     return (
+
+
+
         <View style={style_DashboardScreen.wrapper}>
+
+            <Modalize ref={modalizeRef} panGestureAnimatedValue={animated} adjustToContentHeight style={style_DashboardScreen.modalize}>
+                <View style={style_DashboardScreen.wrapperModal}>
+                    <SettingsModal>
+
+                    </SettingsModal>
+
+                </View>
+            </Modalize>
+
             <View style={style_DashboardScreen.headerView} >
-                <Text style={style_DashboardScreen.headerText}>{homeScreenData.welcomeName}'s Profil</Text>
+                <Text numberOfLines={1} style={style_DashboardScreen.headerText}>{homeScreenData.welcomeName}</Text>
+
+                <TouchableOpacity onPress={onOpen}>
+                    <Ionicons name={'settings'} size={25} color={'#a3a3a3'} />
+
+                </TouchableOpacity>
             </View>
             <ScrollView
                 refreshControl={
@@ -116,8 +153,9 @@ function HomeScreen({ navigation }) {
             >
 
                 <HomeContainer vertretungData={homeScreenData.vData} label='Vertretung' onPress={() => navigation.navigate('HomeScreenVertretung')} />
-                <HomeContainer label='Stundenplan' onPress={() => navigation.navigate('HomeScreenStundenplan')} />
-
+                {
+                    <HomeContainer stundenplanData={homeScreenData.sData} label='Stundenplan' onPress={() => navigation.navigate('HomeScreenStundenplan')} />
+                }
 
             </ScrollView>
 
@@ -135,13 +173,18 @@ const style_DashboardScreen = StyleSheet.create({
         //paddingTop: (Platform.OS === 'ios') ? 80 : 0,
         //Code 001
         marginHorizontal: 20,
-        marginTop: 80
+        marginTop: 80,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
 
     },
     headerText: {
         fontSize: 30,
         fontWeight: "bold",
-        color: 'rgb(1, 1, 1)'
+        color: '#3d3d3d',
+        flex: 1
+
     },
     contentView: {
         width: '100%',
@@ -150,6 +193,16 @@ const style_DashboardScreen = StyleSheet.create({
         //backgroundColor: 'red'
 
     },
+
+
+
+    //SETTING MODAL
+    modalize: {
+
+    },
+    wrapperModal: {
+
+    }
 
 
 })
