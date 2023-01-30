@@ -192,41 +192,41 @@ export default function EventsPage({ navigation }) {
 
                             return (
 
-                                <Animated.View style={{
-                                    transform: [
-                                        {
-                                            scale: pan.x.interpolate({
-                                                inputRange: [
-                                                    (index - 1) * boxWidth - halfBoxDistance,
-                                                    index * boxWidth - halfBoxDistance,
-                                                    (index + 1) * boxWidth - halfBoxDistance, // adjust positioning
-                                                ],
-                                                outputRange: [0.8, 1, 0.8], // scale down when out of scope
-                                                extrapolate: 'clamp',
-                                            }),
-                                        },
-                                    ],
-                                }}>
+                                //<Animated.View style={{
+                                //    transform: [
+                                //        {
+                                //            scale: pan.x.interpolate({
+                                //                inputRange: [
+                                //                    (index - 1) * boxWidth - halfBoxDistance,
+                                //                    index * boxWidth - halfBoxDistance,
+                                //                    (index + 1) * boxWidth - halfBoxDistance, // adjust positioning
+                                //                ],
+                                //                outputRange: [0.8, 1, 0.8], // scale down when out of scope
+                                //                extrapolate: 'clamp',
+                                //            }),
+                                //        },
+                                //    ],
+                                //}}>
 
-                                    <EventContainer
-                                        title={item.summary}
-                                        dtstart={addLeadingZeros(item.dtstart.day, 2) + '. ' + addLeadingZeros(item.dtstart.month, 2) + '. ' + item.dtstart.year}
-                                        dtend={addLeadingZeros(item.dtend.day, 2) + '. ' + addLeadingZeros(item.dtend.month, 2) + '. ' + item.dtend.year}
-                                        soon={item.soon}
-                                        isDate={item.isDate}
-                                        time={
+                                <EventContainer
+                                    title={item.summary}
+                                    dtstart={addLeadingZeros(item.dtstart.day, 2) + '. ' + addLeadingZeros(item.dtstart.month, 2) + '. ' + item.dtstart.year}
+                                    dtend={addLeadingZeros(item.dtend.day, 2) + '. ' + addLeadingZeros(item.dtend.month, 2) + '. ' + item.dtend.year}
+                                    soon={item.soon}
+                                    isDate={item.isDate}
+                                    time={
 
-                                            (item.tEnd != '') ?
-                                                item.tStart + ' - ' + item.tEnd :
-                                                item.tStart
+                                        (item.tEnd != '') ?
+                                            item.tStart + ' - ' + item.tEnd :
+                                            item.tStart
 
-                                        }
-                                        dtstartyear={item.dtstart.year}
-                                        description={item.description}
-                                        location={item.location}
-                                        category={item.category}
-                                    />
-                                </Animated.View>
+                                    }
+                                    dtstartyear={item.dtstart.year}
+                                    description={item.description}
+                                    location={item.location}
+                                    category={item.category}
+                                />
+                                //</Animated.View>
                             )
 
                         }}

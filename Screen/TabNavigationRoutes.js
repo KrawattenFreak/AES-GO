@@ -4,7 +4,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HomePage from './tabScreens/HomePage';
 import NewsPage from './tabScreens/NewsPage';
-import SettingsPage from './tabScreens/SettingsPage';
 import EventsPage from './tabScreens/EventsPage';
 import Interactive3DPage from './tabScreens/Interactive3DPage';
 
@@ -60,7 +59,7 @@ export default function TabNavigationRoutes(props) {
             <Tab.Screen name="News" component={NewsPage} />
             <Tab.Screen name="3D" component={Interactive3DPage} />
             <Tab.Screen name="Events" component={EventsPage} />
-            <Tab.Screen name="Settings" component={SettingsPage} />
+            
 
         </Tab.Navigator>
 

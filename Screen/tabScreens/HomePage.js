@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeContainer from './HomePageScreens/HomeScreenContainer';
 import HomeScreenStundenplan from './HomePageScreens/HomeScreenStundenplan';
 import HomeScreenVertretung from './HomePageScreens/HomeScreenVertretung';
+import HomeScreenTasks from './HomePageScreens/HomeScreenTasks';
 import Interactive3DPage from './Interactive3DPage';
 
 import getSPHData from '../../code/SPH_Networking/SPH-GetterAndSaver';
@@ -17,6 +18,7 @@ import SettingsModal from './SettingsScreen/SettingsModal';
 
 import VertretungsplanLoad from '../../code/SPH_Loading/VertretungsplanLoad';
 import StundenplanLoad from '../../code/SPH_Loading/StundenplanLoad';
+import TasksLoad from '../../code/SPH_Loading/TasksLoad';
 
 import { RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text, Animated, TouchableOpacity } from 'react-native';
 import { Modalize } from 'react-native-modalize';
@@ -33,6 +35,7 @@ export default function HomePage({ navigation }) {
             <Stack.Screen label='Home' name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
             <Stack.Screen name="HomeScreenVertretung" component={HomeScreenVertretung} options={{ title: 'Vertretungsplan' }} />
             <Stack.Screen name="HomeScreenStundenplan" component={HomeScreenStundenplan} options={{ title: 'Stundenplan' }} />
+            <Stack.Screen name="HomeScreenTasks" component={HomeScreenTasks} options={{ title: 'Unterricht' }} />
             <Stack.Screen name="Interactive3DPage" component={Interactive3DPage} options={{ title: '3D-View' }} />
         </Stack.Navigator>
 
@@ -51,6 +54,7 @@ function HomeScreen({ navigation }) {
     const [homeScreenData, setHomeScreenData] = useState({
         vData: [],
         sData: [[], []],
+        tData: [],
         welcomeName: ''
     })
 
@@ -67,6 +71,7 @@ function HomeScreen({ navigation }) {
             let payLoad = {
                 vData: [],
                 sData: [],
+                tData: [],
                 welcomeName: ''
             }
 
@@ -78,12 +83,17 @@ function HomeScreen({ navigation }) {
 
                 StundenplanLoad((sData) => {
 
-
-
                     payLoad.sData = sData
 
-                    setRefreshing(false)
-                    setHomeScreenData(payLoad)
+                    TasksLoad((tData) => {
+
+                        payLoad.tData = tData
+
+                        setRefreshing(false)
+                        setHomeScreenData(payLoad)
+
+                    })
+
 
                 })
 
@@ -138,7 +148,7 @@ function HomeScreen({ navigation }) {
                 <Text numberOfLines={1} style={style_DashboardScreen.headerText}>{homeScreenData.welcomeName}</Text>
 
                 <TouchableOpacity onPress={onOpen}>
-                    <Ionicons name={'settings'} size={25} color={'#a3a3a3'} />
+                    <Ionicons name={'settings-outline'} size={25} color={'#a3a3a3'} />
 
                 </TouchableOpacity>
             </View>
@@ -153,9 +163,10 @@ function HomeScreen({ navigation }) {
             >
 
                 <HomeContainer vertretungData={homeScreenData.vData} label='Vertretung' onPress={() => navigation.navigate('HomeScreenVertretung')} />
-                {
-                    <HomeContainer stundenplanData={homeScreenData.sData} label='Stundenplan' onPress={() => navigation.navigate('HomeScreenStundenplan')} />
-                }
+                <HomeContainer stundenplanData={homeScreenData.sData} label='Stundenplan' onPress={() => navigation.navigate('HomeScreenStundenplan')} />
+                <HomeContainer tasksData={homeScreenData.tData} label='Tasks' onPress={() => navigation.navigate('HomeScreenTasks')} />
+
+
 
             </ScrollView>
 
@@ -189,7 +200,7 @@ const style_DashboardScreen = StyleSheet.create({
     contentView: {
         width: '100%',
         alignItems: "center",
-        marginTop: 30,
+        paddingTop: 30,
         //backgroundColor: 'red'
 
     },
