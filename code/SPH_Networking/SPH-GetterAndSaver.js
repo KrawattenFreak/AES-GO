@@ -1,7 +1,6 @@
 import cheerio from 'react-native-cheerio';
 import sphLogout from './SPH-logout';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ICAL from 'ical.js'
 
 export default function getSPHData(sessionID, callback) {
 

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "AES-GO",
-    "slug": "AES-GO",
+    "name": "aes-yarn",
+    "slug": "aes-yarn",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,14 +25,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "de.timbernhahrdt.aesgo"
+      "package": "com.krawattenfreak.aesyarn"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "b4cfa69b-ad22-4262-a60a-6b44c133992a"
+        "projectId": "fec9eda8-667b-4538-812b-5dbdeedaf664"
       }
     }
   }

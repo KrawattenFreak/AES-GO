@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, Modal, ActivityIndicator, Text, Image, TouchableOpacity } from 'react-native';
-import { SvgUri } from 'react-native-svg';
 
 
 
