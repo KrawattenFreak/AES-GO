@@ -208,65 +208,73 @@ function stundenplanHTMLParser(htmlString) {
     //-----------------------------------------------------------------------------------------------
     let dategueltigOwn;
     const dateRawOwn = $('#own').find('div[class="plan"]').attr('data-date')
-    const dateArrayOwn = dateRawOwn.split('-')
-    dategueltigOwn = dateArrayOwn[2] + ' ' + dateArrayOwn[1] + ' ' + dateArrayOwn[0]
-    stundenplanDATA.own['dategueltig'] = dategueltigOwn
+    
 
-    $('#own').find('tbody').find('tr').each((index1, ref1) => {
-
-        $(ref1).find('td').each((index2, ref2) => {
-
-            if (typeof $(ref2).attr('rowspan') !== 'undefined') {
-
-                stundenplanDATA.own[umrechnenZahlWochentag[String(index2)]][String(index1 + 1)] = {
-                    data: []
-                }
-
-                $(ref2).find('.stunde').each((index3, ref3) => {
-
-                    const fachDATA = $(ref3).find('b').text().replace(/\s/g, '')
-
-
-
-                    persKurseArr.push(fachDATA)
-
-                    //console.log(fachDATA)
-
-
-
-                    const lehrkraftDATA = $(ref3).find('small').text().replace(/\s/g, '')
-                    const stundenDATA = $(ref2).attr('rowspan')
-
-                    const wocheData = () => {
-                        if ($(ref3).find('.badge').text() != '')
-                            return $(ref3).find('.badge').text()
-                        else {
-                            return 'all'
-                        }
+    if (dateRawOwn !== undefined) {
+        const dateArrayOwn = dateRawOwn.split('-')
+        dategueltigOwn = dateArrayOwn[2] + ' ' + dateArrayOwn[1] + ' ' + dateArrayOwn[0]
+        stundenplanDATA.own['dategueltig'] = dategueltigOwn
+    
+        $('#own').find('tbody').find('tr').each((index1, ref1) => {
+    
+            $(ref1).find('td').each((index2, ref2) => {
+    
+                if (typeof $(ref2).attr('rowspan') !== 'undefined') {
+    
+                    stundenplanDATA.own[umrechnenZahlWochentag[String(index2)]][String(index1 + 1)] = {
+                        data: []
                     }
-
-                    const raw_ref3 = $(ref3).text().replace(/\s/g, '')
-                    const raumDATA = raw_ref3.replace(fachDATA, '').replace(lehrkraftDATA, '').replace(wocheData(), '')
-
-
-
-                    stundenplanDATA.own[umrechnenZahlWochentag[String(index2)]][String(index1 + 1)].data.push(
-                        {
-                            fach: fachDATA,
-                            raum: raumDATA,
-                            lehrkraft: lehrkraftDATA,
-                            woche: wocheData(),
-                            //stunden: stundenDATA
-                            //rawData: $(ref3).text().replace(/\s/g, '')
+    
+                    $(ref2).find('.stunde').each((index3, ref3) => {
+    
+                        const fachDATA = $(ref3).find('b').text().replace(/\s/g, '')
+    
+    
+    
+                        persKurseArr.push(fachDATA)
+    
+                        //console.log(fachDATA)
+    
+    
+    
+                        const lehrkraftDATA = $(ref3).find('small').text().replace(/\s/g, '')
+                        const stundenDATA = $(ref2).attr('rowspan')
+    
+                        const wocheData = () => {
+                            if ($(ref3).find('.badge').text() != '')
+                                return $(ref3).find('.badge').text()
+                            else {
+                                return 'all'
+                            }
                         }
-                    )
-
-                    stundenplanDATA.own[umrechnenZahlWochentag[String(index2)]][String(index1 + 1)].stunden = stundenDATA
-
-                })
-            }
+    
+                        const raw_ref3 = $(ref3).text().replace(/\s/g, '')
+                        const raumDATA = raw_ref3.replace(fachDATA, '').replace(lehrkraftDATA, '').replace(wocheData(), '')
+    
+    
+    
+                        stundenplanDATA.own[umrechnenZahlWochentag[String(index2)]][String(index1 + 1)].data.push(
+                            {
+                                fach: fachDATA,
+                                raum: raumDATA,
+                                lehrkraft: lehrkraftDATA,
+                                woche: wocheData(),
+                                //stunden: stundenDATA
+                                //rawData: $(ref3).text().replace(/\s/g, '')
+                            }
+                        )
+    
+                        stundenplanDATA.own[umrechnenZahlWochentag[String(index2)]][String(index1 + 1)].stunden = stundenDATA
+    
+                    })
+                }
+            })
         })
-    })
+
+    }
+
+
+
     //------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------
 
