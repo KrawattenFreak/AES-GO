@@ -34,7 +34,14 @@ export default function VertretungContainer({ stunde, klasse, lehrkraft, art, fa
 
     return (
 
-
+        (stunde == -1) ? 
+        
+        <View style={style_VertretungContainer.wrapperNoEntries}>
+            <Ionicons name={"close-outline"} size={15} color={"#3b3b3b"} />
+            <Text style={style_VertretungContainer.wrapperNoEntriesText}>KEINE EINTRÄGE</Text>
+        </View>
+        
+        :
 
 
         <View style={style_VertretungContainer.wrapper}>
@@ -279,9 +286,28 @@ const style_VertretungContainer = StyleSheet.create({
         color: '#4E4E4E',
         fontSize: 10,
         fontWeight: '300'
-    }
+    },
     //--------
 
 
+    //NO ENTRIES
 
+    wrapperNoEntries: {
+
+        marginVertical: 10,
+        alignItems: 'center',
+        backgroundColor: '#ffeeb8',
+        borderColor: '#fccd3f',
+        borderWidth: 0.5,
+        borderRadius: 10,
+        padding: 20,
+        marginHorizontal: 100
+        
+
+    },
+    wrapperNoEntriesText: {
+        color: '#3b3b3b',
+        fontWeight: '700',
+        fontSize: 12,
+    }
 })

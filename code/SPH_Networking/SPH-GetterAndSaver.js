@@ -120,11 +120,30 @@ function vertretungsplanHTMLParser(htmlString) {
 
             pushed.id = generateUUID()
 
-            if (pushed.stunde != null)
-                Vertretung[index1]['data'].push(pushed)
+            if (pushed.stunde != null) {
+
+                if($(ref2).find('b').text() != "Keine Einträge!") {
+                    Vertretung[index1]['data'].push(pushed)
+                } else {
+                    Vertretung[index1]['data'].push({
+                        stunde: -1,
+                        klasse: -1,
+                        lehrkraft: -1,
+                        art: -1,
+                        fach: -1,
+                        raum: -1,
+                        raum_alt: -1,
+                        hinweis: -1,
+                        id: -1
+                    })
+                }
+
+            }
         })
 
     })
+
+    console.log(Vertretung)
 
     return Vertretung
 

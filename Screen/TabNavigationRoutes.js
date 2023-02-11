@@ -34,7 +34,7 @@ export default function TabNavigationRoutes(props) {
 
                         iconName = focused ? 'newspaper' : 'newspaper-outline';
 
-                    } else if (route.name === 'MySchool') {
+                    } else if (route.name === 'Schule') {
                         iconName = focused ? 'library' : 'library-outline';
 
                     } else if (route.name === '3D') {
@@ -55,11 +55,11 @@ export default function TabNavigationRoutes(props) {
                 headerShown: false
             })}
         >
-            <Tab.Screen name="MySchool" component={HomePage} />
+            <Tab.Screen name="Schule" component={HomePage} />
             <Tab.Screen name="News" component={NewsPage} />
             <Tab.Screen name="3D" component={Interactive3DPage} />
             <Tab.Screen name="Events" component={EventsPage} />
-            
+
 
         </Tab.Navigator>
 

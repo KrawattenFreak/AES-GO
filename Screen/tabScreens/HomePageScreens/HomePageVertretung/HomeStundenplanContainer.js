@@ -129,7 +129,8 @@ const style = StyleSheet.create({
 
         marginBottom: 20,
         paddingHorizontal: 15,
-        paddingVertical: 20
+        paddingVertical: 20,
+
     },
     contentView_contentText: {
         fontSize: 15,

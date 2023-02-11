@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { useState, useEffect, useRef } from 'react';
 import cheerio from 'react-native-cheerio';
 import { Animated, TouchableOpacity, SectionList, RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text, sectionList, Image } from 'react-native';
@@ -194,11 +195,11 @@ const style_newsScreen = StyleSheet.create({
         width: '100%',
         flex: 1,
 
-
     },
     sectionListContainerStyle: {
+        paddingTop: getStatusBarHeight(),
         marginHorizontal: 20,
-        paddingTop: 140,
+
         //marginBottom: 80
     },
 

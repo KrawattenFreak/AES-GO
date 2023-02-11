@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -183,11 +184,15 @@ const style_DashboardScreen = StyleSheet.create({
     headerView: {
         //paddingTop: (Platform.OS === 'ios') ? 80 : 0,
         //Code 001
+        paddingTop: getStatusBarHeight() + 40,
         marginHorizontal: 20,
-        marginTop: 80,
+        //marginTop: 80,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        borderBottomWidth: 1,
+        borderColor: '#dbdbdb',
+        paddingBottom: 8
 
     },
     headerText: {
