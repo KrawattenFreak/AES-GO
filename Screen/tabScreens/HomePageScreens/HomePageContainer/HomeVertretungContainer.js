@@ -3,6 +3,7 @@ import * as React from 'react';
 import { TouchableOpacity, Pressable, RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text } from 'react-native';
 import { useState, useEffect } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { MaterialIcons } from '@expo/vector-icons'
 
 
 import VertretungsplanLoad from '../../../../code/SPH_Loading/VertretungsplanLoad';
@@ -140,7 +141,7 @@ export default function VertretungContainer({ vertretungData }) {
 
                     </View> :
                     <View style={style.myVertretungNoEntriesView}>
-                        <Ionicons name={'eye-off-outline'} size={20} color={'grey'} />
+                        <MaterialIcons name="auto-awesome" size={20} color="orange" />
                         <Text style={style.myVertretungNoEntriesText}>KEINE EINTRÄGE</Text>
                     </View>
             }
@@ -166,7 +167,7 @@ const style = StyleSheet.create({
         backgroundColor: 'rgb(250, 250, 250)',
         borderRadius: 10,
         borderColor: '#dadae8',
-        borderWidth: 0.5,
+        borderWidth: 0,
 
         //SHADOW
         shadowColor: "#000",
@@ -335,18 +336,29 @@ const style = StyleSheet.create({
 
 
     myVertretungNoEntriesView: {
-        marginVertical: 10,
+        marginVertical: 5,
         alignItems: 'center',
-        backgroundColor: '#ffeeb8',
-        borderColor: '#fccd3f',
-        borderWidth: 1,
+        backgroundColor: 'white',
+        borderColor: '#dadae8',
+        borderWidth: 0,
         borderRadius: 10,
-        padding: 20
+        padding: 20,
+
+        //SHADOW
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 15,
+
+        elevation: 4,
     },
     myVertretungNoEntriesText: {
         color: 'black',
         marginTop: 5,
-        fontWeight: '300',
+        fontWeight: '700',
         fontSize: 10,
         color: 'grey'
     }

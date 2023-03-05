@@ -6,7 +6,7 @@ export default function getSPHData(sessionID, callback) {
 
 
     //GET VERTRETUNGSPLAN
-    vertretungsplanFetch(sessionID, () => {
+    vertretungsplanInfoFetch(sessionID, () => {
 
         stundenplanFetch(sessionID, () => {
 
@@ -34,7 +34,7 @@ export default function getSPHData(sessionID, callback) {
 
 
 //VERTRETUNG
-function vertretungsplanFetch(sessionID, callback) {
+function vertretungsplanInfoFetch(sessionID, callback) {
     fetch('https://start.schulportal.hessen.de/vertretungsplan.php', {
         method: 'GET',
         headers: {
@@ -43,19 +43,49 @@ function vertretungsplanFetch(sessionID, callback) {
         credentials: 'omit'
     })
         .then((resVertretung) => resVertretung.text()
-            .then(resVertretungHTML => {
+            .then(resVertretungInfoHTML => {
 
-                const Vertretung = vertretungsplanHTMLParser(resVertretungHTML)
+                const Vertretung = vertretungsplanHTMLParser(resVertretungInfoHTML)
+                const InfoAES = infoAESParser(resVertretungInfoHTML)
 
                 AsyncStorage.setItem('vertretung', JSON.stringify(Vertretung)).then(() => {
 
-                    //console.log(JSON.stringify(Vertretung))
+                    AsyncStorage.setItem('infoAES', JSON.stringify(InfoAES)).then(() => {
 
-                    callback.call(this)
+                        callback.call(this)
+
+                    })
 
                 })
             })
         )
+}
+
+function infoAESParser(htmlString) {
+
+    const $ = cheerio.load(htmlString);
+
+    let amountInfo = 0
+    //let infoAESData = []
+
+    $('.infos').each((index1, ref1) => {
+
+        if (index1 == 0) {
+
+            $(ref1).find('tr:not([class="subheader"])').each((index2, ref2) => {
+
+
+                //infoAESData.push($(ref2).html())
+                amountInfo++
+            })
+
+        }
+
+    })
+
+    //return infoAESData
+    return amountInfo
+
 }
 
 function vertretungsplanHTMLParser(htmlString) {
@@ -122,7 +152,7 @@ function vertretungsplanHTMLParser(htmlString) {
 
             if (pushed.stunde != null) {
 
-                if($(ref2).find('b').text() != "Keine Einträge!") {
+                if ($(ref2).find('b').text() != "Keine Einträge!") {
                     Vertretung[index1]['data'].push(pushed)
                 } else {
                     Vertretung[index1]['data'].push({
@@ -143,7 +173,7 @@ function vertretungsplanHTMLParser(htmlString) {
 
     })
 
-    console.log(Vertretung)
+    //console.log(Vertretung)
 
     return Vertretung
 
@@ -227,38 +257,38 @@ function stundenplanHTMLParser(htmlString) {
     //-----------------------------------------------------------------------------------------------
     let dategueltigOwn;
     const dateRawOwn = $('#own').find('div[class="plan"]').attr('data-date')
-    
+
 
     if (dateRawOwn !== undefined) {
         const dateArrayOwn = dateRawOwn.split('-')
         dategueltigOwn = dateArrayOwn[2] + ' ' + dateArrayOwn[1] + ' ' + dateArrayOwn[0]
         stundenplanDATA.own['dategueltig'] = dategueltigOwn
-    
+
         $('#own').find('tbody').find('tr').each((index1, ref1) => {
-    
+
             $(ref1).find('td').each((index2, ref2) => {
-    
+
                 if (typeof $(ref2).attr('rowspan') !== 'undefined') {
-    
+
                     stundenplanDATA.own[umrechnenZahlWochentag[String(index2)]][String(index1 + 1)] = {
                         data: []
                     }
-    
+
                     $(ref2).find('.stunde').each((index3, ref3) => {
-    
+
                         const fachDATA = $(ref3).find('b').text().replace(/\s/g, '')
-    
-    
-    
+
+
+
                         persKurseArr.push(fachDATA)
-    
+
                         //console.log(fachDATA)
-    
-    
-    
+
+
+
                         const lehrkraftDATA = $(ref3).find('small').text().replace(/\s/g, '')
                         const stundenDATA = $(ref2).attr('rowspan')
-    
+
                         const wocheData = () => {
                             if ($(ref3).find('.badge').text() != '')
                                 return $(ref3).find('.badge').text()
@@ -266,12 +296,12 @@ function stundenplanHTMLParser(htmlString) {
                                 return 'all'
                             }
                         }
-    
+
                         const raw_ref3 = $(ref3).text().replace(/\s/g, '')
                         const raumDATA = raw_ref3.replace(fachDATA, '').replace(lehrkraftDATA, '').replace(wocheData(), '')
-    
-    
-    
+
+
+
                         stundenplanDATA.own[umrechnenZahlWochentag[String(index2)]][String(index1 + 1)].data.push(
                             {
                                 fach: fachDATA,
@@ -282,9 +312,9 @@ function stundenplanHTMLParser(htmlString) {
                                 //rawData: $(ref3).text().replace(/\s/g, '')
                             }
                         )
-    
+
                         stundenplanDATA.own[umrechnenZahlWochentag[String(index2)]][String(index1 + 1)].stunden = stundenDATA
-    
+
                     })
                 }
             })

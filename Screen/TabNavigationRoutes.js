@@ -5,7 +5,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomePage from './tabScreens/HomePage';
 import NewsPage from './tabScreens/NewsPage';
 import EventsPage from './tabScreens/EventsPage';
-import Interactive3DPage from './tabScreens/Interactive3DPage';
 
 
 
@@ -37,9 +36,6 @@ export default function TabNavigationRoutes(props) {
                     } else if (route.name === 'Schule') {
                         iconName = focused ? 'library' : 'library-outline';
 
-                    } else if (route.name === '3D') {
-                        iconName = focused ? 'cube' : 'cube-outline';
-
                     } else if (route.name === 'Events') {
                         iconName = focused ? 'receipt' : 'receipt-outline';
 
@@ -57,7 +53,6 @@ export default function TabNavigationRoutes(props) {
         >
             <Tab.Screen name="Schule" component={HomePage} />
             <Tab.Screen name="News" component={NewsPage} />
-            <Tab.Screen name="3D" component={Interactive3DPage} />
             <Tab.Screen name="Events" component={EventsPage} />
 
 

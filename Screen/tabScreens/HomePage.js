@@ -4,12 +4,14 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { NavigationContainer } from '@react-navigation/native';
 
 import HomeContainer from './HomePageScreens/HomeScreenContainer';
 import HomeScreenStundenplan from './HomePageScreens/HomeScreenStundenplan';
 import HomeScreenVertretung from './HomePageScreens/HomeScreenVertretung';
 import HomeScreenTasks from './HomePageScreens/HomeScreenTasks';
-import Interactive3DPage from './Interactive3DPage';
+import HomeScreenInfoAES from './HomePageScreens/HomeScreenInfoAES';
+import HomeScreenInfoAESSingle from './HomePageScreens/HomeScreenInfoAESSingle';
 
 import getSPHData from '../../code/SPH_Networking/SPH-GetterAndSaver';
 import SPH_auth from '../../code/SPH_Networking/SPH-auth';
@@ -20,6 +22,7 @@ import SettingsModal from './SettingsScreen/SettingsModal';
 import VertretungsplanLoad from '../../code/SPH_Loading/VertretungsplanLoad';
 import StundenplanLoad from '../../code/SPH_Loading/StundenplanLoad';
 import TasksLoad from '../../code/SPH_Loading/TasksLoad';
+import InfoLoad from '../../code/SPH_Loading/InfoLoad';
 
 import { RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text, Animated, TouchableOpacity } from 'react-native';
 import { Modalize } from 'react-native-modalize';
@@ -32,13 +35,16 @@ const Stack = createStackNavigator();
 
 export default function HomePage({ navigation }) {
     return (
-        <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: true, headerBackTitle: 'Zurück' }}>
-            <Stack.Screen label='Home' name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="HomeScreenVertretung" component={HomeScreenVertretung} options={{ title: 'Vertretungsplan' }} />
-            <Stack.Screen name="HomeScreenStundenplan" component={HomeScreenStundenplan} options={{ title: 'Stundenplan' }} />
-            <Stack.Screen name="HomeScreenTasks" component={HomeScreenTasks} options={{ title: 'Unterricht' }} />
-            <Stack.Screen name="Interactive3DPage" component={Interactive3DPage} options={{ title: '3D-View' }} />
-        </Stack.Navigator>
+        <NavigationContainer independent={true}>
+            <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: true, headerBackTitle: 'Zurück' }}>
+                <Stack.Screen label='Home' name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
+                <Stack.Screen name="HomeScreenVertretung" component={HomeScreenVertretung} options={{ title: 'Vertretungsplan' }} />
+                <Stack.Screen name="HomeScreenStundenplan" component={HomeScreenStundenplan} options={{ title: 'Stundenplan' }} />
+                <Stack.Screen name="HomeScreenTasks" component={HomeScreenTasks} options={{ title: 'Unterricht' }} />
+                <Stack.Screen name="HomeScreenInfoAES" component={HomeScreenInfoAES} options={{ title: 'Information' }} />
+                <Stack.Screen name="HomeScreenInfoAESSingle" component={HomeScreenInfoAESSingle} options={{ title: 'Information' }} />
+            </Stack.Navigator>
+        </NavigationContainer>
 
     );
 }
@@ -56,6 +62,9 @@ function HomeScreen({ navigation }) {
         vData: [],
         sData: [[], []],
         tData: [],
+        iData: {
+            infoAESData: 0
+        },
         welcomeName: ''
     })
 
@@ -73,6 +82,9 @@ function HomeScreen({ navigation }) {
                 vData: [],
                 sData: [],
                 tData: [],
+                iData: {
+                    infoAESData: 0
+                },
                 welcomeName: ''
             }
 
@@ -90,8 +102,15 @@ function HomeScreen({ navigation }) {
 
                         payLoad.tData = tData
 
-                        setRefreshing(false)
-                        setHomeScreenData(payLoad)
+                        InfoLoad((iData) => {
+
+                            payLoad.iData = iData
+
+                            setRefreshing(false)
+                            setHomeScreenData(payLoad)
+
+                        })
+
 
                     })
 
@@ -152,6 +171,27 @@ function HomeScreen({ navigation }) {
                     <Ionicons name={'settings-outline'} size={25} color={'#a3a3a3'} />
 
                 </TouchableOpacity>
+
+                <Button title='nothing' onPress={() => {
+                    let payLoad = {
+                        vData: [],
+                        sData: [[], []],
+                        tData: [],
+                        iData: {
+                            infoAESData: 0
+                        },
+                        welcomeName: ''
+                    }
+
+
+
+                    setHomeScreenData(payLoad)
+
+
+                }}>
+
+                </Button>
+
             </View>
             <ScrollView
                 refreshControl={
@@ -163,6 +203,7 @@ function HomeScreen({ navigation }) {
                 contentContainerStyle={style_DashboardScreen.contentView}
             >
 
+                <HomeContainer infoAESData={homeScreenData.iData.infoAESData} label='InfoAES' onPress={() => navigation.navigate('HomeScreenInfoAES')} />
                 <HomeContainer vertretungData={homeScreenData.vData} label='Vertretung' onPress={() => navigation.navigate('HomeScreenVertretung')} />
                 <HomeContainer stundenplanData={homeScreenData.sData} label='Stundenplan' onPress={() => navigation.navigate('HomeScreenStundenplan')} />
                 <HomeContainer tasksData={homeScreenData.tData} label='Tasks' onPress={() => navigation.navigate('HomeScreenTasks')} />

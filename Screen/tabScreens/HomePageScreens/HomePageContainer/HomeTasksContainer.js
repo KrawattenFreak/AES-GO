@@ -32,6 +32,9 @@ export default function TasksContainer({ tasksData }) {
 
                                     <View style={style.oneTaskView} key={generateUUID()}>
 
+                                        <View style={style.oneTaskViewPinView}>
+                                            <Ionicons style={style.oneTaskViewPinIcon} name={'pin'} size={30} color={'grey'} />
+                                        </View>
 
                                         <Text style={style.oneTaskFachText}>
                                             {String(data.fach).toUpperCase()}
@@ -54,15 +57,11 @@ export default function TasksContainer({ tasksData }) {
 
                         }
 
-
-
-
-
                     </View> :
 
 
                     <View style={style.myTasksNoEntriesView}>
-                        <Ionicons name={'checkmark-circle'} size={20} color={'white'} />
+                        <Ionicons name={'checkmark-circle'} size={20} color={'#0ac216'} />
                         <Text style={style.myTasksNoEntriesText}>ALLE AUFGABEN ERLEDIGT</Text>
                     </View>
 
@@ -87,9 +86,9 @@ const style = StyleSheet.create({
         //CODE:001
         marginHorizontal: 20,
         backgroundColor: 'rgb(250, 250, 250)',
-        borderRadius: 10,
+        borderRadius: 15,
         borderColor: '#dadae8',
-        borderWidth: 0.5,
+        borderWidth: 0,
 
         //SHADOW
         shadowColor: "#000",
@@ -146,15 +145,37 @@ const style = StyleSheet.create({
 
     },
 
+    oneTaskViewPinView: {
+        alignItems: 'center',
+        marginBottom: 10
+    },
+
+    oneTaskViewPinIcon: {
+        position: 'absolute',
+        top: -35
+    },
+
 
     oneTaskView: {
 
-        marginVertical: 10,
+        marginVertical: 15,
         borderWidth: 1,
         borderColor: '#dadae8',
-        padding: 15,
-        borderRadius: 10,
-        backgroundColor: '#f5f5f5',
+        padding: 20,
+        borderRadius: 5,
+        borderWidth: 0,
+        backgroundColor: 'white',
+
+        //SHADOW
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
+
+        elevation: 4,
 
     },
 
@@ -181,18 +202,31 @@ const style = StyleSheet.create({
     myTasksNoEntriesView: {
         marginVertical: 5,
         alignItems: 'center',
-        backgroundColor: '#00db3b',
-        borderColor: '#00b02f',
-
+        backgroundColor: 'white',
+        borderColor: '#dadae8',
+        borderWidth: 0,
         borderRadius: 10,
-        padding: 20
+        padding: 20,
+
+        //SHADOW
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 15,
+
+        elevation: 4,
     },
     myTasksNoEntriesText: {
         color: 'black',
         marginTop: 5,
         fontWeight: '700',
         fontSize: 10,
-        color: 'white'
+        color: 'grey',
+
+
     }
 
 })

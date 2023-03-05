@@ -280,16 +280,26 @@ function HomeScreenStundenplanALL({ navigation, faecher }) {
 
                                                             faecher.all[index][index2].data.map((data3, index3) => {
                                                                 return (
-                                                                    <View style={style_HomeScreenStundenplanAll.stundenplanEinFachInSection} key={generateUUID()}>
-                                                                        <Text style={style_HomeScreenStundenplanAll.stundenplanFachInSection} key={generateUUID()}>
-                                                                            {data3.fach}
-                                                                        </Text>
+                                                                    <TouchableOpacity style={style_HomeScreenStundenplanAll.stundenplanEinFachInSection} key={generateUUID()}>
+                                                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                            <Text style={style_HomeScreenStundenplanAll.stundenplanFachInSection} key={generateUUID()}>
+                                                                                {data3.fach}
+                                                                            </Text>
+                                                                            {
+                                                                                (data3.woche != "all") ?
+                                                                                    (data3.woche == "WA") ?
+                                                                                        <View style={style_HomeScreenStundenplanAll.stundenplanEinFachInSectionWocheWA}><Text style={style_HomeScreenStundenplanAll.stundenplanEinFachInSectionWocheText}>{data3.woche}</Text></View> :
+                                                                                        <View style={style_HomeScreenStundenplanAll.stundenplanEinFachInSectionWocheWB}><Text style={style_HomeScreenStundenplanAll.stundenplanEinFachInSectionWocheText}>{data3.woche}</Text></View> :
+                                                                                    <></>
+                                                                            }
+
+                                                                        </View>
 
                                                                         <Text style={style_HomeScreenStundenplanAll.stundenplanRaumInSection} key={generateUUID()}>
                                                                             {data3.lehrkraft + ' | ' + data3.raum}
                                                                         </Text>
 
-                                                                    </View>
+                                                                    </TouchableOpacity>
                                                                 )
 
                                                             })
@@ -307,16 +317,26 @@ function HomeScreenStundenplanALL({ navigation, faecher }) {
 
                                                             faecher.all[index][index2].data.map((data3, index3) => {
                                                                 return (
-                                                                    <View style={style_HomeScreenStundenplanAll.stundenplanEinFachInSection} key={generateUUID()}>
-                                                                        <Text style={style_HomeScreenStundenplanAll.stundenplanFachInSection} key={generateUUID()}>
-                                                                            {data3.fach}
-                                                                        </Text>
+                                                                    <TouchableOpacity style={style_HomeScreenStundenplanAll.stundenplanEinFachInSection} key={generateUUID()}>
+                                                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                            <Text style={style_HomeScreenStundenplanAll.stundenplanFachInSection} key={generateUUID()}>
+                                                                                {data3.fach}
+                                                                            </Text>
+                                                                            {
+                                                                                (data3.woche != "all") ?
+                                                                                    (data3.woche == "WA") ?
+                                                                                        <View style={style_HomeScreenStundenplanAll.stundenplanEinFachInSectionWocheWA}><Text style={style_HomeScreenStundenplanAll.stundenplanEinFachInSectionWocheText}>{data3.woche}</Text></View> :
+                                                                                        <View style={style_HomeScreenStundenplanAll.stundenplanEinFachInSectionWocheWB}><Text style={style_HomeScreenStundenplanAll.stundenplanEinFachInSectionWocheText}>{data3.woche}</Text></View> :
+                                                                                    <></>
+                                                                            }
+
+                                                                        </View>
 
                                                                         <Text style={style_HomeScreenStundenplanAll.stundenplanRaumInSection} key={generateUUID()}>
                                                                             {data3.lehrkraft + ' | ' + data3.raum}
                                                                         </Text>
 
-                                                                    </View>
+                                                                    </TouchableOpacity>
                                                                 )
 
                                                             })
@@ -475,12 +495,33 @@ const style_HomeScreenStundenplanAll = new StyleSheet.create({
     //EIN FACH IN SECTION
 
     stundenplanFachInSection: {
-
+        fontWeight: '600',
+        color: '#242424'
     },
 
     stundenplanRaumInSection: {
         fontWeight: '200',
         fontSize: 10
+    },
+
+    stundenplanEinFachInSectionWocheWA: {
+        backgroundColor: 'gray',
+        padding: 2,
+        borderRadius: 5,
+        marginLeft: 2
+    },
+
+    stundenplanEinFachInSectionWocheWB: {
+        backgroundColor: '#5cb85c',
+        padding: 2,
+        borderRadius: 5,
+        marginLeft: 2
+    },
+
+    stundenplanEinFachInSectionWocheText: {
+        color: 'white',
+        fontWeight: '800',
+        fontSize: 8
     }
 
 })
@@ -592,11 +633,22 @@ function HomeScreenStundenplanOWN({ navigation, faecher }) {
                                                             faecher.own[index][index2].data.map((data3, index3) => {
                                                                 return (
 
-                                                                    <TouchableOpacity onPress={() => navigation.navigate('Interactive3DPage', { selectedRooms: [data3.raum] })} style={style_HomeScreenStundenplanOwn.stundenplanEinFachInSection} key={generateUUID()}>
 
-                                                                        <Text style={style_HomeScreenStundenplanOwn.stundenplanFachInSection} key={generateUUID()}>
-                                                                            {data3.fach}
-                                                                        </Text>
+                                                                    <TouchableOpacity style={style_HomeScreenStundenplanOwn.stundenplanEinFachInSection} key={generateUUID()}>
+
+                                                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                            <Text style={style_HomeScreenStundenplanOwn.stundenplanFachInSection} key={generateUUID()}>
+                                                                                {data3.fach}
+                                                                            </Text>
+                                                                            {
+                                                                                (data3.woche != "all") ?
+                                                                                    (data3.woche == "WA") ?
+                                                                                        <View style={style_HomeScreenStundenplanOwn.stundenplanEinFachInSectionWocheWA}><Text style={style_HomeScreenStundenplanOwn.stundenplanEinFachInSectionWocheText}>{data3.woche}</Text></View> :
+                                                                                        <View style={style_HomeScreenStundenplanOwn.stundenplanEinFachInSectionWocheWB}><Text style={style_HomeScreenStundenplanOwn.stundenplanEinFachInSectionWocheText}>{data3.woche}</Text></View> :
+                                                                                    <></>
+                                                                            }
+
+                                                                        </View>
 
                                                                         <Text style={style_HomeScreenStundenplanOwn.stundenplanRaumInSection} key={generateUUID()}>
                                                                             {data3.lehrkraft + ' | ' + data3.raum}
@@ -621,16 +673,26 @@ function HomeScreenStundenplanOWN({ navigation, faecher }) {
 
                                                             faecher.own[index][index2].data.map((data3, index3) => {
                                                                 return (
-                                                                    <View style={style_HomeScreenStundenplanOwn.stundenplanEinFachInSection} key={generateUUID()}>
-                                                                        <Text style={style_HomeScreenStundenplanOwn.stundenplanFachInSection} key={generateUUID()}>
-                                                                            {data3.fach}
-                                                                        </Text>
+                                                                    <TouchableOpacity style={style_HomeScreenStundenplanOwn.stundenplanEinFachInSection} key={generateUUID()}>
+                                                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                            <Text style={style_HomeScreenStundenplanOwn.stundenplanFachInSection} key={generateUUID()}>
+                                                                                {data3.fach}
+                                                                            </Text>
+                                                                            {
+                                                                                (data3.woche != "all") ?
+                                                                                    (data3.woche == "WA") ?
+                                                                                        <View style={style_HomeScreenStundenplanOwn.stundenplanEinFachInSectionWocheWA}><Text style={style_HomeScreenStundenplanOwn.stundenplanEinFachInSectionWocheText}>{data3.woche}</Text></View> :
+                                                                                        <View style={style_HomeScreenStundenplanOwn.stundenplanEinFachInSectionWocheWB}><Text style={style_HomeScreenStundenplanOwn.stundenplanEinFachInSectionWocheText}>{data3.woche}</Text></View> :
+                                                                                    <></>
+                                                                            }
+
+                                                                        </View>
 
                                                                         <Text style={style_HomeScreenStundenplanOwn.stundenplanRaumInSection} key={generateUUID()}>
                                                                             {data3.lehrkraft + ' | ' + data3.raum}
                                                                         </Text>
 
-                                                                    </View>
+                                                                    </TouchableOpacity>
                                                                 )
 
                                                             })
@@ -643,17 +705,9 @@ function HomeScreenStundenplanOWN({ navigation, faecher }) {
                                                 return (
                                                     <View style={[style_HomeScreenStundenplanOwn.keineStunde]} key={generateUUID()}>
 
-
-
-
                                                         <View style={style_HomeScreenStundenplanOwn.keineStundeInner}>
 
                                                         </View>
-
-
-
-
-
 
                                                     </View>
                                                 )
@@ -806,13 +860,38 @@ const style_HomeScreenStundenplanOwn = new StyleSheet.create({
     //EIN FACH IN SECTION
 
     stundenplanFachInSection: {
-
+        fontWeight: '600',
+        color: '#242424'
     },
 
     stundenplanRaumInSection: {
         fontWeight: '200',
         fontSize: 10
+    },
+
+
+
+    stundenplanEinFachInSectionWocheWA: {
+        backgroundColor: 'gray',
+        padding: 2,
+        borderRadius: 5,
+        marginLeft: 2
+    },
+
+    stundenplanEinFachInSectionWocheWB: {
+        backgroundColor: '#5cb85c',
+        padding: 2,
+        borderRadius: 5,
+        marginLeft: 2
+    },
+
+    stundenplanEinFachInSectionWocheText: {
+        color: 'white',
+        fontWeight: '800',
+        fontSize: 8
     }
+
+
 
 })
 

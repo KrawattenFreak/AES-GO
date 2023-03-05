@@ -10,10 +10,18 @@ import {
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { useFonts } from 'expo-font';
+
 import SPH_sync from '../code/SPH_Networking/SPH-sync';
+
+import SVGatorComponent from './Components/Animations/DataDonwload';
 
 
 export default function SplashScreen({ navigation }) {
+
+  const [fontsLoaded] = useFonts({
+    'threeFont': require('../assets/fonts/3DIsometricBold-8MYYZ.otf'),
+  });
 
 
   const [animating, setAnimating] = useState(true);
@@ -40,14 +48,6 @@ export default function SplashScreen({ navigation }) {
 
       }
 
-
-
-
-
-
-
-
-
     }
     );
 
@@ -61,13 +61,14 @@ export default function SplashScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={{ color: 'white' }}>Loading</Text>
+      <SVGatorComponent />
       <ActivityIndicator
         animating={animating}
         color="#FFFFFF"
         size="large"
         style={styles.activityIndicator}
       />
+      <Text style={styles.text}>SYNCHRONISIERUNG</Text>
     </View>
 
 
@@ -87,4 +88,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 80,
   },
+
+  text: {
+    color: 'white',
+    fontWeight: '800'
+  }
 });

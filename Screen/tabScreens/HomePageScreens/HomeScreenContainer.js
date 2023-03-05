@@ -4,11 +4,12 @@ import { TouchableOpacity, Pressable, RefreshControl, ScrollView, Platform, Styl
 import { useState, useEffect } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import VertretungContainer from './HomePageVertretung/HomeVertretungContainer';
-import StundenplanContainer from './HomePageVertretung/HomeStundenplanContainer';
-import TasksContainer from './HomePageVertretung/HomeTasksContainer';
+import VertretungContainer from './HomePageContainer/HomeVertretungContainer';
+import StundenplanContainer from './HomePageContainer/HomeStundenplanContainer';
+import TasksContainer from './HomePageContainer/HomeTasksContainer';
+import InfoAESContainer from './HomePageContainer/HomeInfoAESContainer';
 
-export default function HomeContainer({ navigation, label, onPress, vertretungData, stundenplanData, tasksData }) {
+export default function HomeContainer({ navigation, label, onPress, vertretungData, stundenplanData, tasksData, infoAESData }) {
 
 
     return (
@@ -18,10 +19,12 @@ export default function HomeContainer({ navigation, label, onPress, vertretungDa
 
                 {
                     (label == 'Vertretung') ?
-                        <VertretungContainer vertretungData={vertretungData}/> :
+                        <VertretungContainer vertretungData={vertretungData} /> :
                         (label == 'Stundenplan') ?
-                        <StundenplanContainer stundenplanData={stundenplanData}/>:
-                        <TasksContainer tasksData={tasksData}/>
+                            <StundenplanContainer stundenplanData={stundenplanData} /> :
+                            (label == 'InfoAES') ?
+                                <InfoAESContainer infoAESData={infoAESData} /> :
+                                <TasksContainer tasksData={tasksData} />
 
                 }
 

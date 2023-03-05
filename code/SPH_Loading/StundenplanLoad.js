@@ -44,9 +44,10 @@ export default function StundenplanLoad(callback) {
                 for (const oneKurs of currentDay) {
                     todayKursePre.push(oneKurs)
                 }
-            } else {
-                console.log("value")
             }
+            //else {
+            //    console.log("Wochenende")
+            //}
 
             stundenplanDATA[1] = todayKursePre
 

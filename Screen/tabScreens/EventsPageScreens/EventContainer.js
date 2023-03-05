@@ -75,91 +75,105 @@ export default function EventContainer({ label, title, picture, onPress, descrip
         <View style={style.wrapper}>
 
 
-            <View style={style.container}>
-                <View style={style.top}>
-                    <LinearGradient
-                        colors={[categoryColorName, 'black']}
-                        style={style.linearGradient}
-                        start={{ x: 0, y: 1 }} end={{ x: 0, y: 0 }}
-
-                    >
-                        <ImageBackground source={require('../../../Image/placeholderEvent.jpg')} resizeMode="cover" style={style.image} imageStyle={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
-                        </ImageBackground>
-                    </LinearGradient>
-
-                </View>
-
-                <View style={style.bottom}>
-                    {soon ?
-                        <View style={style.soonWrapper}>
-                            <Text style={style.soonText}>DEMNÄCHST</Text>
-                        </View> :
-                        <View></View>
-                    }
-
-                    <View style={style.bottomTitle}>
-                        <View style={style.bottomTitleView}>
+            <ImageBackground source={require('../../../Image/pattern2.jpg')} resizeMode='cover' style={{ flex: 1 }} imageStyle={{ flex: 1, borderRadius: 20, opacity: 0.007 }}>
+                <View style={style.container}>
 
 
-                            <Ionicons name={categoryIconName} size={20} color={'#575757'} />
-                            <Text style={style.categoryTitleName}>{String(categoryTitleName).toUpperCase()}</Text>
-                            <Text style={style.bottomTitleText}>
-                                {title}
-                            </Text>
-                        </View>
 
-                        {description == '' ?
 
-                            <View></View> :
+                    <View style={style.top}>
+                        <LinearGradient
+                            colors={[categoryColorName, 'black']}
+                            style={style.linearGradient}
+                            start={{ x: 0, y: 1 }} end={{ x: 0, y: 0 }}
 
-                            <View style={style.bottomDescriptionView}>
-                                <Text style={style.bottomDescriptionText}>
-                                    {String(description).split('<br />').join('')}
+                        >
+                            <ImageBackground source={require('../../../Image/placeholderEvent.jpg')} resizeMode="cover" style={style.image} imageStyle={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
+                            </ImageBackground>
+                        </LinearGradient>
+
+                    </View>
+
+                    <View style={style.bottom}>
+                        {soon ?
+                            <View style={style.soonWrapper}>
+                                <Text style={style.soonText}>DEMNÄCHST</Text>
+                            </View> :
+                            <View></View>
+                        }
+
+                        <View style={style.bottomTitle}>
+                            <View style={style.bottomTitleView}>
+
+
+                                <Ionicons name={categoryIconName} size={20} color={'#575757'} />
+                                <Text style={style.categoryTitleName}>{String(categoryTitleName).toUpperCase()}</Text>
+                                <Text style={style.bottomTitleText}>
+                                    {title}
                                 </Text>
                             </View>
-                        }
 
+                            {description == '' ?
 
+                                <View></View> :
 
-
-
-
-                    </View>
-
-
-                    <View style={style.bottomDate}>
-
-                        {
-                            location == null ? <View></View> :
-                                <View style={style.bottomLocationView}>
-                                    <Ionicons name={"location"} size={30} color={'#1c1c1c'} />
-                                    <Text style={style.bottomLocationText}>
-                                        {String(location).toUpperCase()}
+                                <View style={style.bottomDescriptionView}>
+                                    <Text style={style.bottomDescriptionText}>
+                                        {String(description).split('<br />').join('')}
                                     </Text>
                                 </View>
-                        }
-                        {
-                            isDate ? <View></View> :
-                                <Text style={style.bottomTimestart}>{time}</Text>
-                        }
-                        {
+                            }
 
-                            dtstart == dtend ?
-                                <Text style={style.bottomDtstart}>
-                                    {dtstart}
-                                </Text> :
-                                <Text style={style.bottomDtstart}>
-                                    {String(dtstart).replace(dtstartyear, '') + '  -  ' + dtend}
-                                </Text>
 
-                        }
+
+
+
+
+
+
+                        </View>
+
+
+                        <View style={style.bottomDate}>
+
+                            {
+                                location == null ? <View></View> :
+                                    <View style={style.bottomLocationView}>
+                                        <Ionicons name={"location"} size={30} color={'grey'} />
+                                        <Text style={style.bottomLocationText}>
+                                            {String(location).toUpperCase()}
+                                        </Text>
+                                    </View>
+                            }
+
+
+                            {
+                                isDate ? <View></View> :
+                                    <Text style={style.bottomTimestart}>{time}</Text>
+                            }
+                            {
+
+                                dtstart == dtend ?
+                                    <Text style={style.bottomDtstart}>
+                                        {dtstart}
+                                    </Text> :
+                                    <Text style={style.bottomDtstart}>
+                                        {String(dtstart).replace(dtstartyear, '') + '  -  ' + dtend}
+                                    </Text>
+
+                            }
+                        </View>
+
+
                     </View>
+
 
 
                 </View>
 
+            </ImageBackground>
 
-            </View>
+
 
         </View >
 
@@ -178,24 +192,27 @@ const style = StyleSheet.create({
         justifyContent: 'center',
         marginVertical: 30,
         //marginTop: 100,
-        shadowColor: '#171717',
+        shadowColor: 'grey',
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.2,
-        shadowRadius: 3,
+        shadowRadius: 10,
         elevation: 4,
         flex: 1,
 
+        backgroundColor: 'white',
+        borderRadius: 20
 
     },
 
     container: {
         borderRadius: 30,
         flex: 1,
-        backgroundColor: '#242424',
+        //backgroundColor: 'white',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
+
 
     },
 
@@ -228,13 +245,14 @@ const style = StyleSheet.create({
         padding: 10,
         borderRadius: 20,
         marginTop: -50,
-        shadowColor: '#171717',
+        shadowColor: 'black',
         shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
+        shadowOpacity: 0.2,
+        shadowRadius: 10,
         elevation: 4,
         alignItems: 'center',
         padding: 16,
+        marginBottom: 10
     },
 
     bottomTitleText: {
@@ -249,45 +267,53 @@ const style = StyleSheet.create({
 
         marginVertical: 10,
 
-        backgroundColor: '#1c1c1c',
+        backgroundColor: 'white',
+        //borderStyle: 'dashed',
         padding: 20,
-        borderRadius: 10
+        borderRadius: 10,
+
+        borderColor: '#f0f0f0',
+        borderWidth: 1
+
+
+
+
     },
     bottomDescriptionText: {
-        color: 'white',
+        color: 'grey',
         fontWeight: '300',
-        fontSize: 15
+        fontSize: 12
     },
 
     bottomLocationView: {
         alignItems: 'center',
         borderRadius: 10,
         padding: 20,
-        backgroundColor: 'white',
-        marginBottom: 20
+        backgroundColor: '#f0f0f0',
+        marginVertical: 10
     },
 
     bottomLocationText: {
-        color: '#1c1c1c',
+        color: 'grey',
         textAlign: 'center',
         fontSize: 17,
-        fontWeight: '300'
+        fontWeight: '700'
     },
 
 
     bottomDtstart: {
-        color: 'white',
+        color: 'grey',
         fontSize: 22,
-        fontWeight: '300',
+        fontWeight: '600',
     },
     bottomTimestart: {
-        color: 'white',
-        fontSize: 24,
+        color: 'grey',
+        fontSize: 25,
         textAlign: 'center',
-        fontWeight: '400',
+        fontWeight: '800',
     },
     bottomDate: {
-        flex: 0.5,
+        flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center'
     },
