@@ -30,7 +30,7 @@ export default function HintStundenplan({ visible, onPress }) {
                         <Text style={styles.hintTextSectionText}>
                             Hey!{"\n"}
                             Du kannst hier deinen persönlichen Stundenplan einsehen. {"\n"}{"\n"}
-                            Der persönliche Stundenplan kann noch zu viele Kurse beinhalten (da eine automatische Zuordnung zu den Lerngruppen scheitert) 
+                            Der persönliche Stundenplan kann noch zu viele Kurse beinhalten (da eine automatische Zuordnung zu den Lerngruppen scheitert)
                             oder zu wenige Kurse beinhalten (falls die Lerngruppen nicht auf dem aktuellen Stand sind).
                         </Text>
                     </View>
@@ -85,9 +85,9 @@ const styles = StyleSheet.create({
 
 
     buttonStyle: {
-        backgroundColor: 'tomato',
+        backgroundColor: '#42a4f5',
         color: '#FFFFFF',
-        borderColor: 'tomato',
+        borderColor: '#42a4f5',
         height: 40,
         alignItems: 'center',
         borderRadius: 5,
