@@ -21,8 +21,6 @@ import getSPHData from '../code/SPH_Networking/SPH-GetterAndSaver';
 
 
 
-
-
 export default function LoginScreen({ navigation }) {
 
   const [userEmail, setUserEmail] = useState('');
@@ -59,11 +57,14 @@ export default function LoginScreen({ navigation }) {
 
         AsyncStorage.setItem('user_credentials', JSON.stringify(payLoad)).then(() => {
 
-          getSPHData(sessionID, () => {
-            setLoading(false);
-            navigation.replace('TabNavigationRoutes');
+          //getSPHData(sessionID, () => {
+          //  setLoading(false);
+          //  navigation.replace('TabNavigationRoutes');
+          //
+          //})
 
-          })
+          setLoading(false)
+          navigation.replace('SplashScreen')
 
         })
 
@@ -113,100 +114,96 @@ export default function LoginScreen({ navigation }) {
   return (
     <View style={styles.mainBody}>
       <Loader loading={loading} />
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="none"
-        contentContainerStyle={{
-          flex: 1,
-          //justifyContent: 'center',
-          alignContent: 'center',
-          marginTop: 80
-        }}
-      >
-        <View>
-          <KeyboardAvoidingView enabled>
-            <View style={{ alignItems: 'center' }}>
-              <Image
-                source={require('../Image/aes-logo.png')}
-                style={{
-                  width: '50%',
-                  height: 100,
-                  resizeMode: 'contain',
-                  margin: 30,
-                }}
-              />
 
-              <Text style={styles.logoTextStyle}>
-                ALBERT EINSTEIN GYMNASIUM{"\n"}GO APP
-              </Text>
+      <KeyboardAvoidingView enabled behavior="padding" style={{ flex: 1 }}>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="none"
+          style={styles.ScrollView}
+        >
+          <View style={{ alignItems: 'center' }}>
+            <Image
+              source={require('../assets/icon.png')}
+              style={{
+                width: '50%',
+                height: 120,
+                resizeMode: 'contain',
+                margin: 30,
+                marginTop: 100
+              }}
+            />
+
+            <Text style={styles.logoTextStyle}>
+              ALBERT EINSTEIN GYMNASIUM
+            </Text>
 
 
-            </View>
-            <View style={styles.SectionStyle}>
-              <TextInput
-                style={styles.inputStyle}
-                onChangeText={(UserEmail) =>
-                  setUserEmail(UserEmail)
-                }
-                placeholder="Vorname.Nachname"
-                placeholderTextColor="#8b9cb5"
-                keyboardType="email-address"
-                returnKeyType="next"
-                onSubmitEditing={() =>
-                  passwordInputRef.current &&
-                  passwordInputRef.current.focus()
-                }
-                underlineColorAndroid="#f000"
-                blurOnSubmit={false}
-              />
-            </View>
-            <View style={styles.SectionStyle}>
-              <TextInput
-                style={styles.inputStyle}
-                onChangeText={(UserPassword) =>
-                  setUserPassword(UserPassword)
-                }
-                placeholder="Passwort" //12345
-                placeholderTextColor="#8b9cb5"
-                keyboardType="default"
-                ref={passwordInputRef}
-                onSubmitEditing={Keyboard.dismiss}
-                blurOnSubmit={false}
-                secureTextEntry={true}
-                underlineColorAndroid="#f000"
-                returnKeyType="next"
-              />
-            </View>
-            {errortext != '' ? (
-              <Text style={styles.errorTextStyle}>
-                {errortext}
-              </Text>
-            ) : null}
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              activeOpacity={0.5}
-              onPress={handleSubmitPress}>
-              <Text style={styles.buttonTextStyle}>LOGIN</Text>
-            </TouchableOpacity>
-          </KeyboardAvoidingView>
-        </View>
+          </View>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(UserEmail) =>
+                setUserEmail(UserEmail)
+              }
+              placeholder="Vorname.Nachname"
+              placeholderTextColor="#8b9cb5"
+              keyboardType="email-address"
+              returnKeyType="next"
+              onSubmitEditing={() =>
+                passwordInputRef.current &&
+                passwordInputRef.current.focus()
+              }
+              underlineColorAndroid="#f000"
+              blurOnSubmit={false}
+            />
+          </View>
+          <View style={styles.SectionStyle}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={(UserPassword) =>
+                setUserPassword(UserPassword)
+              }
+              placeholder="Passwort" //12345
+              placeholderTextColor="#8b9cb5"
+              keyboardType="default"
+              ref={passwordInputRef}
+              onSubmitEditing={Keyboard.dismiss}
+              blurOnSubmit={false}
+              secureTextEntry={true}
+              underlineColorAndroid="#f000"
+              returnKeyType="next"
+            />
+          </View>
+          {errortext != '' ? (
+            <Text style={styles.errorTextStyle}>
+              {errortext}
+            </Text>
+          ) : null}
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            activeOpacity={0.5}
+            onPress={handleSubmitPress}>
+            <Text style={styles.buttonTextStyle}>ANMELDEN</Text>
+          </TouchableOpacity>
+          <View style={{ marginTop: 20 }}>
+            <Text style={styles.datasecurityText}>
+              Deine persönlichen Daten werden ausschließlich auf deinem Gerät gespeichert.
+              Grund dafür ist, dass ich kein Geld für Server habe, auf dem diese Daten
+              gespeichert werden könnten (verdammt) und NATÜRLICH auch aus Datenschutzgründen.{"\n"}{"\n"}
+              Deine persönlichen Daten werden verschlüsselt an die Schulportal-Hessen-Server übertragen,
+              genau so, wie du es auch schon aus dem Internet-Browser kennst.
+            </Text>
 
-        <View style={{ marginTop: 20 }}>
-          <Text style={styles.datasecurityText}>
-            Deine persönlichen Daten werden ausschließlich auf deinem Gerät gespeichert.
-            Grund dafür ist, dass ich kein Geld für Server habe, auf dem diese Daten
-            gespeichert werden könnten (verdammt) und NATÜRLICH auch aus Datenschutzgründen.{"\n"}{"\n"}
-            Deine persönlichen Daten werden verschlüsselt an die Schulportal-Hessen-Server übertragen,
-            genau so, wie du es auch schon aus dem Internet-Browser kennst.
-          </Text>
+            <Text style={[styles.datasecurityText, { textAlign: 'center' }]}>
+              Entwickelt von Tim Bernhardt
+            </Text>
 
-          <Text style={[styles.datasecurityText, { textAlign: 'center' }]}>
-            Entwickelt von Tim Bernhardt
-          </Text>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
 
-        </View>
 
-      </ScrollView>
+
       <StatusBar style="dark" />
     </View>
   )
@@ -217,7 +214,7 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   mainBody: {
     flex: 1,
-    justifyContent: 'center',
+    //justifyContent: 'center',
     backgroundColor: 'white',
     alignContent: 'center',
   },
@@ -230,10 +227,10 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   buttonStyle: {
-    backgroundColor: 'tomato',
+    backgroundColor: '#42a4f5',
     borderWidth: 0,
     color: '#FFFFFF',
-    borderColor: 'tomato',
+    borderColor: '#42a4f5',
     height: 40,
     alignItems: 'center',
     borderRadius: 5,
@@ -246,6 +243,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     paddingVertical: 10,
     fontSize: 16,
+    fontWeight: '800'
   },
   inputStyle: {
     flex: 1,
@@ -262,10 +260,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   logoTextStyle: {
-    color: '#3b3b3b',
+    color: '#4a4a4a',
     //letterSpacing: '4',
     textAlign: 'center',
-    marginBottom: 30
+    marginBottom: 30,
+    fontWeight: '900'
   },
   datasecurityText: {
     marginLeft: 35,
@@ -274,6 +273,9 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginTop: 30,
     lineHeight: 18
+  },
+  ScrollView: {
+
   }
 
 

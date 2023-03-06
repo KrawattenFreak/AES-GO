@@ -9,7 +9,7 @@ export default function HomeScreenInfoAESSingle({ route }) {
         <View style={style.wrapper}>
             <WebView
                 style={style.webView}
-                source={{ html: '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><style>p{font-family: "Arial"}</style><body>' + route.params.data + '</body></html>' }}
+                source={{ html: '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><style>p, span, h1, h2, h3, h4, h5, h6{font-family: "Arial"}</style><body>' + route.params.data + '</body></html>' }}
                 scalesPageToFit={false}
             />
         </View>

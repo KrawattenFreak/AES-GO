@@ -13,8 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
 
 import SPH_sync from '../code/SPH_Networking/SPH-sync';
-
-import SVGatorComponent from './Components/Animations/DataDonwload';
+import DataSyncAnimation from './Components/Animations/DataSync';
 
 
 export default function SplashScreen({ navigation }) {
@@ -61,14 +60,14 @@ export default function SplashScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <SVGatorComponent />
+      <DataSyncAnimation style={styles.animation} height={400} />
       <ActivityIndicator
         animating={animating}
         color="#FFFFFF"
         size="large"
         style={styles.activityIndicator}
       />
-      <Text style={styles.text}>SYNCHRONISIERUNG</Text>
+      <Text style={styles.text}>DATEN WERDEN GELADEN...</Text>
     </View>
 
 
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'tomato',
+    backgroundColor: '#42a4f5',
   },
   activityIndicator: {
     alignItems: 'center',
@@ -92,5 +91,9 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     fontWeight: '800'
+  },
+  animation: {
+    height: 200,
+    width: 200
   }
 });

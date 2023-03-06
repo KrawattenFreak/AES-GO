@@ -85,9 +85,9 @@ const styles = StyleSheet.create({
 
 
     buttonStyle: {
-        backgroundColor: 'tomato',
+        backgroundColor: '#42a4f5',
         color: '#FFFFFF',
-        borderColor: 'tomato',
+        borderColor: '#42a4f5',
         height: 40,
         alignItems: 'center',
         borderRadius: 5,

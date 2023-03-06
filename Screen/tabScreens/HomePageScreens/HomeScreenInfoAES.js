@@ -84,7 +84,7 @@ export default function HomeScreenInfoAES({ navigation }) {
                             <TouchableOpacity onPress={() => navigation.navigate('HomeScreenInfoAESSingle', { data: infoAESData[index1] })} style={style.webViewView} key={generateUUID()}>
                                 <WebView
                                     style={style.webView}
-                                    source={{ html: '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><style>p{font-family: "Arial"}</style><body>' + data1 + '</body></html>' }}
+                                    source={{ html: '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><style>p, span, h1, h2, h3, h4, h5, h6{font-family: "Arial"}</style><body>' + data1 + '</body></html>' }}
                                     bounces={false}
                                     scrollEnabled={false}
                                     scalesPageToFit={true}

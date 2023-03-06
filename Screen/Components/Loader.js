@@ -3,10 +3,11 @@
 
 // Import React and Component
 import React from 'react';
-import {StyleSheet, View, Modal, ActivityIndicator} from 'react-native';
+import { StyleSheet, View, Modal, ActivityIndicator } from 'react-native';
+import DataSyncAnimation from './Animations/DataSync';
 
 const Loader = (props) => {
-  const {loading, ...attributes} = props;
+  const { loading, ...attributes } = props;
 
   return (
     <Modal
@@ -17,6 +18,7 @@ const Loader = (props) => {
         console.log('close modal');
       }}>
       <View style={styles.modalBackground}>
+
         <View style={styles.activityIndicatorWrapper}>
           <ActivityIndicator
             animating={true}

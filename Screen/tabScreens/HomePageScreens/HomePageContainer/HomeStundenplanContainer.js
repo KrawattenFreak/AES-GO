@@ -174,7 +174,7 @@ const style = StyleSheet.create({
     myStundenplanEntryTextFach: {
         textAlign: 'center',
         fontWeight: '800',
-        color: 'tomato',
+        color: '#42a4f5',
         fontSize: 16
     },
     myStundenplanEntryTextRaum: {

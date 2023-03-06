@@ -157,7 +157,7 @@ function HomeScreen({ navigation }) {
 
             <Modalize ref={modalizeRef} panGestureAnimatedValue={animated} adjustToContentHeight style={style_DashboardScreen.modalize}>
                 <View style={style_DashboardScreen.wrapperModal}>
-                    <SettingsModal>
+                    <SettingsModal navigation={navigation}>
 
                     </SettingsModal>
 

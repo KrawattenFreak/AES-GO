@@ -46,7 +46,7 @@ export default function TabNavigationRoutes(props) {
                     // You can return any component that you like here!
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
-                tabBarActiveTintColor: 'tomato',
+                tabBarActiveTintColor: '#42a4f5',
                 tabBarInactiveTintColor: 'gray',
                 headerShown: false
             })}
