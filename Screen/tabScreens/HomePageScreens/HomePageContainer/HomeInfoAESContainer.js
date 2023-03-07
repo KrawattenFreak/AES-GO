@@ -13,7 +13,7 @@ export default function InfoAESContainer({ infoAESData }) {
 
                 <Ionicons name={'alert-circle'} size={20} color={'grey'} />
                 <Text style={style.infoAESHeaderText}>
-                    NEUE MELDUNGEN
+                    OFFIZIELLE MELDUNGEN
                 </Text>
 
             </View>

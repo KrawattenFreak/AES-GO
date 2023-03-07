@@ -43,6 +43,7 @@ export default function EventsPage({ navigation }) {
 
     useEffect(() => {
 
+
         AsyncStorage.getItem('kalender').then(value => {
 
 

@@ -26,6 +26,7 @@ import InfoLoad from '../../code/SPH_Loading/InfoLoad';
 
 import { RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text, Animated, TouchableOpacity } from 'react-native';
 import { Modalize } from 'react-native-modalize';
+import HomeInfoAdditionalContainer from './HomePageScreens/HomePageContainer/HomeInfoAdditionalContainer';
 
 
 const Stack = createStackNavigator();
@@ -63,7 +64,8 @@ function HomeScreen({ navigation }) {
         sData: [[], []],
         tData: [],
         iData: {
-            infoAESData: 0
+            infoAESData: 0,
+            infoAdditionalData: []
         },
         welcomeName: ''
     })
@@ -83,7 +85,8 @@ function HomeScreen({ navigation }) {
                 sData: [],
                 tData: [],
                 iData: {
-                    infoAESData: 0
+                    infoAESData: 0,
+                    infoAdditionalData: []
                 },
                 welcomeName: ''
             }
@@ -108,6 +111,7 @@ function HomeScreen({ navigation }) {
 
                             setRefreshing(false)
                             setHomeScreenData(payLoad)
+
 
                         })
 
@@ -202,6 +206,13 @@ function HomeScreen({ navigation }) {
                 }
                 contentContainerStyle={style_DashboardScreen.contentView}
             >
+
+
+
+
+
+
+                <HomeInfoAdditionalContainer data={homeScreenData.iData.infoAdditionalData} />
 
                 <HomeContainer infoAESData={homeScreenData.iData.infoAESData} label='InfoAES' onPress={() => navigation.navigate('HomeScreenInfoAES')} />
                 <HomeContainer vertretungData={homeScreenData.vData} label='Vertretung' onPress={() => navigation.navigate('HomeScreenVertretung')} />
