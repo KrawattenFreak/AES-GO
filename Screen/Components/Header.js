@@ -21,12 +21,13 @@ const style_header = StyleSheet.create({
         height: 40,
         width: '100%',
         justifyContent: 'center',
-        position: 'absolute',
+        marginBottom: 15
+        //position: 'absolute',
         //zIndex: 0
 
     },
     label: {
-        marginTop: -100,
+        //marginTop: -100,
         //marginHorizontal: 20,
         fontSize: 30,
         fontWeight: "bold",

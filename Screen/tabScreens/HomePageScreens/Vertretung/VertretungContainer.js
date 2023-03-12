@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { RefreshControl, ScrollView, Platform, StyleSheet, Button, View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { MaterialIcons } from '@expo/vector-icons'
 
 
 
@@ -34,67 +35,50 @@ export default function VertretungContainer({ stunde, klasse, lehrkraft, art, fa
 
     return (
 
-        (stunde == -1) ? 
-        
-        <View style={style_VertretungContainer.wrapperNoEntries}>
-            <Ionicons name={"close-outline"} size={15} color={"#3b3b3b"} />
-            <Text style={style_VertretungContainer.wrapperNoEntriesText}>KEINE EINTRÄGE</Text>
-        </View>
-        
-        :
+        (stunde == -1) ?
+
+            <View style={style_VertretungContainer.wrapperNoEntries}>
+                <MaterialIcons name="auto-awesome" size={20} color="orange" />
+                <Text style={style_VertretungContainer.wrapperNoEntriesText}>KEINE EINTRÄGE</Text>
+            </View>
+
+            :
 
 
-        <View style={style_VertretungContainer.wrapper}>
+            <View style={style_VertretungContainer.wrapper}>
 
-            {
-                (ioniconName == 'close-circle') ?
-                    <View style={style_VertretungContainer.leftView}>
-
-
-                        <Ionicons name={ioniconName} size={30} color={ioniconColor} />
-
-
-                        <Text style={style_VertretungContainer.hinweisENTFALL}>
-                            ENTFALL
-
-                            {//hinweis ? String(hinweis).toUpperCase() : "-"
-                            }
-                        </Text>
-                        <Text style={style_VertretungContainer.hinweisENTFALLHint}>
-                            ggf. AA
-
-                        </Text>
-
-
-                    </View> :
-
-
-
-
-                    (ioniconName == 'caret-up') ?
+                {
+                    (ioniconName == 'close-circle') ?
                         <View style={style_VertretungContainer.leftView}>
+
 
                             <Ionicons name={ioniconName} size={30} color={ioniconColor} />
 
 
-                            <Text style={style_VertretungContainer.hinweisRAUM}>
-                                {raum ? String(raum).toUpperCase() : "-"}
+                            <Text style={style_VertretungContainer.hinweisENTFALL}>
+                                ENTFALL
+
+                                {//hinweis ? String(hinweis).toUpperCase() : "-"
+                                }
+                            </Text>
+                            <Text style={style_VertretungContainer.hinweisENTFALLHint}>
+                                ggf. AA
+
                             </Text>
 
 
                         </View> :
 
 
-                        (ioniconName == 'document') ?
+
+
+                        (ioniconName == 'caret-up') ?
                             <View style={style_VertretungContainer.leftView}>
 
-                                <Ionicons name={ioniconName} size={22} color={ioniconColor} />
+                                <Ionicons name={ioniconName} size={30} color={ioniconColor} />
 
-                                <Text style={style_VertretungContainer.hinweisKLAUSUR1}>
-                                    KLAUSUR IN
-                                </Text>
 
-                                <Text style={style_VertretungContainer.hinweisKLAUSUR2}>
+                                <Text style={style_VertretungContainer.hinweisRAUM}>
                                     {raum ? String(raum).toUpperCase() : "-"}
                                 </Text>
 
@@ -102,61 +86,78 @@ export default function VertretungContainer({ stunde, klasse, lehrkraft, art, fa
                             </View> :
 
 
+                            (ioniconName == 'document') ?
+                                <View style={style_VertretungContainer.leftView}>
 
-                            <View style={style_VertretungContainer.leftView}>
+                                    <Ionicons name={ioniconName} size={22} color={ioniconColor} />
 
-                                <Ionicons name={ioniconName} size={22} color={ioniconColor} />
+                                    <Text style={style_VertretungContainer.hinweisKLAUSUR1}>
+                                        KLAUSUR IN
+                                    </Text>
 
-                                {art ?
-                                    <Text style={style_VertretungContainer.hinweisSONSTIGE3}>
-                                        {String(art).toUpperCase()}
-                                    </Text> : <View></View>
-                                }
-                                {hinweis ?
-                                    <Text style={style_VertretungContainer.hinweisSONSTIGE1}>
-                                        {String(hinweis).toUpperCase()}
-                                    </Text> : <View></View>
-                                }
-                                {raum ?
-                                    <Text style={style_VertretungContainer.hinweisSONSTIGE2}>
-                                        {String(raum).toUpperCase()}
-                                    </Text> : <View></View>
-                                }
+                                    <Text style={style_VertretungContainer.hinweisKLAUSUR2}>
+                                        {raum ? String(raum).toUpperCase() : "-"}
+                                    </Text>
+
+
+                                </View> :
 
 
 
-                            </View>
-            }
+                                <View style={style_VertretungContainer.leftView}>
+
+                                    <Ionicons name={ioniconName} size={22} color={ioniconColor} />
+
+                                    {art ?
+                                        <Text style={style_VertretungContainer.hinweisSONSTIGE3}>
+                                            {String(art).toUpperCase()}
+                                        </Text> : <View></View>
+                                    }
+                                    {hinweis ?
+                                        <Text style={style_VertretungContainer.hinweisSONSTIGE1}>
+                                            {String(hinweis).toUpperCase()}
+                                        </Text> : <View></View>
+                                    }
+                                    {raum ?
+                                        <Text style={style_VertretungContainer.hinweisSONSTIGE2}>
+                                            {String(raum).toUpperCase()}
+                                        </Text> : <View></View>
+                                    }
 
 
 
-            <View style={style_VertretungContainer.middleView}>
+                                </View>
+                }
 
-                <View style={style_VertretungContainer.middleViewTop}>
-                    <Text style={style_VertretungContainer.fach}>
-                        {fach ? fach : "-"}
-                    </Text>
+
+
+                <View style={style_VertretungContainer.middleView}>
+
+                    <View style={style_VertretungContainer.middleViewTop}>
+                        <Text style={style_VertretungContainer.fach}>
+                            {fach ? fach : "-"}
+                        </Text>
+                    </View>
+
+                    <View style={style_VertretungContainer.middleViewBottom}>
+                        <Text numberOfLines={1} style={style_VertretungContainer.lehrer}>
+                            {lehrkraft ? String(lehrkraft).replace(/,/g, ', ') : "-"}
+                        </Text>
+                    </View>
+
+
                 </View>
 
-                <View style={style_VertretungContainer.middleViewBottom}>
-                    <Text numberOfLines={1} style={style_VertretungContainer.lehrer}>
-                        {lehrkraft ? String(lehrkraft).replace(/,/g, ', ') : "-"}
+                <View style={style_VertretungContainer.rightView}>
+
+                    <Text style={style_VertretungContainer.stunde}>
+                        {stunde ? String(stunde).replace('-', ' - ') : "-"}
                     </Text>
+
                 </View>
 
 
-            </View>
-
-            <View style={style_VertretungContainer.rightView}>
-
-                <Text style={style_VertretungContainer.stunde}>
-                    {stunde ? String(stunde).replace('-', ' - ') : "-"}
-                </Text>
-
-            </View>
-
-
-        </View >
+            </View >
 
 
     )
@@ -296,18 +297,25 @@ const style_VertretungContainer = StyleSheet.create({
 
         marginVertical: 10,
         alignItems: 'center',
-        backgroundColor: '#ffeeb8',
+        backgroundColor: 'white',
         borderColor: '#fccd3f',
-        borderWidth: 0.5,
+        borderWidth: 0,
         borderRadius: 10,
         padding: 20,
-        marginHorizontal: 100
-        
+        marginHorizontal: 100,
+        shadowColor: '#171717',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+        elevation: 4
+
 
     },
     wrapperNoEntriesText: {
         color: '#3b3b3b',
         fontWeight: '700',
         fontSize: 12,
+        marginTop: 4
+
     }
 })

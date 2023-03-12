@@ -158,6 +158,7 @@ export default function NewsScreen({ navigation }) {
                     contentContainerStyle={style_newsScreen.sectionListContainerStyle}
                     sections={newsAES}
                     keyExtractor={(item, index) => item + index}
+                    stickySectionHeadersEnabled={false}
                     renderItem={({ item }) => {
 
                         return (
@@ -197,8 +198,9 @@ const style_newsScreen = StyleSheet.create({
 
     },
     sectionListContainerStyle: {
-        paddingTop: getStatusBarHeight(),
+        paddingTop: getStatusBarHeight() + 20,
         marginHorizontal: 20,
+
 
         //marginBottom: 80
     },

@@ -19,8 +19,13 @@ export default function VertretungsplanLoad(callback) {
                 valuevalueKurseJSON.data.forEach(myKursEntry => {
 
 
+                    //console.log(vertretungEntry.fach)
+                    //console.log(myKursEntry)
 
-                    if (vertretungEntry.fach.includes(myKursEntry)) {
+
+                    //vertreungsEntry.fach.includes(myKursEntry)
+
+                    if (vertretungEntry.fach == myKursEntry) {
                         //console.log(vertretungEntry.art)
 
                         if (vertretungEntry.hinweis == 'Entfall' || vertretungEntry.art == 'kein Präs.Unt.' || vertretungEntry.art == 'Selbststudium') {
